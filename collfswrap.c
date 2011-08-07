@@ -1,3 +1,5 @@
+#define _GNU_SOURCE             /* feature test macro so that RTLD_NEXT will be available */
+#include <dlfcn.h>
 #include <fcntl.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -26,8 +28,14 @@ static struct FileLink *DLOpenFiles;
 static const int BaseFD = 10000;
 static int NextFD = 10001;
 
-int __wrap_open(const char *pathname, int flags, ...);
-int __real_open(const char *pathname, int flags, ...);
+#if COLLFS_PRELOAD
+#  define __wrap_open  open
+#  define __wrap_close close
+#  define __wrap_read  read
+#endif
+
+int __wrap_open(const char *pathname,int flags,...);
+int __real_open(const char *pathname,int flags,int mode);
 int __wrap_close(int fd);
 int __real_close(int fd);
 int __wrap_read(int fd,void *buf,size_t count);
@@ -49,7 +57,7 @@ static int CollFSPathMatchComm(const char *path,MPI_Comm *comm,int *match)
 int __wrap_open(const char *pathname,int flags,...)
 {
   mode_t mode = 0;
-  int err,match,rank;
+  int err,match,rank = 0,initialized;
   MPI_Comm comm;
 
   if (flags & O_CREAT) {
@@ -59,12 +67,13 @@ int __wrap_open(const char *pathname,int flags,...)
     va_end(ap);
   }
   err = CollFSPathMatchComm(pathname,&comm,&match); if (err) return -1;
-  err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;
+  err = MPI_Initialized(&initialized); if (err) return -1;
+  if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
 #if DEBUG
   fprintf(stderr,"[%d] open(\"%s\",%d,%d)\n",rank,pathname,flags,mode);
 #endif
 
-  if (match && (flags == O_RDONLY)) { /* Read is collectively on comm */
+  if (initialized && match && (flags == O_RDONLY)) { /* Read is collectively on comm */
     int len,fd,gotmem;
     void *mem;
     struct FileLink *link;
@@ -125,11 +134,13 @@ int __wrap_open(const char *pathname,int flags,...)
 int __wrap_close(int fd)
 {
   struct FileLink **linkp;
+  int err,initialized;
 
+  err = MPI_Initialized(&initialized); if (err) return -1;
 #if DEBUG
   {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+    int rank = 0;
+    if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
     fprintf(stderr,"[%d] close(%d)\n",rank,fd);
   }
 #endif
@@ -137,8 +148,8 @@ int __wrap_close(int fd)
   for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
     struct FileLink *link = *linkp;
     if (link->fd == fd) {       /* remove it from the list */
-      int rank;
-      MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+      int rank = 0;
+      if (initialized) {MPI_Comm_rank(MPI_COMM_WORLD,&rank);}
       if (!rank) {
         munmap(link->mem,link->len);
         __real_close(fd);
@@ -158,8 +169,9 @@ int __wrap_read(int fd,void *buf,size_t count)
 {
   struct FileLink *link;
   for (link=DLOpenFiles; link; link=link->next) { /* Could optimize to not always walk the list */
-    int rank,err;
-    err = MPI_Comm_rank(link->comm,&rank); if (err) return -1;
+    int rank = 0,err,initialized;
+    err = MPI_Initialized(&initialized); if (err) return -1;
+    if (initialized) {err = MPI_Comm_rank(link->comm,&rank); if (err) return -1;}
     if (fd == link->fd) {
       if (!rank) return __real_read(fd,buf,count);
       else {
@@ -172,3 +184,27 @@ int __wrap_read(int fd,void *buf,size_t count)
   }
   return __real_read(fd,buf,count);
 }
+
+#if COLLFS_PRELOAD
+int __real_open(const char *path,int flags,int mode)
+{
+  int (*f)(const char*,int,int);
+  f = dlsym(RTLD_NEXT,"open");
+  if (!f) return -1;
+  return (*f)(path,flags,mode);
+}
+int __real_close(int fd)
+{
+  int (*f)(int);
+  f = dlsym(RTLD_NEXT,"close");
+  if (!f) return -1;
+  return (*f)(fd);
+}
+int __real_read(int fd,void *buf,size_t count)
+{
+  int (*f)(int,void*,size_t);
+  f = dlsym(RTLD_NEXT,"read");
+  if (!f) return -1;
+  return (*f)(fd,buf,count);
+}
+#endif
