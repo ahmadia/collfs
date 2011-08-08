@@ -17,7 +17,7 @@ thefunc.o : thefunc.c
 	${CC} ${CFLAGS} -c -fPIC $^
 
 main : main.o libfoo.so
-	${MPICC} -g3 -o $@ ${LDFLAGS} $^ 
+	${MPICC} -g3 -o $@ $^ ${LDFLAGS}
 .c.o :
 	${MPICC} ${CFLAGS} -fPIC -c $^
 
