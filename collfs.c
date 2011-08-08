@@ -28,18 +28,30 @@ static struct FileLink *DLOpenFiles;
 static const int BaseFD = 10000;
 static int NextFD = 10001;
 
-#if COLLFS_PRELOAD
-#  define __wrap_open  open
-#  define __wrap_close close
-#  define __wrap_read  read
-#endif
+int __collfs_fxstat64(int vers, int fd, struct stat64 *buf);
+extern int __fxstat64(int vers, int fd, struct stat64 *buf);
 
-int __wrap_open(const char *pathname,int flags,...);
-int __real_open(const char *pathname,int flags,int mode);
-int __wrap_close(int fd);
-int __real_close(int fd);
-int __wrap_read(int fd,void *buf,size_t count);
-int __real_read(int fd,void *buf,size_t count);
+int __collfs_xstat64(int vers, const char *file, struct stat64 *buf);
+extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
+
+int __collfs_open(const char *pathname,int flags,...);
+extern int __open(const char *pathname,int flags,int mode);
+
+int __collfs_close(int fd);
+extern int __close(int fd);
+
+int __collfs_read(int fd,void *buf,size_t count);
+extern int __libc_read(int fd,void *buf,size_t count);
+
+// MPI stubs - these function references will be equal to 0 
+// if the linker has not brought in MPI yet
+extern int MPI_Initialized( int *flag ) __attribute__ ((weak));
+extern int MPI_Comm_rank ( MPI_Comm comm, int *rank ) __attribute__ ((weak));
+extern int MPI_Bcast ( void *buffer, int count, MPI_Datatype datatype, int root, 
+                       MPI_Comm comm )  __attribute__ ((weak));
+extern int MPI_Allreduce ( void *sendbuf, void *recvbuf, int count, 
+                           MPI_Datatype datatype, MPI_Op op, 
+                           MPI_Comm comm ) __attribute__ ((weak));
 
 static int CollFSPathMatchComm(const char *path,MPI_Comm *comm,int *match)
 {
@@ -49,15 +61,16 @@ static int CollFSPathMatchComm(const char *path,MPI_Comm *comm,int *match)
     *comm = MPI_COMM_WORLD;
     *match = 1;
   } else {
+
     *match = 0;
   }
   return 0;
 }
 
-int __wrap_open(const char *pathname,int flags,...)
+int __collfs_open(const char *pathname,int flags,...)
 {
   mode_t mode = 0;
-  int err,match,rank = 0,initialized;
+  int err,match,rank = 0,initialized, flag;
   MPI_Comm comm;
 
   if (flags & O_CREAT) {
@@ -66,6 +79,10 @@ int __wrap_open(const char *pathname,int flags,...)
     mode = va_arg(ap, int);
     va_end(ap);
   }
+
+  // pass through to libc __open if MPI has not been loaded yet
+  if (!MPI_Initialized) return __open(pathname, flags, mode);
+
   err = CollFSPathMatchComm(pathname,&comm,&match); if (err) return -1;
   err = MPI_Initialized(&initialized); if (err) return -1;
   if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
@@ -79,10 +96,10 @@ int __wrap_open(const char *pathname,int flags,...)
     struct FileLink *link;
     if (!rank) {
       len = -1;
-      fd = __real_open(pathname,flags,mode);
+      fd = __open(pathname,flags,mode);
       if (fd >= 0) {
         struct stat fdst;
-        if (fstat(fd,&fdst) < 0) __real_close(fd); /* fail cleanly */
+        if (fstat(fd,&fdst) < 0) __close(fd); /* fail cleanly */
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
     }
@@ -128,13 +145,16 @@ int __wrap_open(const char *pathname,int flags,...)
 
     return fd;
   }
-  return __real_open(pathname, flags, mode);
+  return __open(pathname, flags, mode);
 }
 
-int __wrap_close(int fd)
+int __collfs_close(int fd)
 {
   struct FileLink **linkp;
   int err,initialized;
+
+  // pass through to libc __close if MPI has not been loaded yet
+  if (!MPI_Initialized) return __close(fd);
 
   err = MPI_Initialized(&initialized); if (err) return -1;
 #if DEBUG
@@ -152,7 +172,7 @@ int __wrap_close(int fd)
       if (initialized) {MPI_Comm_rank(MPI_COMM_WORLD,&rank);}
       if (!rank) {
         munmap(link->mem,link->len);
-        __real_close(fd);
+        return __close(fd);
       } else {
         free(link->mem);
       }
@@ -161,19 +181,21 @@ int __wrap_close(int fd)
       return 0;
     }
   }
-  __real_close(fd);
-  return 0;
+  return __close(fd);
 }
 
-int __wrap_read(int fd,void *buf,size_t count)
+int __collfs_read(int fd,void *buf,size_t count)
 {
   struct FileLink *link;
+
+  if (!MPI_Initialized) return __libc_read(fd, buf, count);
+
   for (link=DLOpenFiles; link; link=link->next) { /* Could optimize to not always walk the list */
     int rank = 0,err,initialized;
     err = MPI_Initialized(&initialized); if (err) return -1;
     if (initialized) {err = MPI_Comm_rank(link->comm,&rank); if (err) return -1;}
     if (fd == link->fd) {
-      if (!rank) return __real_read(fd,buf,count);
+      if (!rank) return __libc_read(fd,buf,count);
       else {
         if ((link->len - link->offset) < count) count = link->len - link->offset;
         memcpy(buf,link->mem+link->offset,count);
@@ -182,29 +204,6 @@ int __wrap_read(int fd,void *buf,size_t count)
       }
     }
   }
-  return __real_read(fd,buf,count);
+  return __libc_read(fd,buf,count);
 }
 
-#if COLLFS_PRELOAD
-int __real_open(const char *path,int flags,int mode)
-{
-  int (*f)(const char*,int,int);
-  f = dlsym(RTLD_NEXT,"open");
-  if (!f) return -1;
-  return (*f)(path,flags,mode);
-}
-int __real_close(int fd)
-{
-  int (*f)(int);
-  f = dlsym(RTLD_NEXT,"close");
-  if (!f) return -1;
-  return (*f)(fd);
-}
-int __real_read(int fd,void *buf,size_t count)
-{
-  int (*f)(int,void*,size_t);
-  f = dlsym(RTLD_NEXT,"read");
-  if (!f) return -1;
-  return (*f)(fd,buf,count);
-}
-#endif
