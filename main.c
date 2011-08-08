@@ -12,6 +12,9 @@
 #include "errmacros.h"
 #include "foo.h"
 
+extern int MPI_Init(int *argc, char ***argv) __attribute__ ((weak));
+extern int MPI_Finalize() __attribute__ ((weak));
+
 int symlookup(const char *soname,const char *fname,void (**func)(void))
 {
   void *handle;
@@ -27,12 +30,12 @@ int main(int argc, char *argv[])
   int err,(*thefunc)(void);
   char path[MAXPATHLEN];
 
-  MPI_Init(&argc,&argv);
+  if (MPI_Init) MPI_Init(&argc,&argv);
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
   strcat(path,"/libthefunc.so");
   err = symlookup(path,"thefunc",(void(**)(void))&thefunc);CHK(err);
   (*thefunc)();
   err = foo(path);CHK(err);
-  MPI_Finalize();
+  if (MPI_Finalize) MPI_Finalize();
   return 0;
 }

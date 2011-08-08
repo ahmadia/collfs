@@ -40,8 +40,12 @@ extern int __open(const char *pathname,int flags,int mode);
 int __collfs_close(int fd);
 extern int __close(int fd);
 
+#if COLLFS_IN_LIBC
+#define __read __libc_read  
+#endif
+
 int __collfs_read(int fd,void *buf,size_t count);
-extern int __libc_read(int fd,void *buf,size_t count);
+extern int __read(int fd,void *buf,size_t count);
 
 // MPI stubs - these function references will be equal to 0 
 // if the linker has not brought in MPI yet
@@ -70,7 +74,7 @@ static int CollFSPathMatchComm(const char *path,MPI_Comm *comm,int *match)
 int __collfs_open(const char *pathname,int flags,...)
 {
   mode_t mode = 0;
-  int err,match,rank = 0,initialized, flag;
+  int err,match,rank = 0,initialized;
   MPI_Comm comm;
 
   if (flags & O_CREAT) {
@@ -188,14 +192,14 @@ int __collfs_read(int fd,void *buf,size_t count)
 {
   struct FileLink *link;
 
-  if (!MPI_Initialized) return __libc_read(fd, buf, count);
+  if (!MPI_Initialized) return __read(fd, buf, count);
 
   for (link=DLOpenFiles; link; link=link->next) { /* Could optimize to not always walk the list */
     int rank = 0,err,initialized;
     err = MPI_Initialized(&initialized); if (err) return -1;
     if (initialized) {err = MPI_Comm_rank(link->comm,&rank); if (err) return -1;}
     if (fd == link->fd) {
-      if (!rank) return __libc_read(fd,buf,count);
+      if (!rank) return __read(fd,buf,count);
       else {
         if ((link->len - link->offset) < count) count = link->len - link->offset;
         memcpy(buf,link->mem+link->offset,count);
@@ -204,6 +208,6 @@ int __collfs_read(int fd,void *buf,size_t count)
       }
     }
   }
-  return __libc_read(fd,buf,count);
+  return __read(fd,buf,count);
 }
 

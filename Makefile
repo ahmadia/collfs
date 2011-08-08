@@ -1,11 +1,12 @@
 CC = gcc
-MPICC = /opt/mpich2/bin/mpicc
-CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG}
+#MPICC = /opt/mpich2/bin/mpicc
+MPICC = gcc
+CFLAGS = -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} 
+#CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} 
 CFLAGS_DEBUG = -g3 -DDEBUG=1
-LDFLAGS_WRAP = -Wl,-wrap,open -Wl,-wrap,close -Wl,-wrap,read
-LIBDL = -ldl #/usr/lib/libdl.a # libdlwrap.so		# Wrapped substitute for -ldl
-
-COLLFS_SRC_C = collfswrap.c
+LDFLAGS = -Wl,-Bdynamic ${LIBDL}
+LIBDL = -ldl 
+COLLFS_SRC_C = collfs.c
 COLLFS_SRC_O = $(COLLFS_SRC_C:.c=.o)
 
 all : libthefunc.so main
@@ -16,15 +17,12 @@ thefunc.o : thefunc.c
 	${CC} ${CFLAGS} -c -fPIC $^
 
 main : main.o libfoo.so
-	${MPICC} -g3 -o $@ $^ -ldl
+	${MPICC} -g3 -o $@ ${LDFLAGS} $^ 
 .c.o :
 	${MPICC} ${CFLAGS} -fPIC -c $^
 
-libfoo.so : foo.o collfswrap.o
-	${MPICC} -g3 -shared -o $@ $^ ${LDFLAGS_WRAP}
-
-libcollfspreload.so : collfswrap.c
-	${MPICC} ${CFLAGS} -shared -o $@ $^ -DCOLLFS_PRELOAD=1 -ldl
+libfoo.so : foo.o collfs.o
+	${MPICC} -g3 -shared -o $@ $^ 
 
 clean :
 	rm -f *.o *.so main

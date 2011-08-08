@@ -1,3 +1,5 @@
 # ignore objects and archives anywhere in the tree
 *.so
 *.[oa]
+# ignore our binary executable
+main
