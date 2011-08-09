@@ -12,7 +12,8 @@ cp ~/sandbox/collfs.git/shaheen/ld.so.conf ~/sys/etc/ld.so.conf
 make install
 
 ***********************************************************************************************
-anticipated changes to dl-load.c
+anticipated changes to:
+dl-load.c
 
 793: __close
 837: __fxstat64
@@ -36,4 +37,7 @@ anticipated changes to dl-load.c
 1899: __close
 2118: __close
 
+dl-close.c
+
+498: DL_UNMAP
 ***********************************************************************************************

@@ -19,6 +19,12 @@
 #define ECOLLFS EREMOTEIO       /* To set errno when MPI fails */
 static void set_errno(int e) { errno = e; }
 
+#if COLLFS_IN_LIBC
+#define __read __libc_read  
+#define mmap __mmap
+#define munmap __munmap
+#endif
+
 struct FileLink {
   MPI_Comm comm;
   int fd;
@@ -49,7 +55,6 @@ int __collfs_comm_push(MPI_Comm comm)
   CommStack = link;
   return 0;
 }
-
 /* Not collective, but changes the communicator on which future IO is collective */
 int __collfs_comm_pop(void)
 {
@@ -65,9 +70,12 @@ extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
 extern int __open(const char *pathname, int flags, int mode);
 extern int __close(int fd);
 
-#if COLLFS_IN_LIBC
-#define __read __libc_read  
-#endif
+extern void* __mmap(void *addr, size_t len, int prot, int flags, 
+                    int fildes, off_t off);
+
+extern int __munmap (__ptr_t addr, size_t len);
+
+extern off_t __lseek(int fildes, off_t offset, int whence);
 
 extern int __read(int fd, void *buf, size_t count);
 
@@ -81,7 +89,7 @@ extern int MPI_Allreduce (void *sendbuf, void *recvbuf, int count,
                           MPI_Datatype datatype, MPI_Op op,
                           MPI_Comm comm ) __attribute__ ((weak));
 
-/* Collective on the communicator used when the fd was created */
+/* Logically collective on the communicator used when the fd was created */
 int __collfs_fxstat64(int vers, int fd, struct stat64 *buf)
 {
   int err;
@@ -134,7 +142,65 @@ int __collfs_xstat64(int vers, const char *file, struct stat64 *buf)
   } else return __xstat64(vers, file, buf);
 }
 
-/* Collective on the communicator at the top of the collfs stack */
+/* Collective on the communicator used when fildes was created */
+void *__collfs_mmap(void *addr, size_t len, int prot, int flags, 
+                    int fildes, off_t off)
+{
+  int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] mmap(fd:%d @%p,%zu,%d,%d,%d)\n",rank,fildes,(void*)addr,len,prot,flags,(int)off);
+#endif      
+    fprintf(stderr,"__collfs_mmap has not been implemented yet! (passing through)\n");
+    return mmap(addr, len, prot, flags, fildes, off);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] mmap(fd:%d @%p,%zu,%d,%d,%d)\n",fildes,(void*)addr,len,prot,flags,(int)off);
+#endif  
+    return mmap(addr, len, prot, flags, fildes, off);
+  }
+}
+
+/* Not collective */
+int __collfs_munmap (__ptr_t addr, size_t len) 
+{
+ int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] munmap(@%p,%d)\n",rank,(void *) addr,(int) len);
+#endif      
+    fprintf(stderr,"__collfs_munmap has not been implemented yet! (passing through)\n");
+    return munmap(addr, len);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] munmap(@%p,%d)\n",(void *) addr, (int) len);
+#endif  
+    return munmap(addr, len);
+  }
+}
+
+
+off_t __collfs_lseek(int fildes, off_t offset, int whence)
+{
+  int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] lseek(fd:%d,%d,%d)\n",rank,fildes,(int)offset,whence);
+#endif      
+    fprintf(stderr,"__collfs_lseek has not been implemented yet! (passing through)\n");
+    return __lseek(fildes, offset, whence);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] lseek(fd:%d,%d,%d)\n",fildes,(int)offset,whence);
+#endif  
+    return __lseek(fildes, offset, whence);
+  }
+}
+
+
 int __collfs_open(const char *pathname, int flags,...)
 {
   mode_t mode = 0;
@@ -148,7 +214,12 @@ int __collfs_open(const char *pathname, int flags,...)
   }
 
   // pass through to libc __open if MPI has not been loaded yet or if no communicator has been pushed
-  if (!CommStack) return __open(pathname, flags, mode);
+  if (!CommStack) {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] open(\"%s\",%d,%d)\n",pathname,flags,mode);
+#endif
+    return __open(pathname, flags, mode);
+  }
 
   if (!MPI_Initialized) {
 #if DEBUG
@@ -157,8 +228,7 @@ int __collfs_open(const char *pathname, int flags,...)
     set_errno(ECOLLFS);
     return -1;
   }
-
-  err = MPI_Initialized(&initialized); if (err) return -1;
+    err = MPI_Initialized(&initialized); if (err) return -1;
   if (!initialized) {
 #if DEBUG
     fprintf(stderr,"Stack not empty, but MPI is not initialized. Perhaps it was finalized early?\n");
@@ -235,23 +305,27 @@ int __collfs_close(int fd)
 {
   struct FileLink **linkp;
   int err,initialized;
+  int rank = 0;
 
   // pass through to libc __close if MPI has not been loaded yet
-  if (!MPI_Initialized) return __close(fd);
-
-  err = MPI_Initialized(&initialized); if (err) return -1;
+  if (MPI_Initialized) {
+    err = MPI_Initialized(&initialized); if (err) return -1;
 #if DEBUG
-  {
-    int rank = 0;
     if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD, &rank); if (err) return -1;}
-    fprintf(stderr, "[%d] close(%d)\n", rank, fd);
-  }
+    fprintf(stderr, "[%d] close(fd:%d)\n", rank, fd);
 #endif
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] close(fd:%d)\n",fd);
+#endif
+    return __close(fd);
+  }
 
   for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
     struct FileLink *link = *linkp;
     if (link->fd == fd) {       /* remove it from the list */
-      int rank = 0;
+      int rank = 0, xerr = 0;
 
       if (!initialized) {
 #if DEBUG
@@ -263,13 +337,13 @@ int __collfs_close(int fd)
       err = MPI_Comm_rank(CommStack->comm, &rank); if (err) return -1;
       if (!rank) {
         munmap(link->mem, link->len);
-        __close(fd);
+        xerr = __close(fd);
       } else {
         free(link->mem);
       }
       *linkp = link->next;
       free(link);
-      return 0;
+      return xerr;
     }
   }
   return __close(fd);
