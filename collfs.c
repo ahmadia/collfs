@@ -28,23 +28,18 @@ static struct FileLink *DLOpenFiles;
 static const int BaseFD = 10000;
 static int NextFD = 10001;
 
-int __collfs_fxstat64(int vers, int fd, struct stat64 *buf);
+
+
+
 extern int __fxstat64(int vers, int fd, struct stat64 *buf);
-
-int __collfs_xstat64(int vers, const char *file, struct stat64 *buf);
 extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
-
-int __collfs_open(const char *pathname, int flags, ...);
 extern int __open(const char *pathname, int flags, int mode);
-
-int __collfs_close(int fd);
 extern int __close(int fd);
 
 #if COLLFS_IN_LIBC
 #define __read __libc_read  
 #endif
 
-int __collfs_read(int fd, void *buf, size_t count);
 extern int __read(int fd, void *buf, size_t count);
 
 // MPI stubs - these function references will be equal to 0 
