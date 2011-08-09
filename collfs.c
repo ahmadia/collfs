@@ -15,6 +15,12 @@
 #  include <stdio.h>
 #endif
 
+#if COLLFS_IN_LIBC
+#define __read __libc_read  
+#define mmap __mmap
+#define munmap __munmap
+#endif
+
 struct FileLink {
   MPI_Comm comm;
   int fd;
@@ -31,18 +37,22 @@ static int NextFD = 10001;
 int __collfs_fxstat64(int vers, int fd, struct stat64 *buf);
 extern int __fxstat64(int vers, int fd, struct stat64 *buf);
 
-int __collfs_xstat64(int vers, const char *file, struct stat64 *buf);
-extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
-
 int __collfs_open(const char *pathname,int flags,...);
 extern int __open(const char *pathname,int flags,int mode);
 
 int __collfs_close(int fd);
 extern int __close(int fd);
 
-#if COLLFS_IN_LIBC
-#define __read __libc_read  
-#endif
+void* __collfs_mmap(void *addr, size_t len, int prot, int flags, 
+                    int fildes, off_t off);
+extern void* __mmap(void *addr, size_t len, int prot, int flags, 
+                    int fildes, off_t off);
+
+int __collfs_munmap (__ptr_t addr, size_t len);
+extern int __munmap (__ptr_t addr, size_t len);
+
+off_t __collfs_lseek(int fildes, off_t offset, int whence);
+extern off_t __lseek(int fildes, off_t offset, int whence);
 
 int __collfs_read(int fd,void *buf,size_t count);
 extern int __read(int fd,void *buf,size_t count);
@@ -71,6 +81,81 @@ static int CollFSPathMatchComm(const char *path,MPI_Comm *comm,int *match)
   return 0;
 }
 
+int __collfs_fxstat64(int vers, int fd, struct stat64 *buf)
+{
+  int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] fxstat64(\"%d\",%d)\n",rank,vers,fd);
+#endif      
+    fprintf(stderr,"__collfs_fxstat64 has not been implemented yet! (passing through)\n");
+    return __fxstat64(vers, fd, buf);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] fxstat64(\"%d\",%d)\n",vers,fd);
+#endif  
+    return __fxstat64(vers, fd, buf);
+  }
+}
+
+void* __collfs_mmap(void *addr, size_t len, int prot, int flags, 
+                    int fildes, off_t off)
+{
+  int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] mmap(fd:%d @%p,%d,%d,%d,%d)\n",rank,fildes,(void*)addr,len,prot,flags,(int)off);
+#endif      
+    fprintf(stderr,"__collfs_mmap has not been implemented yet! (passing through)\n");
+    return mmap(addr, len, prot, flags, fildes, off);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] mmap(fd:%d @%p,%d,%d,%d,%d)\n",fildes,(void*)addr,len,prot,flags,(int)off);
+#endif  
+    return mmap(addr, len, prot, flags, fildes, off);
+  }
+}
+
+int __collfs_munmap (__ptr_t addr, size_t len) 
+{
+ int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] munmap(@%p,%d)\n",rank,(void *) addr,(int) len);
+#endif      
+    fprintf(stderr,"__collfs_munmap has not been implemented yet! (passing through)\n");
+    return munmap(addr, len);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] munmap(@%p,%d)\n",(void *) addr, (int) len);
+#endif  
+    return munmap(addr, len);
+  }
+}
+
+
+off_t __collfs_lseek(int fildes, off_t offset, int whence)
+{
+  int rank = 0;
+  if (MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"[%d] lseek(fd:%d,%d,%d)\n",rank,fildes,(int)offset,whence);
+#endif      
+    fprintf(stderr,"__collfs_lseek has not been implemented yet! (passing through)\n");
+    return __lseek(fildes, offset, whence);
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] lseek(fd:%d,%d,%d)\n",fildes,(int)offset,whence);
+#endif  
+    return __lseek(fildes, offset, whence);
+  }
+}
+
+
 int __collfs_open(const char *pathname,int flags,...)
 {
   mode_t mode = 0;
@@ -85,14 +170,20 @@ int __collfs_open(const char *pathname,int flags,...)
   }
 
   // pass through to libc __open if MPI has not been loaded yet
-  if (!MPI_Initialized) return __open(pathname, flags, mode);
-
-  err = CollFSPathMatchComm(pathname,&comm,&match); if (err) return -1;
-  err = MPI_Initialized(&initialized); if (err) return -1;
-  if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
+  if (MPI_Initialized) {
+    err = CollFSPathMatchComm(pathname,&comm,&match); if (err) return -1;
+    err = MPI_Initialized(&initialized); if (err) return -1;
+    if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
 #if DEBUG
-  fprintf(stderr,"[%d] open(\"%s\",%d,%d)\n",rank,pathname,flags,mode);
+    fprintf(stderr,"[%d] open(\"%s\",%d,%d)\n",rank,pathname,flags,mode);
 #endif
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] open(\"%s\",%d,%d)\n",pathname,flags,mode);
+#endif
+    return __open(pathname, flags, mode);
+  }
 
   if (initialized && match && (flags == O_RDONLY)) { /* Read is collectively on comm */
     int len,fd,gotmem;
@@ -156,18 +247,22 @@ int __collfs_close(int fd)
 {
   struct FileLink **linkp;
   int err,initialized;
+  int rank = 0;
 
   // pass through to libc __close if MPI has not been loaded yet
-  if (!MPI_Initialized) return __close(fd);
-
-  err = MPI_Initialized(&initialized); if (err) return -1;
+  if (MPI_Initialized) {
+    err = MPI_Initialized(&initialized); if (err) return -1;
 #if DEBUG
-  {
-    int rank = 0;
     if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
-    fprintf(stderr,"[%d] close(%d)\n",rank,fd);
-  }
+    fprintf(stderr,"[%d] close(fd:%d)\n",rank,fd);
 #endif
+  }
+  else {
+#if DEBUG
+    fprintf(stderr,"[NO_MPI] close(fd:%d)\n",fd);
+#endif
+    return __close(fd);
+  }
 
   for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
     struct FileLink *link = *linkp;
