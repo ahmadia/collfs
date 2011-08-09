@@ -1,6 +1,17 @@
 Hi!  
 
 ***********************************************************************************************
+See the shaheen/build_glibc_2.4-sles-10.sh for the basic idea of how to patch the SLES 10
+glibc with collfs.  I am working from the patched source that you can obtain from the SLES 
+10 src.rpm by unpacking the distribution then applying all the patches (just before the 
+configure stage).
+
+If you want to run an executable with the updated dynamic loader interpreter, you need to
+launch your executable using the installed ld64.so.1 like this:
+
+/home/aron/sys/lib/ld64.so.1 ./main
+
+***********************************************************************************************
 some random notes for building glibc Shaheen:
 
 ../configure --prefix=/home/aron/sys --libexecdir=/home/aron/sys/lib64 --infodir=/home/aron/sys/share/info --enable-add-ons=nptl,libidn,dceext --srcdir=.. --without-cvs --with-headers=/home/aron/src/rpm/BUILD/kernel-headers --build ppc64-suse-linux --host ppc64-suse-linux --with-tls --with-__thread --enable-kernel=2.6.4  2>&1 CC="gcc -m64" | tee configure.log
@@ -24,6 +35,7 @@ dl-load.c
 976: __libc_read
 1185: __mmap
 1236: __mmap
+1350: __munmap
 1418: __close
 1617: __open
 1629: __libc_read

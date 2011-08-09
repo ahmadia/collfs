@@ -163,6 +163,30 @@ static const size_t system_dirs_len[] =
   (sizeof (system_dirs_len) / sizeof (system_dirs_len[0]))
 
 
+#define USE_COLLFS 1
+
+#ifdef USE_COLLFS
+#define __open(pathname,flags) __collfs_open(pathname,flags)
+#define __close(fd) __collfs_close(fd)
+#define __lseek(fildes, offset, whence) __collfs_lseek(fildes, offset, whence)
+#define __fxstat64(vers, fd, buf) __collfs_fxstat64(vers, fd, buf)
+#define __libc_read(fd, buf, count) __collfs_read(fd, buf, count)
+#define __mmap(addr, len, prot, flags, fildes, off) __collfs_mmap(addr, len, prot, flags, fildes, off)
+#define __unmap(addr, len) __collfs_munmap(addr,len)
+
+extern int __collfs_fxstat64(int vers, int fd, struct stat64 *buf);
+extern int __collfs_open(const char *pathname,int flags,...);
+extern int __collfs_close(int fd);
+extern void* __collfs_mmap(void *addr, size_t len, int prot, int flags, 
+                    int fildes, off_t off);
+extern int __collfs_munmap (__ptr_t addr, size_t len);
+extern off_t __collfs_lseek(int fildes, off_t offset, int whence);
+extern int __collfs_read(int fd,void *buf,size_t count);
+
+#endif
+
+
+
 /* Local version of `strdup' function.  */
 static inline char *
 local_strdup (const char *s)
