@@ -105,14 +105,14 @@ void* __collfs_mmap(void *addr, size_t len, int prot, int flags,
   int rank = 0;
   if (MPI_Initialized) {
 #if DEBUG
-    fprintf(stderr,"[%d] mmap(fd:%d @%p,%d,%d,%d,%d)\n",rank,fildes,(void*)addr,len,prot,flags,(int)off);
+    fprintf(stderr,"[%d] mmap(fd:%d @%p,%zu,%d,%d,%d)\n",rank,fildes,(void*)addr,len,prot,flags,(int)off);
 #endif      
     fprintf(stderr,"__collfs_mmap has not been implemented yet! (passing through)\n");
     return mmap(addr, len, prot, flags, fildes, off);
   }
   else {
 #if DEBUG
-    fprintf(stderr,"[NO_MPI] mmap(fd:%d @%p,%d,%d,%d,%d)\n",fildes,(void*)addr,len,prot,flags,(int)off);
+    fprintf(stderr,"[NO_MPI] mmap(fd:%d @%p,%zu,%d,%d,%d)\n",fildes,(void*)addr,len,prot,flags,(int)off);
 #endif  
     return mmap(addr, len, prot, flags, fildes, off);
   }

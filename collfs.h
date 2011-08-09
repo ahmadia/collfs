@@ -1,8 +1,9 @@
 #ifndef _collfs_h
 #define _collfs_h
 
-#include <sys/stat.h>
+#include <sys/param.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 int __collfs_open(const char *pathname,int flags,...);

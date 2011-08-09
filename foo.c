@@ -31,7 +31,7 @@ int foo(const char *path)
   char* pa;
   pagesize = sysconf(_SC_PAGESIZE);
   pa = __collfs_mmap((void *)0,pagesize,PROT_READ,MAP_SHARED,fd,(off_t)0);
-  if (pa < 0) ERR("[%d] mmap(%d,pagesize) failed",rank,fd);
+  if (pa == MAP_FAILED) ERR("[%d] mmap(%d,pagesize) failed",rank,fd);
 
   while (__collfs_read(fd,&value,sizeof value) == sizeof value) {
     sum ^= value;
