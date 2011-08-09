@@ -28,8 +28,33 @@ static struct FileLink *DLOpenFiles;
 static const int BaseFD = 10000;
 static int NextFD = 10001;
 
+struct CommLink {
+  MPI_Comm comm;
+  struct CommLink *next;
+};
+static struct CommLink *CommStack;
 
+/* Not collective, but changes the communicator on which future IO is collective */
+int __collfs_comm_push(MPI_Comm comm)
+{
+  struct CommLink *link;
+  link = malloc(sizeof *link);
+  if (!link) return -1;
+  link->comm = comm;
+  link->next = CommStack;
+  CommStack = link;
+  return 0;
+}
 
+/* Not collective, but changes the communicator on which future IO is collective */
+int __collfs_comm_pop(void)
+{
+  struct CommLink *link = CommStack;
+  if (!link) return -1;
+  CommStack = link->next;
+  free(link);
+  return 0;
+}
 
 extern int __fxstat64(int vers, int fd, struct stat64 *buf);
 extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
