@@ -1,5 +1,6 @@
 #define _GNU_SOURCE             /* feature test macro so that RTLD_NEXT will be available */
 #include <dlfcn.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -14,6 +15,9 @@
 #if DEBUG
 #  include <stdio.h>
 #endif
+
+#define ECOLLFS EREMOTEIO       /* To set errno when MPI fails */
+static void set_errno(int e) { errno = e; }
 
 struct FileLink {
   MPI_Comm comm;
@@ -77,25 +81,64 @@ extern int MPI_Allreduce (void *sendbuf, void *recvbuf, int count,
                           MPI_Datatype datatype, MPI_Op op,
                           MPI_Comm comm ) __attribute__ ((weak));
 
-static int CollFSPathMatchComm(const char *path, MPI_Comm *comm, int *match)
+/* Collective on the communicator used when the fd was created */
+int __collfs_fxstat64(int vers, int fd, struct stat64 *buf)
 {
-  size_t len;
-  len = strlen(path);
-  if (!strcmp(path+len-3, ".so")) {
-    *comm = MPI_COMM_WORLD;
-    *match = 1;
-  } else {
+  int err;
+  struct FileLink *link;
+  for (link=DLOpenFiles; link; link=link->next) {
+    if (link->fd == fd) {
+      int rank,xerr = 0;
+      err = MPI_Comm_rank(link->comm, &rank); if (err) return -1;
+      if (!rank) xerr = __fxstat64(vers, fd, buf);
+#if DEBUG
+      err = MPI_Bcast(&xerr, 1, MPI_INT, 0, link->comm);
+      if (err < 0) {
+        set_errno(ECOLLFS);
+        return -1;
+      }
+#endif
+      if (xerr < 0) return -1; /* Only rank 0 will have errno set correctly */
 
-    *match = 0;
+      err = MPI_Bcast(buf, sizeof *buf, MPI_BYTE, 0, link->comm);
+      if (err < 0) {
+        set_errno(ECOLLFS);
+        return -1;
+      } else return 0;
+    }
   }
-  return 0;
+  return __fxstat64(vers, fd, buf);
 }
 
+/* Collective on the communicator at the top of the collfs stack */
+int __collfs_xstat64(int vers, const char *file, struct stat64 *buf)
+{
+  if (CommStack) {
+    int err,rank,xerr;
+    err = MPI_Comm_rank(CommStack->comm, &rank); if (err) return -1;
+    if (!rank) xerr = __xstat64(vers, file, buf);
+#if DEBUG
+    err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);
+    if (err < 0) {
+      set_errno(ECOLLFS);
+      return -1;
+    }
+#endif
+    if (xerr < 0) return -1; /* Only rank 0 will have errno set correctly */
+
+    err = MPI_Bcast(buf, sizeof *buf, MPI_BYTE, 0, CommStack->comm);
+    if (err < 0) {
+      set_errno(ECOLLFS);
+      return -1;
+    } else return 0;
+  } else return __xstat64(vers, file, buf);
+}
+
+/* Collective on the communicator at the top of the collfs stack */
 int __collfs_open(const char *pathname, int flags,...)
 {
   mode_t mode = 0;
-  int err,match,rank = 0,initialized;
-  MPI_Comm comm;
+  int err,rank = 0,initialized;
 
   if (flags & O_CREAT) {
     va_list ap;
@@ -104,17 +147,31 @@ int __collfs_open(const char *pathname, int flags,...)
     va_end(ap);
   }
 
-  // pass through to libc __open if MPI has not been loaded yet
-  if (!MPI_Initialized) return __open(pathname, flags, mode);
+  // pass through to libc __open if MPI has not been loaded yet or if no communicator has been pushed
+  if (!CommStack) return __open(pathname, flags, mode);
 
-  err = CollFSPathMatchComm(pathname, &comm, &match); if (err) return -1;
+  if (!MPI_Initialized) {
+#if DEBUG
+    fprintf(stderr,"Stack not empty, but no MPI symbols\n");
+#endif
+    set_errno(ECOLLFS);
+    return -1;
+  }
+
   err = MPI_Initialized(&initialized); if (err) return -1;
-  if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD, &rank); if (err) return -1;}
+  if (!initialized) {
+#if DEBUG
+    fprintf(stderr,"Stack not empty, but MPI is not initialized. Perhaps it was finalized early?\n");
+#endif
+    set_errno(ECOLLFS);
+    return -1;
+  }
+
 #if DEBUG
   fprintf(stderr, "[%d] open(\"%s\",%d,%d)\n", rank, pathname, flags, mode);
 #endif
 
-  if (initialized && match && (flags == O_RDONLY)) { /* Read is collectively on comm */
+  if (flags == O_RDONLY) {      /* Read is collectively on comm */
     int len, fd, gotmem;
     void *mem;
     struct FileLink *link;
@@ -127,7 +184,7 @@ int __collfs_open(const char *pathname, int flags,...)
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
     }
-    err = MPI_Bcast(&len, 1,MPI_INT, 0, comm); if (err) return -1;
+    err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
     if (len < 0) return -1;
     mem = NULL;
     if (!rank) mem = mmap(0, len, PROT_READ, MAP_PRIVATE, fd, 0);
@@ -141,9 +198,9 @@ int __collfs_open(const char *pathname, int flags,...)
 #endif
     if (fd >= 0) 
 
-    /* Make sure everyone found memory */
-    gotmem = !!mem;
-    err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, comm);
+      /* Make sure everyone found memory */
+      gotmem = !!mem;
+    err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
     if (!gotmem) {
       if (!rank) {
         if (mem) munmap(mem, len);
@@ -151,12 +208,12 @@ int __collfs_open(const char *pathname, int flags,...)
       return -1;
     }
 
-    err = MPI_Bcast(mem, len, MPI_BYTE, 0, comm); if (err) return -1;
+    err = MPI_Bcast(mem, len, MPI_BYTE, 0, CommStack->comm); if (err) return -1;
 
     if (rank) fd = NextFD++;            /* There is no way to make a proper file descriptor, this requires patching read() */
 
     link = malloc(sizeof *link);
-    link->comm = comm;
+    link->comm = CommStack->comm;
     link->fd = fd;
     strcpy(link->fname, pathname);
     link->mem = mem;
@@ -169,9 +226,11 @@ int __collfs_open(const char *pathname, int flags,...)
 
     return fd;
   }
+  /* more than read access needed, fall back to independent access */
   return __open(pathname, flags, mode);
 }
 
+/* Collective on the communicator used when the fd was created */
 int __collfs_close(int fd)
 {
   struct FileLink **linkp;
@@ -193,10 +252,18 @@ int __collfs_close(int fd)
     struct FileLink *link = *linkp;
     if (link->fd == fd) {       /* remove it from the list */
       int rank = 0;
-      if (initialized) {MPI_Comm_rank(MPI_COMM_WORLD, &rank);}
+
+      if (!initialized) {
+#if DEBUG
+        fprintf(stderr,"Attempt to close open collective fd, but MPI is not initialized. Perhaps it was finalized early?\n");
+#endif
+        set_errno(ECOLLFS);
+        return -1;
+      }
+      err = MPI_Comm_rank(CommStack->comm, &rank); if (err) return -1;
       if (!rank) {
         munmap(link->mem, link->len);
-        return __close(fd);
+        __close(fd);
       } else {
         free(link->mem);
       }
@@ -208,6 +275,7 @@ int __collfs_close(int fd)
   return __close(fd);
 }
 
+/* Collective on the communicator used when the fd was created */
 int __collfs_read(int fd, void *buf, size_t count)
 {
   struct FileLink *link;
