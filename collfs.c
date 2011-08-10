@@ -5,6 +5,7 @@
 
 // start dl-load
 
+#if COLLFS_IN_LIBC
 #include <elf.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -22,6 +23,7 @@
 #include <stackinfo.h>
 #include <caller.h>
 #include <sysdep.h>
+#endif
 
 
 // from dl-load
