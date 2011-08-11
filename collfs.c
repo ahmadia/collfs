@@ -32,6 +32,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
@@ -181,14 +182,14 @@ void *__collfs_mmap(void *addr, size_t len, int prot, int flags,
   int rank = 0;
   if (MPI_Initialized) {
 #if DEBUG
-    stderr_printf("[%x] mmap(fd:%x @%x,%x,%x,%x,%x)\n",rank,fildes,(int)addr,(int)len,prot,flags,(int)off);
+    stderr_printf("[%x] mmap(fd:%x @%x,%x,%x,%x,%x)\n", rank, fildes, (int)(intptr_t)addr, (int)len, prot, flags, (int)off);
 #endif      
     stderr_printf("__collfs_mmap has not been implemented yet! (passing through)\n");
     return mmap(addr, len, prot, flags, fildes, off);
   }
   else {
 #if DEBUG
-    stderr_printf("[NO_MPI] mmap(fd:%x @%x,%x,%x,%x,%x)\n",fildes,(int)addr,(int)len,prot,flags,(int)off);
+    stderr_printf("[NO_MPI] mmap(fd:%x @%x,%x,%x,%x,%x)\n", fildes, (int)(intptr_t)addr, (int)len, prot, flags, (int)off);
 #endif  
     return mmap(addr, len, prot, flags, fildes, off);
   }
@@ -200,14 +201,14 @@ int __collfs_munmap (__ptr_t addr, size_t len)
  int rank = 0;
   if (MPI_Initialized) {
 #if DEBUG
-    stderr_printf("[%x] munmap(@%x,%x)\n",rank,(int) addr,(int) len);
+    stderr_printf("[%x] munmap(@%x,%x)\n", rank, (int)(intptr_t)addr, (int)len);
 #endif      
     stderr_printf("__collfs_munmap has not been implemented yet! (passing through)\n");
     return munmap(addr, len);
   }
   else {
 #if DEBUG
-    stderr_printf("[NO_MPI] munmap(@%x,%x)\n",(int) addr, (int) len);
+    stderr_printf("[NO_MPI] munmap(@%x,%x)\n", (int)(intptr_t)addr, (int)len);
 #endif  
     return munmap(addr, len);
   }
