@@ -87,33 +87,6 @@ struct CommLink {
 };
 static struct CommLink *CommStack;
 
-/* Logically collective, changes the communicator on which future IO is collective */
-int __collfs_comm_push(MPI_Comm comm)
-{
-  struct CommLink *link;
-  link = malloc(sizeof *link);
-  if (!link) return -1;
-  link->comm = comm;
-  link->next = CommStack;
-  CommStack = link;
-#if DEBUG
-  MPI_Barrier(link->comm);
-#endif
-  return 0;
-}
-/* Logically collective, changes the communicator on which future IO is collective */
-int __collfs_comm_pop(void)
-{
-  struct CommLink *link = CommStack;
-  if (!link) return -1;
-  CommStack = link->next;
-#if DEBUG
-  MPI_Barrier(link->comm);
-#endif
-  free(link);
-  return 0;
-}
-
 extern int __fxstat64(int vers, int fd, struct stat64 *buf);
 extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
 extern int __open(const char *pathname, int flags, int mode);
@@ -137,6 +110,52 @@ extern int MPI_Bcast (void *buffer, int count, MPI_Datatype datatype, int root,
 extern int MPI_Allreduce (void *sendbuf, void *recvbuf, int count,
                           MPI_Datatype datatype, MPI_Op op,
                           MPI_Comm comm ) __attribute__ ((weak));
+extern int MPI_Barrier (MPI_Comm comm) __attribute__ ((weak));
+
+
+/* Logically collective, changes the communicator on which future IO is collective */
+int __collfs_comm_push(MPI_Comm comm)
+{
+  struct CommLink *link;
+  int initialized;
+
+  if (!MPI_Initialized) {
+#if DEBUG
+    stderr_printf("Trying to push without any MPI symbols\n");
+#endif
+    set_errno(ECOLLFS);
+    return -1;
+  }
+  MPI_Initialized(&initialized);
+  if (!initialized) {
+#if DEBUG
+    stderr_printf("Cannot push comm when MPI is not initialized\n");
+#endif
+    set_errno(ECOLLFS);
+    return -1;
+  }
+  link = malloc(sizeof *link);
+  if (!link) return -1;
+  link->comm = comm;
+  link->next = CommStack;
+  CommStack = link;
+#if DEBUG
+  MPI_Barrier(link->comm);
+#endif
+  return 0;
+}
+/* Logically collective, changes the communicator on which future IO is collective */
+int __collfs_comm_pop(void)
+{
+  struct CommLink *link = CommStack;
+  if (!link) return -1;
+  CommStack = link->next;
+#if DEBUG
+  MPI_Barrier(link->comm);
+#endif
+  free(link);
+  return 0;
+}
 
 /* Logically collective on the communicator used when the fd was created */
 int __collfs_fxstat64(int vers, int fd, struct stat64 *buf)
@@ -368,7 +387,18 @@ int __collfs_open(const char *pathname, int flags,...)
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
     }
-    MPI_Barrier(CommStack->comm);
+#if DEBUG
+    {
+      int initialized = 0;
+      if (MPI_Initialized) MPI_Initialized(&initialized);
+      if (!initialized) {
+        stderr_printf("Attempt to perform collective open with no MPI symbols");
+        set_errno(ECOLLFS);
+        return -1;
+      }
+      MPI_Barrier(CommStack->comm);
+    }
+#endif
     err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
     if (len < 0) return -1;
     mem = NULL;
@@ -424,14 +454,14 @@ int __collfs_close(int fd)
   for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
     struct FileLink *link = *linkp;
     if (link->fd == fd) {       /* remove it from the list */
-      int rank = 0, xerr = 0, initialized;
+      int rank = 0, xerr = 0, initialized = 0;
 
 #if DEBUG
       err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;
       stderr_printf("[%x] close(fd:%x)\n",rank,fd);
 #endif
       if (--link->refct > 0) return 0;
-      err = MPI_Initialized(&initialized); if (err) return -1;
+      if (MPI_Initialized) {err = MPI_Initialized(&initialized); if (err) return -1;}
       if (!initialized) {
 #if DEBUG
         stderr_printf("Attempt to close open collective fd, but MPI is not initialized. Perhaps it was finalized early?\n");
