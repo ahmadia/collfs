@@ -3,6 +3,7 @@
 #define _GNU_SOURCE 1            /* feature test macro so that RTLD_NEXT will be available */
 #endif
 
+#include "collfs.h"
 // start dl-load
 
 #if COLLFS_IN_LIBC
@@ -61,6 +62,7 @@ static void set_errno(int e) { errno = e; }
 struct FileLink {
   MPI_Comm comm;
   int fd;
+  int refct;
   char fname[MAXPATHLEN];
   void *mem;
   size_t len;
@@ -71,13 +73,21 @@ static struct FileLink *DLOpenFiles;
 static const int BaseFD = 10000;
 static int NextFD = 10001;
 
+struct MMapLink {
+  void *addr;
+  size_t len;
+  int fd;
+  struct MMapLink *next;
+};
+static struct MMapLink *MMapRegions;
+
 struct CommLink {
   MPI_Comm comm;
   struct CommLink *next;
 };
 static struct CommLink *CommStack;
 
-/* Not collective, but changes the communicator on which future IO is collective */
+/* Logically collective, changes the communicator on which future IO is collective */
 int __collfs_comm_push(MPI_Comm comm)
 {
   struct CommLink *link;
@@ -86,14 +96,20 @@ int __collfs_comm_push(MPI_Comm comm)
   link->comm = comm;
   link->next = CommStack;
   CommStack = link;
+#if DEBUG
+  MPI_Barrier(link->comm);
+#endif
   return 0;
 }
-/* Not collective, but changes the communicator on which future IO is collective */
+/* Logically collective, changes the communicator on which future IO is collective */
 int __collfs_comm_pop(void)
 {
   struct CommLink *link = CommStack;
   if (!link) return -1;
   CommStack = link->next;
+#if DEBUG
+  MPI_Barrier(link->comm);
+#endif
   free(link);
   return 0;
 }
@@ -179,65 +195,125 @@ int __collfs_xstat64(int vers, const char *file, struct stat64 *buf)
 void *__collfs_mmap(void *addr, size_t len, int prot, int flags, 
                     int fildes, off_t off)
 {
-  int rank = 0;
-  if (MPI_Initialized) {
+  struct FileLink *link;
+  for (link=DLOpenFiles; link; link=link->next) {
+    if (link->fd == fildes) {
+      int err;
 #if DEBUG
-    stderr_printf("[%x] mmap(fd:%x @%x,%x,%x,%x,%x)\n", rank, fildes, (int)(intptr_t)addr, (int)len, prot, flags, (int)off);
-#endif      
-    stderr_printf("__collfs_mmap has not been implemented yet! (passing through)\n");
-    return mmap(addr, len, prot, flags, fildes, off);
+      int rank;
+      err = MPI_Comm_rank(link->comm, &rank);
+      if (err) {
+        set_errno(EPROTO);
+        return MAP_FAILED;
+      }
+      stderr_printf("[%x] mmap(fd:%x @%x,%x,%x,%x,%x)\n", rank, fildes, (int)(intptr_t)addr, (int)len, prot, flags, (int)off);
+#endif
+      struct MMapLink *mlink;
+
+      if (prot != PROT_READ && prot != (PROT_READ | PROT_EXEC)) {
+        set_errno(EACCES);
+        return MAP_FAILED;
+      }
+      if (flags & MAP_FIXED) { /* Not implemented due to laziness */
+        set_errno(ENOTSUP);
+        return MAP_FAILED;
+      }
+      if (flags != MAP_PRIVATE) { /* Cannot do MAP_SHARED for a collective fd */
+        set_errno(ENOTSUP);
+        return MAP_FAILED;
+      }
+      if (off < 0) {
+        set_errno(ENXIO);
+        return MAP_FAILED;
+      }
+      if (off + len > link->len) {
+        set_errno(EOVERFLOW);
+        return MAP_FAILED;
+      }
+      mlink = malloc(sizeof *mlink);
+      mlink->addr = (char*)link->mem + off;
+      mlink->len = len;
+      mlink->fd = fildes;
+      mlink->next = MMapRegions;
+      MMapRegions = mlink;
+      link->refct++;
+      return mlink->addr;
+    }
   }
-  else {
 #if DEBUG
-    stderr_printf("[NO_MPI] mmap(fd:%x @%x,%x,%x,%x,%x)\n", fildes, (int)(intptr_t)addr, (int)len, prot, flags, (int)off);
-#endif  
-    return mmap(addr, len, prot, flags, fildes, off);
-  }
+  stderr_printf("[NO_MPI] mmap(fd:%x @%x,%x,%x,%x,%x)\n", fildes, (int)(intptr_t)addr, (int)len, prot, flags, (int)off);
+#endif
+  return mmap(addr, len, prot, flags, fildes, off);
 }
 
 /* Not collective */
 int __collfs_munmap (__ptr_t addr, size_t len) 
 {
- int rank = 0;
-  if (MPI_Initialized) {
+  if (CommStack) {
 #if DEBUG
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     stderr_printf("[%x] munmap(@%x,%x)\n", rank, (int)(intptr_t)addr, (int)len);
-#endif      
-    stderr_printf("__collfs_munmap has not been implemented yet! (passing through)\n");
-    return munmap(addr, len);
-  }
-  else {
+#endif
+    struct MMapLink *mlink;
+    for (mlink=MMapRegions; mlink; mlink=mlink->next) {
+      if (mlink->addr == addr) {
+        int fd = mlink->fd;
+        if (mlink->len != len) {
 #if DEBUG
-    stderr_printf("[NO_MPI] munmap(@%x,%x)\n", (int)(intptr_t)addr, (int)len);
-#endif  
-    return munmap(addr, len);
+          stderr_printf("[%x) Attempt to unmap region of length %x when %x was mapped\n", rank, (int)len, (int)mlink->len);
+#endif
+          set_errno(EINVAL);
+          return -1;
+        }
+        free(mlink);
+        return __collfs_close(fd);
+      }
+    }
   }
+#if DEBUG
+  stderr_printf("[NO_MPI] munmap(@%x,%x)\n", (int)(intptr_t)addr, (int)len);
+#endif
+  return munmap(addr, len);
 }
 
 
 off_t __collfs_lseek(int fildes, off_t offset, int whence)
 {
-  int rank = 0;
-  if (MPI_Initialized) {
-#if DEBUG
-    stderr_printf("[%x] lseek(fd:%x,%x,%x)\n",rank,fildes,(int)offset,whence);
-#endif      
-    stderr_printf("__collfs_lseek has not been implemented yet! (passing through)\n");
-    return __lseek(fildes, offset, whence);
-  }
-  else {
-#if DEBUG
-    stderr_printf("[NO_MPI] lseek(fd:%x,%x,%x)\n",fildes,(int)offset,whence);
-#endif  
-    return __lseek(fildes, offset, whence);
-  }
-}
+  struct FileLink *link;
 
+  for (link=DLOpenFiles; link; link=link->next) {
+    if (link->fd == fildes) {
+      int rank = 0;
+      MPI_Comm_rank(link->comm,&rank);
+#if DEBUG
+      stderr_printf("[%x] lseek(fd:%x,%x,%x)\n",rank,fildes,(int)offset,whence);
+#endif
+      if (!rank) return __lseek(fildes, offset, whence); /* Rank 0 has a normal fd */
+      switch (whence) {
+      case SEEK_SET:
+        link->offset = offset;
+        break;
+      case SEEK_CUR:
+        link->offset += offset;
+        break;
+      case SEEK_END:
+        link->offset = link->len + offset;
+        break;
+      }
+      return link->offset;
+    }
+  }
+#if DEBUG
+  stderr_printf("[NO_MPI] lseek(fd:%x,%x,%x)\n",fildes,(int)offset,whence);
+#endif
+  return __lseek(fildes, offset, whence);
+}
 
 int __collfs_open(const char *pathname, int flags,...)
 {
   mode_t mode = 0;
-  int err,rank = 0,initialized;
+  int err, rank, initialized;
 
   if (flags & O_CREAT) {
     va_list ap;
@@ -270,6 +346,11 @@ int __collfs_open(const char *pathname, int flags,...)
     return -1;
   }
 
+  err = MPI_Comm_rank(CommStack->comm, &rank);
+  if (err) {
+    set_errno(ECOLLFS);
+    return -1;
+  }
 #if DEBUG
   fprintf(stderr, "[%d] open(\"%s\",%d,%d)\n", rank, pathname, flags, mode);
 #endif
@@ -287,6 +368,7 @@ int __collfs_open(const char *pathname, int flags,...)
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
     }
+    MPI_Barrier(CommStack->comm);
     err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
     if (len < 0) return -1;
     mem = NULL;
@@ -299,8 +381,7 @@ int __collfs_open(const char *pathname, int flags,...)
 #if DEBUG
     if (fd < 0) stderr_printf("could not shm_open because of \n");
 #endif
-    if (fd >= 0) 
-
+    if (fd >= 0)
       /* Make sure everyone found memory */
       gotmem = !!mem;
     err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
@@ -318,6 +399,7 @@ int __collfs_open(const char *pathname, int flags,...)
     link = malloc(sizeof *link);
     link->comm = CommStack->comm;
     link->fd = fd;
+    link->refct = 1;
     strcpy(link->fname, pathname);
     link->mem = mem;
     link->len = len;
@@ -337,29 +419,19 @@ int __collfs_open(const char *pathname, int flags,...)
 int __collfs_close(int fd)
 {
   struct FileLink **linkp;
-  int err,initialized;
-  int rank = 0;
-
-  // pass through to libc __close if MPI has not been loaded yet
-  if (MPI_Initialized) {
-    err = MPI_Initialized(&initialized); if (err) return -1;
-#if DEBUG
-    if (initialized) {err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;}
-    stderr_printf("[%x] close(fd:%x)\n",rank,fd);
-#endif
-  }
-  else {
-#if DEBUG
-    stderr_printf("[NO_MPI] close(fd:%x)\n",fd);
-#endif
-    return __close(fd);
-  }
+  int err;
 
   for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
     struct FileLink *link = *linkp;
     if (link->fd == fd) {       /* remove it from the list */
-      int rank = 0, xerr = 0;
+      int rank = 0, xerr = 0, initialized;
 
+#if DEBUG
+      err = MPI_Comm_rank(MPI_COMM_WORLD,&rank); if (err) return -1;
+      stderr_printf("[%x] close(fd:%x)\n",rank,fd);
+#endif
+      if (--link->refct > 0) return 0;
+      err = MPI_Initialized(&initialized); if (err) return -1;
       if (!initialized) {
 #if DEBUG
         stderr_printf("Attempt to close open collective fd, but MPI is not initialized. Perhaps it was finalized early?\n");
@@ -367,7 +439,7 @@ int __collfs_close(int fd)
         set_errno(ECOLLFS);
         return -1;
       }
-      err = MPI_Comm_rank(CommStack->comm, &rank); if (err) return -1;
+      err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); if (err) return -1;
       if (!rank) {
         munmap(link->mem, link->len);
         xerr = __close(fd);
@@ -379,6 +451,9 @@ int __collfs_close(int fd)
       return xerr;
     }
   }
+#if DEBUG
+  stderr_printf("[NO_MPI] close(fd:%x)\n",fd);
+#endif
   return __close(fd);
 }
 
@@ -394,6 +469,9 @@ ssize_t __collfs_read(int fd, void *buf, size_t count)
     err = MPI_Initialized(&initialized); if (err) return -1;
     if (initialized) {err = MPI_Comm_rank(link->comm, &rank); if (err) return -1;}
     if (fd == link->fd) {
+#if DEBUG > 1
+      stderr_printf("[%x] read(%x,%x,%x)\n", rank, fd, (unsigned)(uintptr_t)buf, (unsigned)count);
+#endif
       if (!rank) return __read(fd, buf, count);
       else {
         if ((link->len - link->offset) < count) count = link->len - link->offset;
@@ -403,6 +481,9 @@ ssize_t __collfs_read(int fd, void *buf, size_t count)
       }
     }
   }
+#if DEBUG > 1
+  stderr_printf("[NO_MPI] read(%x,%x,%x)\n", fd, (unsigned)(uintptr_t)buf, (unsigned)count);
+#endif
   return __read(fd, buf, count);
 }
 

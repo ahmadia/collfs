@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
   strcat(path,"/libthefunc.so");
   err = run_tests(path, path);CHK(err);
   err = foo(path);CHK(err);
+  err = foo2("alphabet.txt");CHK(err);
   if (MPI_Finalize) MPI_Finalize();
   return 0;
 }
