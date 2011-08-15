@@ -1,4 +1,72 @@
-Hi!  
+***********************************************************************************************
+Building glibc-2.4 for the compute nodes:
+
+tmpdir=/tmp/aron-glibc-bgp-build
+prefix=/home/aron/bgpsys
+build=powerpc-linux-gnu
+# download and patch glibc sources
+
+cd $tmpdir
+curl -O ftp://ftp.gnu.org/gnu/glibc/glibc-2.4.tar.gz
+tar -zxvf glibc-2.4.tar.gz
+
+# apply IBM patches to glibc
+
+patch -p2 -E < /bgsys/drivers/ppcfloor/toolchain/glibc-2.4.diff
+
+# temporary linux headers
+mkdir -p $tmpdir/templinuxheaders-build/include && \
+cp -f -r -L /usr/include/asm \
+	 $tmpdir/templinuxheaders-build/include/asm && \
+cp -f -r -L /usr/include/asm-ppc \
+	 $tmpdir/templinuxheaders-build/include/asm-ppc && \
+cp -f -r -L /usr/include/asm-generic \
+	$tmpdir/templinuxheaders-build/include/asm-generic && \
+cp -f -r -L /usr/include/linux \
+	 $tmpdir/templinuxheaders-build/include/linux
+
+# configure using default-shared gcc specs
+mkdir -p $tmpdir/glibc-2.4-build
+cd $tmpdir/glibc-2.4-build &&  \
+    PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH=    \
+    CC="powerpc-bgp-linux-gcc -specs=/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/lib/gcc/powerpc-bgp-linux/4.1.2/specs.orig" \
+    libc_cv_ppc_machine=yes  \
+    dd1_workarounds=  \
+    libc_cv_forced_unwind=yes  \
+    libc_cv_c_cleanup=yes  \
+    libc_cv_slibdir="/lib" \
+    $tmpdir/glibc-2.4/configure   \
+    --prefix=$prefix \
+    --sysconfdir="/etc"   \
+    --libdir="/lib" \
+    --bindir="/bin"  \
+    --datadir="/usr/share" \
+    --libexecdir="/libexec"   \
+    --build=$build  \
+    --host=powerpc-bgp-linux   \
+    --enable-shared  \
+    --enable-multilib \
+    --without-cvs \
+    --without-gd \
+    --with-elf \
+    --with-fp=yes \
+    --enable-add-ons=powerpc-cpu,nptl \
+    --with-cpu=450fp2   \
+    --with-tls \
+    --with-__thread   \
+    --enable-__cxa_atexit \
+    --with-headers=$tmpdir/templinuxheaders-build/include
+
+# patch makeconfig
+
+# make
+PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH= \
+    make 2>&1 | tee make.log
+
+# make install
+PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH= \
+    make install 2>&1 | tee install.log
+
 
 ***********************************************************************************************
 See the shaheen/build_glibc_2.4-sles-10.sh for the basic idea of how to patch the SLES 10
