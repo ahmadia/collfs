@@ -24,6 +24,11 @@ main : main.o libfoo.so
 libfoo.so : foo.o collfs.o
 	${MPICC} -g3 -shared -o $@ $^ ${LDFLAGS}
 
+collfs.o : collfs.c collfs.h
+foo.o : foo.c foo.h errmacros.h collfs.h
+main.o : main.c errmacros.h
+thefunc.o : thefunc.h collfs.h
+
 clean :
 	rm -f *.o *.so main
 
