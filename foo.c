@@ -34,7 +34,7 @@ int foo(const char *path)
   long pagesize;
   char* pa;
   pagesize = sysconf(_SC_PAGESIZE);
-  pa = __collfs_mmap((void *)0,pagesize,PROT_READ,MAP_SHARED,fd,(off_t)0);
+  pa = __collfs_mmap((void *)0,pagesize,PROT_READ,MAP_PRIVATE,fd,(off_t)0);
   if (pa == MAP_FAILED) ERR("[%d] mmap(%d,pagesize) failed",rank,fd);
 
   while (__collfs_read(fd,&value,sizeof value) == sizeof value) {
@@ -53,11 +53,16 @@ int foo(const char *path)
 
 int foo2_inner(const char *path)
 {
-  int err, fd, off;
+  int err, fd, off, nc;
   char buf[4], *ptr, *ptr2;
   fd = __collfs_open(path, O_RDONLY);
   if (!fd) return -1;
-  if (__collfs_read(fd, buf, 2) != 2) ERR("read");
+
+  off = __collfs_lseek(fd, 0, SEEK_SET);
+  if (off != 0) ERR("lseek SET");
+
+  nc = __collfs_read(fd, buf, 2);
+  if (nc != 2) ERR("read [%d] but expected 2\nbuf: %4.4s", nc, buf);
   if (strncmp(buf, "ab", 2)) ERR("wrong content");
 
   if (__collfs_read(fd, buf, 3) != 3) ERR("read");
