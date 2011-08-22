@@ -1,5 +1,11 @@
 ***********************************************************************************************
-Building glibc-2.4 for the compute nodes:
+# Applying collfs patches to glibc-2.4
+
+
+
+
+***********************************************************************************************
+# Building glibc-2.4 for the compute nodes:
 
 tmpdir=/tmp/aron-glibc-bgp-build
 prefix=/home/aron/bgpsys
@@ -60,16 +66,16 @@ cd $tmpdir/glibc-2.4-build &&  \
 # patch makeconfig
 
 # make
-PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH= \
+cd $tmpdir/glibc-2.4-build && PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH= \
     make 2>&1 | tee make.log
 
 # make install
-PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH= \
+cd $tmpdir/glibc-2.4-build && PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH= \
     make install 2>&1 | tee install.log
 
 
 ***********************************************************************************************
-See the shaheen/build_glibc_2.4-sles-10.sh for the basic idea of how to patch the SLES 10
+See shaheen/build_glibc_2.4-sles-10.sh for the basic idea of how to patch the SLES 10
 glibc with collfs.  I am working from the patched source that you can obtain from the SLES 
 10 src.rpm by unpacking the distribution then applying all the patches (just before the 
 configure stage).
