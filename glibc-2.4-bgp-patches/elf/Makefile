@@ -30,7 +30,9 @@ routines	= $(dl-routines) dl-support dl-iteratephdr \
 dl-routines	= $(addprefix dl-,load cache lookup object reloc deps \
 			          runtime error init fini debug misc \
 				  version profile conflict tls origin \
-				  execstack caller open close trampoline)
+				  execstack caller open close trampoline \
+				  collfs)
+
 all-dl-routines = $(dl-routines) $(sysdep-dl-routines)
 # But they are absent from the shared libc, because that code is in ld.so.
 elide-routines.os = $(all-dl-routines) dl-support enbl-secure dl-origin
@@ -96,6 +98,7 @@ distribute	:= rtld-Rules \
 CFLAGS-dl-runtime.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-dl-lookup.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-dl-iterate-phdr.c = $(uses-callbacks)
+CFLAGS-dl-collfs.c = -DCOLLFS_IN_LIBC -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include -g3 -DDEBUG=1
 
 include ../Makeconfig
 
