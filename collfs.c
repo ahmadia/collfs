@@ -520,8 +520,3 @@ ssize_t __collfs_read(int fd, void *buf, size_t count)
   return __read(fd, buf, count);
 }
 
-void collfs_call_magic( void (*magic_fun)(void))
-{
-  (*magic_fun)();
-}
- 
