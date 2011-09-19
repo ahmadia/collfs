@@ -374,7 +374,7 @@ int __collfs_open(const char *pathname, int flags,...)
     return -1;
   }
 #if DEBUG
-  fprintf(stderr, "[%d] open(\"%s\",%x,%x)\n", rank, pathname, flags, mode);
+  stderr_printf("[%x] open(\"%s\",%x,%x)\n", rank, pathname, flags, mode);
 #endif
 
   if (flags == O_RDONLY) {      /* Read is collectively on comm */
