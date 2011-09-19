@@ -3,7 +3,6 @@
 #define _GNU_SOURCE 1            /* feature test macro so that RTLD_NEXT will be available */
 #endif
 
-#include "collfs.h"
 // start dl-load
 
 #if COLLFS_IN_LIBC
@@ -42,6 +41,8 @@
 #include <sys/types.h>
 
 #include <mpi.h>
+
+#include "collfs.h"
 
 #if DEBUG
 #  include <stdio.h>
@@ -371,7 +372,7 @@ int __collfs_open(const char *pathname, int flags,...)
     return -1;
   }
 #if DEBUG
-  fprintf(stderr, "[%d] open(\"%s\",%d,%d)\n", rank, pathname, flags, mode);
+  fprintf(stderr, "[%d] open(\"%s\",%x,%x)\n", rank, pathname, flags, mode);
 #endif
 
   if (flags == O_RDONLY) {      /* Read is collectively on comm */
