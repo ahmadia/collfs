@@ -30,6 +30,10 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
+#ifdef USE_COLLFS
+#undef DL_UNMAP
+#define DL_UNMAP(map) __collfs_unmap (map)
+#endif
 
 /* Type of the constructor functions.  */
 typedef void (*fini_t) (void);

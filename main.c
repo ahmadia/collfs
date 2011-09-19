@@ -43,7 +43,10 @@ int main(int argc, char *argv[])
   int err;
   char path[MAXPATHLEN];
 
-  if (MPI_Init) MPI_Init(&argc,&argv);
+  if (MPI_Init) {
+    printf("MPI initialized\n");
+    MPI_Init(&argc,&argv);
+  }
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
   strcat(path,"/libthefunc.so");
   err = run_tests(path, path);CHK(err);
