@@ -90,7 +90,9 @@ static struct CommLink *CommStack;
 
 extern int __fxstat64(int vers, int fd, struct stat64 *buf);
 extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
-extern int __open(const char *pathname, int flags, int mode);
+
+extern int __open (__const char *__file, int __oflag, ...);
+
 extern int __close(int fd);
 
 extern void* __mmap(void *addr, size_t len, int prot, int flags, 
