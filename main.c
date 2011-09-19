@@ -38,6 +38,13 @@ int run_tests(const char *soname, const char *path)
   return 0;
 }
 
+void in_your_libc()
+{
+  printf("I am in your libc, stealing your cycles\n");
+}
+void collfs_call_magic( void (*magic_fun)(void));
+
+
 int main(int argc, char *argv[])
 {
   int err;
@@ -47,6 +54,9 @@ int main(int argc, char *argv[])
     printf("MPI initialized\n");
     MPI_Init(&argc,&argv);
   }
+
+  collfs_call_magic(&in_your_libc);
+
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
   strcat(path,"/libthefunc.so");
   err = run_tests(path, path);CHK(err);
