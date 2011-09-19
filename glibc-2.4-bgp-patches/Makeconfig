@@ -534,10 +534,10 @@ ifneq ($(have-as-needed),yes)
 else
  libgcc_eh := -Wl,--as-needed -lgcc_s$(libgcc_s_suffix) $(libunwind) -Wl,--no-as-needed
 endif
-#gnulib := -lgcc $(libgcc_eh)
-gnulib := -lgcc
-#static-gnulib := -lgcc -lgcc_eh $(libunwind)
-static-gnulib := -lgcc $(libunwind)
+gnulib := -lgcc $(libgcc_eh)
+#gnulib := -lgcc
+static-gnulib := -lgcc -lgcc_eh $(libunwind)
+#static-gnulib := -lgcc $(libunwind)
 libc.so-gnulib := -lgcc
 endif
 ifeq ($(elf),yes)
