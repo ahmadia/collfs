@@ -4,7 +4,7 @@ CC = mpicc
 #MPICC = gcc -m64 
 MPICC = mpicc
 #CFLAGS = -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} 
-CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} 
+CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
 CFLAGS_DEBUG = -g3 -DDEBUG=1
 #LDFLAGS =  -Wl,-Bdynamic -Wl,-rpath,/home/aron/sys/lib -L/home/aron/sys/lib ${LIBDL} 
 LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,/home/aron/bgsys/lib -L/home/aron/bgsys/lib ${LIBDL} 
@@ -14,21 +14,26 @@ COLLFS_SRC_O = $(COLLFS_SRC_C:.c=.o)
 
 all : libthefunc.so main
 
+libc-collfs.so : libc-collfs.o
+	${CC} -shared -g3 -o $@ $^
+libcollfs.so : collfs.o
+	${CC} -shared -g3 -o $@ $^
 libthefunc.so : thefunc.o
 	${CC} -shared -g3 -o $@ $^
 thefunc.o : thefunc.c
 	${CC} ${CFLAGS} -c -fPIC $^
 
-main : main.o libfoo.so
+main : main.o libfoo.so libcollfs.so libc-collfs.so
 	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
 .c.o :
-	${MPICC} ${CFLAGS} -fPIC -c $^
+	${CC} ${CFLAGS} -fPIC -c $^
 
 libfoo.so : foo.o collfs.o
 	${MPICC} -g3 -shared -o $@ $^ ${LDFLAGS}
 
-collfs.o : collfs.c collfs.h
-foo.o : foo.c foo.h errmacros.h collfs.h
+collfs.o : collfs.c collfs.h libc-collfs.h
+libc-collfs.o : libc-collfs.c libc-collfs.h libc-collfs-private.h
+foo.o : foo.c foo.h errmacros.h collfs.h libc-collfs-private.h
 main.o : main.c errmacros.h
 thefunc.o : thefunc.h collfs.h
 

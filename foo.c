@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -11,6 +12,7 @@
 #include "errmacros.h"
 #include "foo.h"
 #include "collfs.h"
+#include "libc-collfs-private.h" /* So that we can call the wrapped versions directly */
 
 extern int MPI_Comm_rank ( MPI_Comm comm, int *rank ) __attribute__ ((weak));
 
@@ -78,7 +80,7 @@ int foo2_inner(const char *path)
   if (__collfs_read(fd, buf, 3) != 3) ERR("read");
   if (strncmp(buf, "fgh", 3)) ERR("wrong content");
 
-  err = __collfs_comm_pop();CHK(err);
+  err = collfs_comm_pop();CHK(err);
 
   ptr = __collfs_mmap(0, 12, PROT_READ, MAP_PRIVATE, fd, 0);
   if (ptr == MAP_FAILED) ERR("mmap failed: %s", strerror(errno));
@@ -90,7 +92,7 @@ int foo2_inner(const char *path)
 
   err = __collfs_close(fd); if (err) ERR("close");
 
-  err = __collfs_comm_push(MPI_COMM_WORLD);CHK(err);
+  err = collfs_comm_push(MPI_COMM_WORLD);CHK(err);
   err = __collfs_munmap(ptr2, 20); if (err) ERR("munmap");
 
   if (strncmp(ptr+6, "ghijkl", 6)) ERR("wrong content");
@@ -102,8 +104,10 @@ int foo2_inner(const char *path)
 int foo2(const char *path)
 {
   int err;
-  err = __collfs_comm_push(MPI_COMM_WORLD);CHK(err);
+  err = collfs_initialize(3, abort);CHK(err);
+  err = collfs_comm_push(MPI_COMM_WORLD);CHK(err);
   foo2_inner(path);
-  err = __collfs_comm_pop();CHK(err);
+  err = collfs_comm_pop();CHK(err);
+  err = collfs_finalize();CHK(err);
   return 0;
 }
