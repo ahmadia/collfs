@@ -8,11 +8,15 @@ build=powerpc-linux-gnu
 glibc_src_dir=$tmpdir/glibc-2.4
 
 # download_and_patch_source
+#rm -rf $tmpdir
+# mkdir $tmpdir
 
 cd $tmpdir
 #if !skip_download_and_patch
 #curl -O ftp://ftp.gnu.org/gnu/glibc/glibc-2.4.tar.gz
 #tar -zxvf glibc-2.4.tar.gz
+#or
+#tar -xvf /opt/share/downloads/glibc-2.4.tar.gz
 #endif 
 
 # apply IBM patches to glibc
@@ -37,8 +41,6 @@ cd $tmpdir
 cp $collfs_dir/glibc-2.4-bgp-patches/Makeconfig $glibc_src_dir
 
 # apply collfs patches
-cp $collfs_dir/collfs.h $glibc_src_dir/elf
-cp $collfs_dir/collfs.c $glibc_src_dir/elf/dl-collfs.c 
 cp $collfs_dir/glibc-2.4-bgp-patches/elf/* $glibc_src_dir/elf
 
 # configure using default-shared gcc specs
@@ -46,7 +48,7 @@ rm -rf $tmpdir/glibc-2.4-build
 mkdir -p $tmpdir/glibc-2.4-build
 cd $tmpdir/glibc-2.4-build &&  \
     PATH=/usr/gnu/bin:/usr/bin:/bin:/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/bin/ LD_LIBRARY_PATH=    \
-    CC="powerpc-bgp-linux-gcc -specs=/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/lib/gcc/powerpc-bgp-linux/4.1.2/specs.orig" \
+    CC="powerpc-bgp-linux-gcc -g -specs=/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/gnu-linux/lib/gcc/powerpc-bgp-linux/4.1.2/specs.orig" \
     libc_cv_ppc_machine=yes  \
     dd1_workarounds=  \
     libc_cv_forced_unwind=yes  \

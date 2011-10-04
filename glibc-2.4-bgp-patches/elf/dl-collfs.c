@@ -8,15 +8,9 @@
 /* Declare the unwrapped private libc API */
 extern int __fxstat64(int vers, int fd, struct stat64 *buf);
 extern int __xstat64 (int vers, const char *file, struct stat64 *buf);
-extern int __open (__const char *__file, int __oflag, mode_t __mode);
 extern int __close(int fd);
-#if COLLFS_IN_LIBC              /* I do not know what is correct here, but __mmap and __munmap is not . */
 extern void *__mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
 extern int __munmap (__ptr_t addr, size_t len);
-#else
-static void *__mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off) {return mmap(addr,len,prot,flags,fildes,off);}
-static int __munmap(__ptr_t addr, size_t len) {return munmap(addr, len);}
-#endif
 extern off_t __lseek(int fildes, off_t offset, int whence);
 extern ssize_t __read(int fd,void *buf,size_t count);
 
