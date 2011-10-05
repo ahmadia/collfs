@@ -16,7 +16,8 @@ cd $tmpdir
 #curl -O ftp://ftp.gnu.org/gnu/glibc/glibc-2.4.tar.gz
 #tar -zxvf glibc-2.4.tar.gz
 #or
-#tar -xvf /opt/share/downloads/glibc-2.4.tar.gz
+rm -rf glibc-2.4
+tar -xvf /opt/share/downloads/glibc-2.4.tar.gz
 #endif 
 
 # apply IBM patches to glibc
@@ -24,7 +25,7 @@ cd $tmpdir
 # you may need the latest driver RPM from http://wiki.bg.anl-external.org/index.php/Main_Page
 # specifically http://bg-toolchain.anl-external.org/wiki/images/7/78/BgptoolchainSA_V1R4M2-2010.1.4-2.ppc64.rpm
 
-#patch -p2 -E < /bgsys/drivers/ppcfloor/toolchain/glibc-2.4.diff
+patch -p2 -E < /bgsys/drivers/ppcfloor/toolchain/glibc-2.4.diff
 
 # temporary linux headers
 #mkdir -p $tmpdir/templinuxheaders-build/include && \
