@@ -162,9 +162,7 @@ static const size_t system_dirs_len[] =
   (sizeof (system_dirs_len) / sizeof (system_dirs_len[0]))
 
 
-#define USE_COLLFS 1
-
-#ifdef USE_COLLFS
+#ifndef IS_IN_rtld
 #define __open(pathname,flags) __collfs_open(pathname,flags)
 #define __close(fd) __collfs_close(fd)
 #define __lseek(fildes, offset, whence) __collfs_lseek(fildes, offset, whence)

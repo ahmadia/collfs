@@ -30,7 +30,8 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
-#ifdef USE_COLLFS
+#ifndef IS_IN_rtld
+int __collfs_munmap(__ptr_t addr, size_t len);
 #undef DL_UNMAP
 #define DL_UNMAP(map) __collfs_unmap (map)
 #endif
