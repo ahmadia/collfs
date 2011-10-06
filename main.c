@@ -48,10 +48,10 @@ int main(int argc, char *argv[])
     MPI_Init(&argc,&argv);
   }
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
-  /* strcat(path,"/libthefunc.so"); */
-  /* err = run_tests(path, path);CHK(err); */
-  /* err = foo(path);CHK(err); */
-  /* err = foo2("alphabet.txt");CHK(err); */
+  strcat(path,"/libthefunc.so");
+  err = run_tests(path, path);CHK(err);
+  err = foo(path);CHK(err);
+  err = foo2("alphabet.txt");CHK(err);
   if (MPI_Finalize) MPI_Finalize();
   return 0;
 }

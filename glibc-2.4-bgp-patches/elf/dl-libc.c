@@ -21,7 +21,6 @@
 #include <dlfcn.h>
 #include <stdlib.h>
 #include <ldsodefs.h>
-
 #include "libc-collfs.h"
 #include "libc-collfs-private.h"
 #include <stdarg.h>
@@ -310,6 +309,7 @@ int libc_collfs_initialize(collfs_debug_vprintf_fp vprintf_, const struct libc_c
   }
   return 0;
 }
+
 
 /* Disable collfs redirect. */
 int libc_collfs_finalize(void)

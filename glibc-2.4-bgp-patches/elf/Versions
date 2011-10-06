@@ -24,6 +24,8 @@ libc {
     _dl_open_hook;
     __libc_dlopen_mode; __libc_dlsym; __libc_dlclose;
     libc_collfs_finalize; libc_collfs_initialize;
+    __collfs_mmap; __collfs_lseek; __collfs_xstat64; __collfs_read; 
+    __collfs_open; __collfs_munmap; __collfs_close; __collfs_fxstat64;
   }
 }
 

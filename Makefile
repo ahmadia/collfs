@@ -7,7 +7,7 @@ MPICC = mpicc
 CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
 CFLAGS_DEBUG = -g3 -DDEBUG=1
 #LDFLAGS =  -Wl,-Bdynamic -Wl,-rpath,/home/aron/sys/lib -L/home/aron/sys/lib ${LIBDL} 
-LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,/home/aron/bgpsys/lib -L/home/aron/bgsys/lib ${LIBDL} 
+LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,/home/aron/bgpsys/lib -L/home/aron/bgpsys/lib ${LIBDL} 
 LIBDL = -ldl 
 COLLFS_SRC_C = collfs.c
 COLLFS_SRC_O = $(COLLFS_SRC_C:.c=.o)
@@ -23,7 +23,8 @@ libthefunc.so : thefunc.o
 thefunc.o : thefunc.c
 	${CC} ${CFLAGS} -c -fPIC $^
 
-main : main.o libfoo.so libcollfs.so libc-collfs.so
+main : main.o libfoo.so libcollfs.so 
+#main : main.o libfoo.so libcollfs.so libc-collfs.so
 	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
 .c.o :
 	${CC} ${CFLAGS} -fPIC -c $^

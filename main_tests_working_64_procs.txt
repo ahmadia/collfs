@@ -1,0 +1,2304 @@
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+MPI initialized
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+called thefunc
+called thefunc
+called thefunc
+called thefunc
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+/scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_fxstat64): inode 88997975 size 124914
+[7] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[7] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[7]  * libc_collfs_initialize: registered external API
+[7]  * libc_collfs_initialize: provided unwrapped API
+[3] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[3] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[3]  * libc_collfs_initialize: registered external API
+[3]  * libc_collfs_initialize: provided unwrapped API
+[19] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[19] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[19]  * libc_collfs_initialize: registered external API
+[19]  * libc_collfs_initialize: provided unwrapped API
+[23] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[23] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[23]  * libc_collfs_initialize: registered external API
+[23]  * libc_collfs_initialize: provided unwrapped API
+[55] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[55] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[55]  * libc_collfs_initialize: registered external API
+[55]  * libc_collfs_initialize: provided unwrapped API
+[51] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[51] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[51]  * libc_collfs_initialize: registered external API
+[51]  * libc_collfs_initialize: provided unwrapped API
+[35] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[35] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[35]  * libc_collfs_initialize: registered external API
+[35]  * libc_collfs_initialize: provided unwrapped API
+[39] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[39] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[39]  * libc_collfs_initialize: registered external API
+[39]  * libc_collfs_initialize: provided unwrapped API
+[54] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[54] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[54]  * libc_collfs_initialize: registered external API
+[54]  * libc_collfs_initialize: provided unwrapped API
+[58] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[58] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[58]  * libc_collfs_initialize: registered external API
+[58]  * libc_collfs_initialize: provided unwrapped API
+[57] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[57] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[57]  * libc_collfs_initialize: registered external API
+[57]  * libc_collfs_initialize: provided unwrapped API
+[61] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[61] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[61]  * libc_collfs_initialize: registered external API
+[61]  * libc_collfs_initialize: provided unwrapped API
+[45] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[45] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[45]  * libc_collfs_initialize: registered external API
+[45]  * libc_collfs_initialize: provided unwrapped API
+[41] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[41] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[41]  * libc_collfs_initialize: registered external API
+[41]  * libc_collfs_initialize: provided unwrapped API
+[56] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[56] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[56]  * libc_collfs_initialize: registered external API
+[56]  * libc_collfs_initialize: provided unwrapped API
+[60] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[60] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[60]  * libc_collfs_initialize: registered external API
+[60]  * libc_collfs_initialize: provided unwrapped API
+[44] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[44] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[44]  * libc_collfs_initialize: registered external API
+[44]  * libc_collfs_initialize: provided unwrapped API
+[40] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[40] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[40]  * libc_collfs_initialize: registered external API
+[40]  * libc_collfs_initialize: provided unwrapped API
+[42] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[42] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[42]  * libc_collfs_initialize: registered external API
+[42]  * libc_collfs_initialize: provided unwrapped API
+[46] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[46] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[46]  * libc_collfs_initialize: registered external API
+[46]  * libc_collfs_initialize: provided unwrapped API
+[62] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[62] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[62]  * libc_collfs_initialize: registered external API
+[62]  * libc_collfs_initialize: provided unwrapped API
+[43] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[43] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[43]  * libc_collfs_initialize: registered external API
+[43]  * libc_collfs_initialize: provided unwrapped API
+[47] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[47] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[47]  * libc_collfs_initialize: registered external API
+[47]  * libc_collfs_initialize: provided unwrapped API
+[63] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[63] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[63]  * libc_collfs_initialize: registered external API
+[63]  * libc_collfs_initialize: provided unwrapped API
+[59] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[59] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[59]  * libc_collfs_initialize: registered external API
+[59]  * libc_collfs_initialize: provided unwrapped API
+[38] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[38] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[38]  * libc_collfs_initialize: registered external API
+[38]  * libc_collfs_initialize: provided unwrapped API
+[34] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[34] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[34]  * libc_collfs_initialize: registered external API
+[34]  * libc_collfs_initialize: provided unwrapped API
+[53] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[53] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[53]  * libc_collfs_initialize: registered external API
+[53]  * libc_collfs_initialize: provided unwrapped API
+[50] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[50] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[50]  * libc_collfs_initialize: registered external API
+[50]  * libc_collfs_initialize: provided unwrapped API
+[49] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[49] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[49]  * libc_collfs_initialize: registered external API
+[49]  * libc_collfs_initialize: provided unwrapped API
+[33] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[33] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[33]  * libc_collfs_initialize: registered external API
+[33]  * libc_collfs_initialize: provided unwrapped API
+[37] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[37] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[37]  * libc_collfs_initialize: registered external API
+[37]  * libc_collfs_initialize: provided unwrapped API
+[52] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[52] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[52]  * libc_collfs_initialize: registered external API
+[52]  * libc_collfs_initialize: provided unwrapped API
+[48] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[48] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[48]  * libc_collfs_initialize: registered external API
+[48]  * libc_collfs_initialize: provided unwrapped API
+[36] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[36] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[36]  * libc_collfs_initialize: registered external API
+[36]  * libc_collfs_initialize: provided unwrapped API
+[32] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[32] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[32]  * libc_collfs_initialize: registered external API
+[32]  * libc_collfs_initialize: provided unwrapped API
+[22] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[22] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[22]  * libc_collfs_initialize: registered external API
+[22]  * libc_collfs_initialize: provided unwrapped API
+[26] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[26] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[26]  * libc_collfs_initialize: registered external API
+[26]  * libc_collfs_initialize: provided unwrapped API
+[25] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[25] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[25]  * libc_collfs_initialize: registered external API
+[25]  * libc_collfs_initialize: provided unwrapped API
+[29] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[29] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[29]  * libc_collfs_initialize: registered external API
+[29]  * libc_collfs_initialize: provided unwrapped API
+[13] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[13] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[13]  * libc_collfs_initialize: registered external API
+[13]  * libc_collfs_initialize: provided unwrapped API
+[9] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[9] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[9]  * libc_collfs_initialize: registered external API
+[9]  * libc_collfs_initialize: provided unwrapped API
+[24] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[24] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[24]  * libc_collfs_initialize: registered external API
+[24]  * libc_collfs_initialize: provided unwrapped API
+[28] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[28] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[28]  * libc_collfs_initialize: registered external API
+[28]  * libc_collfs_initialize: provided unwrapped API
+[12] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[12] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[12]  * libc_collfs_initialize: registered external API
+[12]  * libc_collfs_initialize: provided unwrapped API
+[8] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[8] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[8]  * libc_collfs_initialize: registered external API
+[8]  * libc_collfs_initialize: provided unwrapped API
+[10] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[10] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[10]  * libc_collfs_initialize: registered external API
+[10]  * libc_collfs_initialize: provided unwrapped API
+[14] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[14] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[14]  * libc_collfs_initialize: registered external API
+[14]  * libc_collfs_initialize: provided unwrapped API
+[30] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[30] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[30]  * libc_collfs_initialize: registered external API
+[30]  * libc_collfs_initialize: provided unwrapped API
+[11] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[11] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[11]  * libc_collfs_initialize: registered external API
+[11]  * libc_collfs_initialize: provided unwrapped API
+[15] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[15] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[15]  * libc_collfs_initialize: registered external API
+[15]  * libc_collfs_initialize: provided unwrapped API
+[31] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[31] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[31]  * libc_collfs_initialize: registered external API
+[31]  * libc_collfs_initialize: provided unwrapped API
+[27] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[27] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[27]  * libc_collfs_initialize: registered external API
+[27]  * libc_collfs_initialize: provided unwrapped API
+[6] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[6] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[6]  * libc_collfs_initialize: registered external API
+[6]  * libc_collfs_initialize: provided unwrapped API
+[2] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[2] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[2]  * libc_collfs_initialize: registered external API
+[2]  * libc_collfs_initialize: provided unwrapped API
+[18] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[18] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[18]  * libc_collfs_initialize: registered external API
+[18]  * libc_collfs_initialize: provided unwrapped API
+[21] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[21] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[21]  * libc_collfs_initialize: registered external API
+[21]  * libc_collfs_initialize: provided unwrapped API
+[17] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[17] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[17]  * libc_collfs_initialize: registered external API
+[17]  * libc_collfs_initialize: provided unwrapped API
+[1] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[1] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[1]  * libc_collfs_initialize: registered external API
+[1]  * libc_collfs_initialize: provided unwrapped API
+[5] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[5] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[5]  * libc_collfs_initialize: registered external API
+[5]  * libc_collfs_initialize: provided unwrapped API
+[20] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[20] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[20]  * libc_collfs_initialize: registered external API
+[20]  * libc_collfs_initialize: provided unwrapped API
+[16] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[16] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[16]  * libc_collfs_initialize: registered external API
+[16]  * libc_collfs_initialize: provided unwrapped API
+[4] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[4] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[4]  * libc_collfs_initialize: registered external API
+[4]  * libc_collfs_initialize: provided unwrapped API
+[0] XOR-sum of "/scratch/aron/sandbox/collfs.git/libthefunc.so": 8b3bee64
+[0] /scratch/aron/sandbox/collfs.git/libthefunc.so (via __collfs_xstat64): inode 88997975 size 124914
+[0]  * libc_collfs_initialize: registered external API
+[0]  * libc_collfs_initialize: provided unwrapped API
+[7]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[3]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[19]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[23]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[55]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[51]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[35]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[39]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[54]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[58]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[57]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[61]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[45]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[41]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[56]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[60]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[44]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[40]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[42]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[46]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[62]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[43]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[47]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[63]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[59]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[38]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[34]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[50]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[53]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[49]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[33]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[37]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[52]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[48]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[36]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[32]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[22]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[26]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[25]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[29]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[13]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[9]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[24]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[28]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[12]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[8]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[10]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[14]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[30]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[11]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[15]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[31]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[27]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[6]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[2]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[18]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[21]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[17]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[1]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[5]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[20]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[16]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[4]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[0]    * __collfs_open("alphabet.txt", 0, 0): redirected to collfs
+[7]   * collfs_open("alphabet.txt", x0, o0) collective
+[3]   * collfs_open("alphabet.txt", x0, o0) collective
+[19]   * collfs_open("alphabet.txt", x0, o0) collective
+[23]   * collfs_open("alphabet.txt", x0, o0) collective
+[55]   * collfs_open("alphabet.txt", x0, o0) collective
+[51]   * collfs_open("alphabet.txt", x0, o0) collective
+[35]   * collfs_open("alphabet.txt", x0, o0) collective
+[39]   * collfs_open("alphabet.txt", x0, o0) collective
+[54]   * collfs_open("alphabet.txt", x0, o0) collective
+[58]   * collfs_open("alphabet.txt", x0, o0) collective
+[57]   * collfs_open("alphabet.txt", x0, o0) collective
+[61]   * collfs_open("alphabet.txt", x0, o0) collective
+[45]   * collfs_open("alphabet.txt", x0, o0) collective
+[41]   * collfs_open("alphabet.txt", x0, o0) collective
+[56]   * collfs_open("alphabet.txt", x0, o0) collective
+[60]   * collfs_open("alphabet.txt", x0, o0) collective
+[44]   * collfs_open("alphabet.txt", x0, o0) collective
+[40]   * collfs_open("alphabet.txt", x0, o0) collective
+[42]   * collfs_open("alphabet.txt", x0, o0) collective
+[46]   * collfs_open("alphabet.txt", x0, o0) collective
+[62]   * collfs_open("alphabet.txt", x0, o0) collective
+[43]   * collfs_open("alphabet.txt", x0, o0) collective
+[47]   * collfs_open("alphabet.txt", x0, o0) collective
+[63]   * collfs_open("alphabet.txt", x0, o0) collective
+[59]   * collfs_open("alphabet.txt", x0, o0) collective
+[38]   * collfs_open("alphabet.txt", x0, o0) collective
+[34]   * collfs_open("alphabet.txt", x0, o0) collective
+[50]   * collfs_open("alphabet.txt", x0, o0) collective
+[53]   * collfs_open("alphabet.txt", x0, o0) collective
+[49]   * collfs_open("alphabet.txt", x0, o0) collective
+[33]   * collfs_open("alphabet.txt", x0, o0) collective
+[37]   * collfs_open("alphabet.txt", x0, o0) collective
+[52]   * collfs_open("alphabet.txt", x0, o0) collective
+[48]   * collfs_open("alphabet.txt", x0, o0) collective
+[36]   * collfs_open("alphabet.txt", x0, o0) collective
+[32]   * collfs_open("alphabet.txt", x0, o0) collective
+[22]   * collfs_open("alphabet.txt", x0, o0) collective
+[26]   * collfs_open("alphabet.txt", x0, o0) collective
+[25]   * collfs_open("alphabet.txt", x0, o0) collective
+[29]   * collfs_open("alphabet.txt", x0, o0) collective
+[13]   * collfs_open("alphabet.txt", x0, o0) collective
+[9]   * collfs_open("alphabet.txt", x0, o0) collective
+[24]   * collfs_open("alphabet.txt", x0, o0) collective
+[28]   * collfs_open("alphabet.txt", x0, o0) collective
+[12]   * collfs_open("alphabet.txt", x0, o0) collective
+[8]   * collfs_open("alphabet.txt", x0, o0) collective
+[10]   * collfs_open("alphabet.txt", x0, o0) collective
+[14]   * collfs_open("alphabet.txt", x0, o0) collective
+[30]   * collfs_open("alphabet.txt", x0, o0) collective
+[11]   * collfs_open("alphabet.txt", x0, o0) collective
+[15]   * collfs_open("alphabet.txt", x0, o0) collective
+[31]   * collfs_open("alphabet.txt", x0, o0) collective
+[27]   * collfs_open("alphabet.txt", x0, o0) collective
+[6]   * collfs_open("alphabet.txt", x0, o0) collective
+[2]   * collfs_open("alphabet.txt", x0, o0) collective
+[18]   * collfs_open("alphabet.txt", x0, o0) collective
+[21]   * collfs_open("alphabet.txt", x0, o0) collective
+[17]   * collfs_open("alphabet.txt", x0, o0) collective
+[1]   * collfs_open("alphabet.txt", x0, o0) collective
+[5]   * collfs_open("alphabet.txt", x0, o0) collective
+[20]   * collfs_open("alphabet.txt", x0, o0) collective
+[16]   * collfs_open("alphabet.txt", x0, o0) collective
+[4]   * collfs_open("alphabet.txt", x0, o0) collective
+[0]   * collfs_open("alphabet.txt", x0, o0) collective
+[7]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[3]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[19]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[23]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[55]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[51]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[35]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[39]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[54]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[58]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[57]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[61]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[45]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[41]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[56]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[60]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[44]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[40]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[42]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[46]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[62]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[43]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[47]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[63]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[59]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[38]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[34]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[50]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[53]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[49]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[33]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[37]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[52]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[48]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[36]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[32]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[22]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[26]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[25]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[29]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[13]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[9]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[24]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[28]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[12]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[8]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[10]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[14]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[30]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[11]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[15]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[31]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[27]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[6]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[2]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[18]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[21]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[17]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[1]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[5]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[20]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[16]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[4]    * __collfs_lseek(10002, 0, 0): redirected to collfs
+[0]    * __collfs_lseek(3, 0, 0): redirected to collfs
+[7]   * collfs_lseek(10002, 0, 0) collective
+[3]   * collfs_lseek(10002, 0, 0) collective
+[19]   * collfs_lseek(10002, 0, 0) collective
+[23]   * collfs_lseek(10002, 0, 0) collective
+[55]   * collfs_lseek(10002, 0, 0) collective
+[51]   * collfs_lseek(10002, 0, 0) collective
+[35]   * collfs_lseek(10002, 0, 0) collective
+[39]   * collfs_lseek(10002, 0, 0) collective
+[54]   * collfs_lseek(10002, 0, 0) collective
+[58]   * collfs_lseek(10002, 0, 0) collective
+[57]   * collfs_lseek(10002, 0, 0) collective
+[61]   * collfs_lseek(10002, 0, 0) collective
+[45]   * collfs_lseek(10002, 0, 0) collective
+[41]   * collfs_lseek(10002, 0, 0) collective
+[56]   * collfs_lseek(10002, 0, 0) collective
+[60]   * collfs_lseek(10002, 0, 0) collective
+[44]   * collfs_lseek(10002, 0, 0) collective
+[40]   * collfs_lseek(10002, 0, 0) collective
+[42]   * collfs_lseek(10002, 0, 0) collective
+[46]   * collfs_lseek(10002, 0, 0) collective
+[62]   * collfs_lseek(10002, 0, 0) collective
+[43]   * collfs_lseek(10002, 0, 0) collective
+[47]   * collfs_lseek(10002, 0, 0) collective
+[63]   * collfs_lseek(10002, 0, 0) collective
+[59]   * collfs_lseek(10002, 0, 0) collective
+[38]   * collfs_lseek(10002, 0, 0) collective
+[34]   * collfs_lseek(10002, 0, 0) collective
+[50]   * collfs_lseek(10002, 0, 0) collective
+[53]   * collfs_lseek(10002, 0, 0) collective
+[49]   * collfs_lseek(10002, 0, 0) collective
+[33]   * collfs_lseek(10002, 0, 0) collective
+[37]   * collfs_lseek(10002, 0, 0) collective
+[52]   * collfs_lseek(10002, 0, 0) collective
+[48]   * collfs_lseek(10002, 0, 0) collective
+[36]   * collfs_lseek(10002, 0, 0) collective
+[32]   * collfs_lseek(10002, 0, 0) collective
+[22]   * collfs_lseek(10002, 0, 0) collective
+[26]   * collfs_lseek(10002, 0, 0) collective
+[25]   * collfs_lseek(10002, 0, 0) collective
+[29]   * collfs_lseek(10002, 0, 0) collective
+[13]   * collfs_lseek(10002, 0, 0) collective
+[9]   * collfs_lseek(10002, 0, 0) collective
+[24]   * collfs_lseek(10002, 0, 0) collective
+[28]   * collfs_lseek(10002, 0, 0) collective
+[12]   * collfs_lseek(10002, 0, 0) collective
+[8]   * collfs_lseek(10002, 0, 0) collective
+[10]   * collfs_lseek(10002, 0, 0) collective
+[14]   * collfs_lseek(10002, 0, 0) collective
+[30]   * collfs_lseek(10002, 0, 0) collective
+[11]   * collfs_lseek(10002, 0, 0) collective
+[15]   * collfs_lseek(10002, 0, 0) collective
+[31]   * collfs_lseek(10002, 0, 0) collective
+[27]   * collfs_lseek(10002, 0, 0) collective
+[6]   * collfs_lseek(10002, 0, 0) collective
+[2]   * collfs_lseek(10002, 0, 0) collective
+[18]   * collfs_lseek(10002, 0, 0) collective
+[21]   * collfs_lseek(10002, 0, 0) collective
+[17]   * collfs_lseek(10002, 0, 0) collective
+[1]   * collfs_lseek(10002, 0, 0) collective
+[5]   * collfs_lseek(10002, 0, 0) collective
+[20]   * collfs_lseek(10002, 0, 0) collective
+[16]   * collfs_lseek(10002, 0, 0) collective
+[4]   * collfs_lseek(10002, 0, 0) collective
+[0]   * collfs_lseek(3, 0, 0) collective
+[7]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[3]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[19]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[23]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[55]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[51]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[35]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[39]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[54]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[58]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[57]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[61]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[45]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[41]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[56]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[60]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[44]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[40]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[42]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[46]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[62]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[43]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[47]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[63]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[59]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[38]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[34]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[50]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[53]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[49]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[33]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[37]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[52]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[48]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[36]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[32]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[22]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[26]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[25]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[29]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[13]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[9]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[24]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[28]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[12]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[8]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[10]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[14]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[30]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[11]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[15]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[31]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[27]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[6]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[2]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[18]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[21]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[17]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[1]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[5]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[20]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[16]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[4]    * __collfs_read(10002, 0xffff5070, 2): redirected to collfs
+[7]   * collfs_read(10002, 0xffff5070, 2) collective
+[3]   * collfs_read(10002, 0xffff5070, 2) collective
+[19]   * collfs_read(10002, 0xffff5070, 2) collective
+[23]   * collfs_read(10002, 0xffff5070, 2) collective
+[55]   * collfs_read(10002, 0xffff5070, 2) collective
+[51]   * collfs_read(10002, 0xffff5070, 2) collective
+[35]   * collfs_read(10002, 0xffff5070, 2) collective
+[39]   * collfs_read(10002, 0xffff5070, 2) collective
+[54]   * collfs_read(10002, 0xffff5070, 2) collective
+[58]   * collfs_read(10002, 0xffff5070, 2) collective
+[57]   * collfs_read(10002, 0xffff5070, 2) collective
+[61]   * collfs_read(10002, 0xffff5070, 2) collective
+[45]   * collfs_read(10002, 0xffff5070, 2) collective
+[41]   * collfs_read(10002, 0xffff5070, 2) collective
+[56]   * collfs_read(10002, 0xffff5070, 2) collective
+[60]   * collfs_read(10002, 0xffff5070, 2) collective
+[44]   * collfs_read(10002, 0xffff5070, 2) collective
+[40]   * collfs_read(10002, 0xffff5070, 2) collective
+[42]   * collfs_read(10002, 0xffff5070, 2) collective
+[46]   * collfs_read(10002, 0xffff5070, 2) collective
+[62]   * collfs_read(10002, 0xffff5070, 2) collective
+[43]   * collfs_read(10002, 0xffff5070, 2) collective
+[47]   * collfs_read(10002, 0xffff5070, 2) collective
+[63]   * collfs_read(10002, 0xffff5070, 2) collective
+[59]   * collfs_read(10002, 0xffff5070, 2) collective
+[38]   * collfs_read(10002, 0xffff5070, 2) collective
+[34]   * collfs_read(10002, 0xffff5070, 2) collective
+[50]   * collfs_read(10002, 0xffff5070, 2) collective
+[53]   * collfs_read(10002, 0xffff5070, 2) collective
+[49]   * collfs_read(10002, 0xffff5070, 2) collective
+[33]   * collfs_read(10002, 0xffff5070, 2) collective
+[37]   * collfs_read(10002, 0xffff5070, 2) collective
+[52]   * collfs_read(10002, 0xffff5070, 2) collective
+[48]   * collfs_read(10002, 0xffff5070, 2) collective
+[36]   * collfs_read(10002, 0xffff5070, 2) collective
+[32]   * collfs_read(10002, 0xffff5070, 2) collective
+[22]   * collfs_read(10002, 0xffff5070, 2) collective
+[26]   * collfs_read(10002, 0xffff5070, 2) collective
+[25]   * collfs_read(10002, 0xffff5070, 2) collective
+[29]   * collfs_read(10002, 0xffff5070, 2) collective
+[13]   * collfs_read(10002, 0xffff5070, 2) collective
+[9]   * collfs_read(10002, 0xffff5070, 2) collective
+[24]   * collfs_read(10002, 0xffff5070, 2) collective
+[28]   * collfs_read(10002, 0xffff5070, 2) collective
+[12]   * collfs_read(10002, 0xffff5070, 2) collective
+[8]   * collfs_read(10002, 0xffff5070, 2) collective
+[10]   * collfs_read(10002, 0xffff5070, 2) collective
+[14]   * collfs_read(10002, 0xffff5070, 2) collective
+[30]   * collfs_read(10002, 0xffff5070, 2) collective
+[11]   * collfs_read(10002, 0xffff5070, 2) collective
+[15]   * collfs_read(10002, 0xffff5070, 2) collective
+[31]   * collfs_read(10002, 0xffff5070, 2) collective
+[27]   * collfs_read(10002, 0xffff5070, 2) collective
+[6]   * collfs_read(10002, 0xffff5070, 2) collective
+[2]   * collfs_read(10002, 0xffff5070, 2) collective
+[18]   * collfs_read(10002, 0xffff5070, 2) collective
+[21]   * collfs_read(10002, 0xffff5070, 2) collective
+[17]   * collfs_read(10002, 0xffff5070, 2) collective
+[1]   * collfs_read(10002, 0xffff5070, 2) collective
+[5]   * collfs_read(10002, 0xffff5070, 2) collective
+[20]   * collfs_read(10002, 0xffff5070, 2) collective
+[16]   * collfs_read(10002, 0xffff5070, 2) collective
+[4]   * collfs_read(10002, 0xffff5070, 2) collective
+[0]    * __collfs_read(3, 0xffff5070, 2): redirected to collfs
+[7]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[3]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[19]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[23]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[55]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[51]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[35]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[39]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[54]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[58]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[57]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[61]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[45]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[41]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[56]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[60]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[44]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[40]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[42]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[46]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[62]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[43]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[47]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[63]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[59]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[38]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[34]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[50]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[53]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[49]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[33]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[37]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[52]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[48]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[36]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[32]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[22]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[26]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[25]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[29]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[13]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[9]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[24]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[28]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[12]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[8]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[10]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[14]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[30]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[11]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[15]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[31]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[27]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[6]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[2]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[18]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[21]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[17]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[1]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[5]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[20]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[16]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[4]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[0]   * collfs_read(3, 0xffff5070, 2) collective
+[7]   * collfs_read(10002, 0xffff5070, 3) collective
+[3]   * collfs_read(10002, 0xffff5070, 3) collective
+[19]   * collfs_read(10002, 0xffff5070, 3) collective
+[23]   * collfs_read(10002, 0xffff5070, 3) collective
+[55]   * collfs_read(10002, 0xffff5070, 3) collective
+[51]   * collfs_read(10002, 0xffff5070, 3) collective
+[35]   * collfs_read(10002, 0xffff5070, 3) collective
+[39]   * collfs_read(10002, 0xffff5070, 3) collective
+[54]   * collfs_read(10002, 0xffff5070, 3) collective
+[58]   * collfs_read(10002, 0xffff5070, 3) collective
+[57]   * collfs_read(10002, 0xffff5070, 3) collective
+[61]   * collfs_read(10002, 0xffff5070, 3) collective
+[45]   * collfs_read(10002, 0xffff5070, 3) collective
+[41]   * collfs_read(10002, 0xffff5070, 3) collective
+[56]   * collfs_read(10002, 0xffff5070, 3) collective
+[60]   * collfs_read(10002, 0xffff5070, 3) collective
+[44]   * collfs_read(10002, 0xffff5070, 3) collective
+[40]   * collfs_read(10002, 0xffff5070, 3) collective
+[42]   * collfs_read(10002, 0xffff5070, 3) collective
+[46]   * collfs_read(10002, 0xffff5070, 3) collective
+[62]   * collfs_read(10002, 0xffff5070, 3) collective
+[43]   * collfs_read(10002, 0xffff5070, 3) collective
+[47]   * collfs_read(10002, 0xffff5070, 3) collective
+[63]   * collfs_read(10002, 0xffff5070, 3) collective
+[59]   * collfs_read(10002, 0xffff5070, 3) collective
+[38]   * collfs_read(10002, 0xffff5070, 3) collective
+[34]   * collfs_read(10002, 0xffff5070, 3) collective
+[50]   * collfs_read(10002, 0xffff5070, 3) collective
+[53]   * collfs_read(10002, 0xffff5070, 3) collective
+[49]   * collfs_read(10002, 0xffff5070, 3) collective
+[33]   * collfs_read(10002, 0xffff5070, 3) collective
+[37]   * collfs_read(10002, 0xffff5070, 3) collective
+[52]   * collfs_read(10002, 0xffff5070, 3) collective
+[48]   * collfs_read(10002, 0xffff5070, 3) collective
+[36]   * collfs_read(10002, 0xffff5070, 3) collective
+[32]   * collfs_read(10002, 0xffff5070, 3) collective
+[22]   * collfs_read(10002, 0xffff5070, 3) collective
+[26]   * collfs_read(10002, 0xffff5070, 3) collective
+[25]   * collfs_read(10002, 0xffff5070, 3) collective
+[29]   * collfs_read(10002, 0xffff5070, 3) collective
+[13]   * collfs_read(10002, 0xffff5070, 3) collective
+[9]   * collfs_read(10002, 0xffff5070, 3) collective
+[24]   * collfs_read(10002, 0xffff5070, 3) collective
+[28]   * collfs_read(10002, 0xffff5070, 3) collective
+[12]   * collfs_read(10002, 0xffff5070, 3) collective
+[8]   * collfs_read(10002, 0xffff5070, 3) collective
+[10]   * collfs_read(10002, 0xffff5070, 3) collective
+[14]   * collfs_read(10002, 0xffff5070, 3) collective
+[30]   * collfs_read(10002, 0xffff5070, 3) collective
+[11]   * collfs_read(10002, 0xffff5070, 3) collective
+[15]   * collfs_read(10002, 0xffff5070, 3) collective
+[31]   * collfs_read(10002, 0xffff5070, 3) collective
+[27]   * collfs_read(10002, 0xffff5070, 3) collective
+[6]   * collfs_read(10002, 0xffff5070, 3) collective
+[2]   * collfs_read(10002, 0xffff5070, 3) collective
+[18]   * collfs_read(10002, 0xffff5070, 3) collective
+[21]   * collfs_read(10002, 0xffff5070, 3) collective
+[17]   * collfs_read(10002, 0xffff5070, 3) collective
+[1]   * collfs_read(10002, 0xffff5070, 3) collective
+[5]   * collfs_read(10002, 0xffff5070, 3) collective
+[20]   * collfs_read(10002, 0xffff5070, 3) collective
+[16]   * collfs_read(10002, 0xffff5070, 3) collective
+[4]   * collfs_read(10002, 0xffff5070, 3) collective
+[7]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[3]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[19]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[23]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[55]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[51]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[35]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[39]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[54]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[58]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[57]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[61]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[45]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[41]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[56]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[60]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[44]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[40]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[42]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[46]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[62]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[43]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[47]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[63]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[59]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[38]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[34]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[50]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[53]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[49]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[33]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[37]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[52]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[48]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[36]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[32]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[22]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[26]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[25]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[29]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[13]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[9]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[24]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[28]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[12]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[8]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[10]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[14]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[30]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[11]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[15]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[31]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[27]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[6]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[2]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[18]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[21]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[17]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[1]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[5]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[20]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[16]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[4]    * __collfs_lseek(10002, 8, 1): redirected to collfs
+[0]    * __collfs_read(3, 0xffff5070, 3): redirected to collfs
+[7]   * collfs_lseek(10002, 8, 1) collective
+[3]   * collfs_lseek(10002, 8, 1) collective
+[19]   * collfs_lseek(10002, 8, 1) collective
+[23]   * collfs_lseek(10002, 8, 1) collective
+[55]   * collfs_lseek(10002, 8, 1) collective
+[51]   * collfs_lseek(10002, 8, 1) collective
+[35]   * collfs_lseek(10002, 8, 1) collective
+[39]   * collfs_lseek(10002, 8, 1) collective
+[54]   * collfs_lseek(10002, 8, 1) collective
+[58]   * collfs_lseek(10002, 8, 1) collective
+[57]   * collfs_lseek(10002, 8, 1) collective
+[61]   * collfs_lseek(10002, 8, 1) collective
+[45]   * collfs_lseek(10002, 8, 1) collective
+[41]   * collfs_lseek(10002, 8, 1) collective
+[56]   * collfs_lseek(10002, 8, 1) collective
+[60]   * collfs_lseek(10002, 8, 1) collective
+[44]   * collfs_lseek(10002, 8, 1) collective
+[40]   * collfs_lseek(10002, 8, 1) collective
+[42]   * collfs_lseek(10002, 8, 1) collective
+[46]   * collfs_lseek(10002, 8, 1) collective
+[62]   * collfs_lseek(10002, 8, 1) collective
+[43]   * collfs_lseek(10002, 8, 1) collective
+[47]   * collfs_lseek(10002, 8, 1) collective
+[63]   * collfs_lseek(10002, 8, 1) collective
+[59]   * collfs_lseek(10002, 8, 1) collective
+[38]   * collfs_lseek(10002, 8, 1) collective
+[34]   * collfs_lseek(10002, 8, 1) collective
+[50]   * collfs_lseek(10002, 8, 1) collective
+[53]   * collfs_lseek(10002, 8, 1) collective
+[49]   * collfs_lseek(10002, 8, 1) collective
+[33]   * collfs_lseek(10002, 8, 1) collective
+[37]   * collfs_lseek(10002, 8, 1) collective
+[52]   * collfs_lseek(10002, 8, 1) collective
+[48]   * collfs_lseek(10002, 8, 1) collective
+[36]   * collfs_lseek(10002, 8, 1) collective
+[32]   * collfs_lseek(10002, 8, 1) collective
+[22]   * collfs_lseek(10002, 8, 1) collective
+[26]   * collfs_lseek(10002, 8, 1) collective
+[25]   * collfs_lseek(10002, 8, 1) collective
+[29]   * collfs_lseek(10002, 8, 1) collective
+[13]   * collfs_lseek(10002, 8, 1) collective
+[9]   * collfs_lseek(10002, 8, 1) collective
+[24]   * collfs_lseek(10002, 8, 1) collective
+[28]   * collfs_lseek(10002, 8, 1) collective
+[12]   * collfs_lseek(10002, 8, 1) collective
+[8]   * collfs_lseek(10002, 8, 1) collective
+[10]   * collfs_lseek(10002, 8, 1) collective
+[14]   * collfs_lseek(10002, 8, 1) collective
+[30]   * collfs_lseek(10002, 8, 1) collective
+[11]   * collfs_lseek(10002, 8, 1) collective
+[15]   * collfs_lseek(10002, 8, 1) collective
+[31]   * collfs_lseek(10002, 8, 1) collective
+[27]   * collfs_lseek(10002, 8, 1) collective
+[6]   * collfs_lseek(10002, 8, 1) collective
+[2]   * collfs_lseek(10002, 8, 1) collective
+[18]   * collfs_lseek(10002, 8, 1) collective
+[21]   * collfs_lseek(10002, 8, 1) collective
+[17]   * collfs_lseek(10002, 8, 1) collective
+[1]   * collfs_lseek(10002, 8, 1) collective
+[5]   * collfs_lseek(10002, 8, 1) collective
+[20]   * collfs_lseek(10002, 8, 1) collective
+[16]   * collfs_lseek(10002, 8, 1) collective
+[4]   * collfs_lseek(10002, 8, 1) collective
+[0]   * collfs_read(3, 0xffff5070, 3) collective
+[7]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[3]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[19]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[23]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[55]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[51]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[35]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[39]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[54]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[58]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[57]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[61]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[45]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[41]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[56]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[60]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[44]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[40]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[42]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[46]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[62]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[43]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[47]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[63]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[59]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[38]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[34]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[50]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[53]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[49]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[33]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[37]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[52]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[48]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[36]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[32]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[22]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[26]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[25]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[29]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[13]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[9]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[24]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[28]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[12]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[8]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[10]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[14]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[30]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[11]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[15]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[31]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[27]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[6]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[2]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[18]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[21]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[17]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[1]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[5]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[20]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[16]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[4]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[7]   * collfs_read(10002, 0xffff5070, 3) collective
+[3]   * collfs_read(10002, 0xffff5070, 3) collective
+[19]   * collfs_read(10002, 0xffff5070, 3) collective
+[23]   * collfs_read(10002, 0xffff5070, 3) collective
+[55]   * collfs_read(10002, 0xffff5070, 3) collective
+[51]   * collfs_read(10002, 0xffff5070, 3) collective
+[35]   * collfs_read(10002, 0xffff5070, 3) collective
+[39]   * collfs_read(10002, 0xffff5070, 3) collective
+[54]   * collfs_read(10002, 0xffff5070, 3) collective
+[58]   * collfs_read(10002, 0xffff5070, 3) collective
+[57]   * collfs_read(10002, 0xffff5070, 3) collective
+[61]   * collfs_read(10002, 0xffff5070, 3) collective
+[45]   * collfs_read(10002, 0xffff5070, 3) collective
+[41]   * collfs_read(10002, 0xffff5070, 3) collective
+[56]   * collfs_read(10002, 0xffff5070, 3) collective
+[60]   * collfs_read(10002, 0xffff5070, 3) collective
+[44]   * collfs_read(10002, 0xffff5070, 3) collective
+[40]   * collfs_read(10002, 0xffff5070, 3) collective
+[42]   * collfs_read(10002, 0xffff5070, 3) collective
+[46]   * collfs_read(10002, 0xffff5070, 3) collective
+[62]   * collfs_read(10002, 0xffff5070, 3) collective
+[43]   * collfs_read(10002, 0xffff5070, 3) collective
+[47]   * collfs_read(10002, 0xffff5070, 3) collective
+[63]   * collfs_read(10002, 0xffff5070, 3) collective
+[59]   * collfs_read(10002, 0xffff5070, 3) collective
+[38]   * collfs_read(10002, 0xffff5070, 3) collective
+[34]   * collfs_read(10002, 0xffff5070, 3) collective
+[50]   * collfs_read(10002, 0xffff5070, 3) collective
+[53]   * collfs_read(10002, 0xffff5070, 3) collective
+[49]   * collfs_read(10002, 0xffff5070, 3) collective
+[33]   * collfs_read(10002, 0xffff5070, 3) collective
+[37]   * collfs_read(10002, 0xffff5070, 3) collective
+[52]   * collfs_read(10002, 0xffff5070, 3) collective
+[48]   * collfs_read(10002, 0xffff5070, 3) collective
+[36]   * collfs_read(10002, 0xffff5070, 3) collective
+[32]   * collfs_read(10002, 0xffff5070, 3) collective
+[22]   * collfs_read(10002, 0xffff5070, 3) collective
+[26]   * collfs_read(10002, 0xffff5070, 3) collective
+[25]   * collfs_read(10002, 0xffff5070, 3) collective
+[29]   * collfs_read(10002, 0xffff5070, 3) collective
+[13]   * collfs_read(10002, 0xffff5070, 3) collective
+[9]   * collfs_read(10002, 0xffff5070, 3) collective
+[24]   * collfs_read(10002, 0xffff5070, 3) collective
+[28]   * collfs_read(10002, 0xffff5070, 3) collective
+[12]   * collfs_read(10002, 0xffff5070, 3) collective
+[8]   * collfs_read(10002, 0xffff5070, 3) collective
+[10]   * collfs_read(10002, 0xffff5070, 3) collective
+[14]   * collfs_read(10002, 0xffff5070, 3) collective
+[30]   * collfs_read(10002, 0xffff5070, 3) collective
+[11]   * collfs_read(10002, 0xffff5070, 3) collective
+[15]   * collfs_read(10002, 0xffff5070, 3) collective
+[31]   * collfs_read(10002, 0xffff5070, 3) collective
+[27]   * collfs_read(10002, 0xffff5070, 3) collective
+[6]   * collfs_read(10002, 0xffff5070, 3) collective
+[2]   * collfs_read(10002, 0xffff5070, 3) collective
+[18]   * collfs_read(10002, 0xffff5070, 3) collective
+[21]   * collfs_read(10002, 0xffff5070, 3) collective
+[17]   * collfs_read(10002, 0xffff5070, 3) collective
+[1]   * collfs_read(10002, 0xffff5070, 3) collective
+[5]   * collfs_read(10002, 0xffff5070, 3) collective
+[20]   * collfs_read(10002, 0xffff5070, 3) collective
+[16]   * collfs_read(10002, 0xffff5070, 3) collective
+[4]   * collfs_read(10002, 0xffff5070, 3) collective
+[0]    * __collfs_lseek(3, 8, 1): redirected to collfs
+[7]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[3]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[19]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[23]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[55]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[51]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[35]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[39]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[54]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[58]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[57]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[61]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[45]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[41]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[56]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[60]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[44]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[40]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[42]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[46]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[62]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[43]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[47]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[63]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[59]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[38]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[34]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[50]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[53]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[49]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[33]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[37]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[52]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[48]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[36]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[32]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[22]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[26]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[25]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[29]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[13]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[9]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[24]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[28]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[12]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[8]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[10]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[14]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[30]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[11]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[15]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[31]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[27]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[6]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[2]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[18]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[21]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[17]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[1]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[5]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[20]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[16]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[4]    * __collfs_lseek(10002, 5, 0): redirected to collfs
+[0]   * collfs_lseek(3, 8, 1) collective
+[7]   * collfs_lseek(10002, 5, 0) collective
+[3]   * collfs_lseek(10002, 5, 0) collective
+[19]   * collfs_lseek(10002, 5, 0) collective
+[23]   * collfs_lseek(10002, 5, 0) collective
+[55]   * collfs_lseek(10002, 5, 0) collective
+[51]   * collfs_lseek(10002, 5, 0) collective
+[35]   * collfs_lseek(10002, 5, 0) collective
+[39]   * collfs_lseek(10002, 5, 0) collective
+[54]   * collfs_lseek(10002, 5, 0) collective
+[58]   * collfs_lseek(10002, 5, 0) collective
+[57]   * collfs_lseek(10002, 5, 0) collective
+[61]   * collfs_lseek(10002, 5, 0) collective
+[45]   * collfs_lseek(10002, 5, 0) collective
+[41]   * collfs_lseek(10002, 5, 0) collective
+[56]   * collfs_lseek(10002, 5, 0) collective
+[60]   * collfs_lseek(10002, 5, 0) collective
+[44]   * collfs_lseek(10002, 5, 0) collective
+[40]   * collfs_lseek(10002, 5, 0) collective
+[42]   * collfs_lseek(10002, 5, 0) collective
+[46]   * collfs_lseek(10002, 5, 0) collective
+[62]   * collfs_lseek(10002, 5, 0) collective
+[43]   * collfs_lseek(10002, 5, 0) collective
+[47]   * collfs_lseek(10002, 5, 0) collective
+[63]   * collfs_lseek(10002, 5, 0) collective
+[59]   * collfs_lseek(10002, 5, 0) collective
+[38]   * collfs_lseek(10002, 5, 0) collective
+[34]   * collfs_lseek(10002, 5, 0) collective
+[50]   * collfs_lseek(10002, 5, 0) collective
+[53]   * collfs_lseek(10002, 5, 0) collective
+[49]   * collfs_lseek(10002, 5, 0) collective
+[33]   * collfs_lseek(10002, 5, 0) collective
+[37]   * collfs_lseek(10002, 5, 0) collective
+[52]   * collfs_lseek(10002, 5, 0) collective
+[48]   * collfs_lseek(10002, 5, 0) collective
+[36]   * collfs_lseek(10002, 5, 0) collective
+[32]   * collfs_lseek(10002, 5, 0) collective
+[22]   * collfs_lseek(10002, 5, 0) collective
+[26]   * collfs_lseek(10002, 5, 0) collective
+[25]   * collfs_lseek(10002, 5, 0) collective
+[29]   * collfs_lseek(10002, 5, 0) collective
+[13]   * collfs_lseek(10002, 5, 0) collective
+[9]   * collfs_lseek(10002, 5, 0) collective
+[24]   * collfs_lseek(10002, 5, 0) collective
+[28]   * collfs_lseek(10002, 5, 0) collective
+[12]   * collfs_lseek(10002, 5, 0) collective
+[8]   * collfs_lseek(10002, 5, 0) collective
+[10]   * collfs_lseek(10002, 5, 0) collective
+[14]   * collfs_lseek(10002, 5, 0) collective
+[30]   * collfs_lseek(10002, 5, 0) collective
+[11]   * collfs_lseek(10002, 5, 0) collective
+[15]   * collfs_lseek(10002, 5, 0) collective
+[31]   * collfs_lseek(10002, 5, 0) collective
+[27]   * collfs_lseek(10002, 5, 0) collective
+[6]   * collfs_lseek(10002, 5, 0) collective
+[2]   * collfs_lseek(10002, 5, 0) collective
+[18]   * collfs_lseek(10002, 5, 0) collective
+[21]   * collfs_lseek(10002, 5, 0) collective
+[17]   * collfs_lseek(10002, 5, 0) collective
+[1]   * collfs_lseek(10002, 5, 0) collective
+[5]   * collfs_lseek(10002, 5, 0) collective
+[20]   * collfs_lseek(10002, 5, 0) collective
+[16]   * collfs_lseek(10002, 5, 0) collective
+[4]   * collfs_lseek(10002, 5, 0) collective
+[7]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[3]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[19]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[23]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[55]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[0]    * __collfs_read(3, 0xffff5070, 3): redirected to collfs
+[51]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[35]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[39]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[54]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[58]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[57]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[61]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[45]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[41]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[56]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[60]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[44]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[40]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[42]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[46]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[62]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[43]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[47]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[63]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[59]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[38]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[34]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[50]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[53]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[49]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[33]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[37]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[52]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[48]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[36]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[32]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[22]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[26]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[25]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[29]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[13]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[9]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[24]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[28]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[12]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[8]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[10]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[14]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[30]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[11]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[15]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[31]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[27]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[6]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[2]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[18]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[21]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[17]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[1]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[5]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[7]   * collfs_read(10002, 0xffff5070, 3) collective
+[20]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[16]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[4]    * __collfs_read(10002, 0xffff5070, 3): redirected to collfs
+[3]   * collfs_read(10002, 0xffff5070, 3) collective
+[19]   * collfs_read(10002, 0xffff5070, 3) collective
+[23]   * collfs_read(10002, 0xffff5070, 3) collective
+[55]   * collfs_read(10002, 0xffff5070, 3) collective
+[51]   * collfs_read(10002, 0xffff5070, 3) collective
+[35]   * collfs_read(10002, 0xffff5070, 3) collective
+[39]   * collfs_read(10002, 0xffff5070, 3) collective
+[54]   * collfs_read(10002, 0xffff5070, 3) collective
+[0]   * collfs_read(3, 0xffff5070, 3) collective
+[58]   * collfs_read(10002, 0xffff5070, 3) collective
+[57]   * collfs_read(10002, 0xffff5070, 3) collective
+[61]   * collfs_read(10002, 0xffff5070, 3) collective
+[45]   * collfs_read(10002, 0xffff5070, 3) collective
+[41]   * collfs_read(10002, 0xffff5070, 3) collective
+[56]   * collfs_read(10002, 0xffff5070, 3) collective
+[60]   * collfs_read(10002, 0xffff5070, 3) collective
+[44]   * collfs_read(10002, 0xffff5070, 3) collective
+[40]   * collfs_read(10002, 0xffff5070, 3) collective
+[42]   * collfs_read(10002, 0xffff5070, 3) collective
+[46]   * collfs_read(10002, 0xffff5070, 3) collective
+[62]   * collfs_read(10002, 0xffff5070, 3) collective
+[43]   * collfs_read(10002, 0xffff5070, 3) collective
+[47]   * collfs_read(10002, 0xffff5070, 3) collective
+[63]   * collfs_read(10002, 0xffff5070, 3) collective
+[59]   * collfs_read(10002, 0xffff5070, 3) collective
+[38]   * collfs_read(10002, 0xffff5070, 3) collective
+[34]   * collfs_read(10002, 0xffff5070, 3) collective
+[50]   * collfs_read(10002, 0xffff5070, 3) collective
+[53]   * collfs_read(10002, 0xffff5070, 3) collective
+[49]   * collfs_read(10002, 0xffff5070, 3) collective
+[33]   * collfs_read(10002, 0xffff5070, 3) collective
+[37]   * collfs_read(10002, 0xffff5070, 3) collective
+[52]   * collfs_read(10002, 0xffff5070, 3) collective
+[48]   * collfs_read(10002, 0xffff5070, 3) collective
+[36]   * collfs_read(10002, 0xffff5070, 3) collective
+[32]   * collfs_read(10002, 0xffff5070, 3) collective
+[22]   * collfs_read(10002, 0xffff5070, 3) collective
+[26]   * collfs_read(10002, 0xffff5070, 3) collective
+[25]   * collfs_read(10002, 0xffff5070, 3) collective
+[29]   * collfs_read(10002, 0xffff5070, 3) collective
+[13]   * collfs_read(10002, 0xffff5070, 3) collective
+[9]   * collfs_read(10002, 0xffff5070, 3) collective
+[24]   * collfs_read(10002, 0xffff5070, 3) collective
+[28]   * collfs_read(10002, 0xffff5070, 3) collective
+[12]   * collfs_read(10002, 0xffff5070, 3) collective
+[8]   * collfs_read(10002, 0xffff5070, 3) collective
+[10]   * collfs_read(10002, 0xffff5070, 3) collective
+[14]   * collfs_read(10002, 0xffff5070, 3) collective
+[30]   * collfs_read(10002, 0xffff5070, 3) collective
+[11]   * collfs_read(10002, 0xffff5070, 3) collective
+[15]   * collfs_read(10002, 0xffff5070, 3) collective
+[31]   * collfs_read(10002, 0xffff5070, 3) collective
+[27]   * collfs_read(10002, 0xffff5070, 3) collective
+[6]   * collfs_read(10002, 0xffff5070, 3) collective
+[2]   * collfs_read(10002, 0xffff5070, 3) collective
+[18]   * collfs_read(10002, 0xffff5070, 3) collective
+[21]   * collfs_read(10002, 0xffff5070, 3) collective
+[17]   * collfs_read(10002, 0xffff5070, 3) collective
+[1]   * collfs_read(10002, 0xffff5070, 3) collective
+[5]   * collfs_read(10002, 0xffff5070, 3) collective
+[20]   * collfs_read(10002, 0xffff5070, 3) collective
+[16]   * collfs_read(10002, 0xffff5070, 3) collective
+[4]   * collfs_read(10002, 0xffff5070, 3) collective
+[0]    * __collfs_lseek(3, 5, 0): redirected to collfs
+[0]   * collfs_lseek(3, 5, 0) collective
+[0]    * __collfs_read(3, 0xffff5070, 3): redirected to collfs
+[0]   * collfs_read(3, 0xffff5070, 3) collective
+[7]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[3]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[19]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[23]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[55]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[51]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[35]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[39]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[54]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[58]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[57]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[61]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[45]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[41]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[56]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[60]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[44]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[40]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[42]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[46]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[62]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[43]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[47]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[63]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[59]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[38]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[34]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[50]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[53]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[49]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[33]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[37]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[52]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[48]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[36]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[32]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[22]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[26]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[25]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[29]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[13]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[9]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[24]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[28]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[12]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[8]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[10]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[14]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[30]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[11]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[15]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[31]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[27]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[6]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[2]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[18]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[21]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[17]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[1]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[5]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[20]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[16]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[4]    * __collfs_mmap((nil), 12, 1, 2, 10002, 0): redirected to collfs
+[0]    * __collfs_mmap((nil), 12, 1, 2, 3, 0): redirected to collfs
+[7]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[3]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[19]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[23]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[55]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[51]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[35]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[39]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[54]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[58]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[57]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[61]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[45]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[41]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[56]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[60]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[44]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[40]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[42]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[46]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[62]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[43]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[47]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[63]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[59]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[38]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[34]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[50]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[53]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[49]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[33]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[37]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[52]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[48]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[36]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[32]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[22]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[26]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[25]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[29]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[13]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[9]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[24]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[28]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[12]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[8]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[10]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[14]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[30]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[11]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[15]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[31]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[27]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[6]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[2]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[18]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[21]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[17]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[1]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[5]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[20]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[16]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[4]   * collfs_mmap((nil), 12, 1, 2, 10002, 0) collective
+[7]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[3]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[19]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[0]   * collfs_mmap((nil), 12, 1, 2, 3, 0) collective
+[23]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[55]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[51]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[35]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[39]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[54]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[58]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[57]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[61]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[45]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[41]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[56]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[60]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[44]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[40]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[42]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[46]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[62]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[43]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[47]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[63]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[59]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[38]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[34]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[50]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[53]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[49]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[33]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[37]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[52]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[48]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[36]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[32]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[22]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[26]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[25]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[29]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[13]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[9]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[24]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[28]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[12]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[8]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[10]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[14]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[30]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[11]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[15]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[31]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[27]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[6]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[2]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[18]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[21]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[17]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[1]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[5]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[20]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[16]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[7]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[3]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[4]    * __collfs_mmap((nil), 20, 1, 2, 10002, 0): redirected to collfs
+[19]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[23]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[55]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[0]    * __collfs_mmap((nil), 20, 1, 2, 3, 0): redirected to collfs
+[51]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[35]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[39]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[54]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[58]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[57]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[61]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[45]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[41]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[56]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[60]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[44]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[40]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[42]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[46]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[62]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[43]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[47]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[63]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[59]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[38]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[34]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[50]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[53]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[49]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[33]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[37]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[52]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[48]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[36]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[32]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[22]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[26]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[25]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[29]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[13]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[9]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[24]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[28]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[12]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[8]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[10]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[14]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[30]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[11]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[15]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[31]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[27]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[6]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[2]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[18]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[21]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[17]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[1]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[5]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[7]    * __collfs_close(10002): redirected to collfs
+[3]    * __collfs_close(10002): redirected to collfs
+[20]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[16]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[19]    * __collfs_close(10002): redirected to collfs
+[23]    * __collfs_close(10002): redirected to collfs
+[55]    * __collfs_close(10002): redirected to collfs
+[4]   * collfs_mmap((nil), 20, 1, 2, 10002, 0) collective
+[51]    * __collfs_close(10002): redirected to collfs
+[35]    * __collfs_close(10002): redirected to collfs
+[39]    * __collfs_close(10002): redirected to collfs
+[0]   * collfs_mmap((nil), 20, 1, 2, 3, 0) collective
+[54]    * __collfs_close(10002): redirected to collfs
+[58]    * __collfs_close(10002): redirected to collfs
+[57]    * __collfs_close(10002): redirected to collfs
+[61]    * __collfs_close(10002): redirected to collfs
+[45]    * __collfs_close(10002): redirected to collfs
+[41]    * __collfs_close(10002): redirected to collfs
+[56]    * __collfs_close(10002): redirected to collfs
+[60]    * __collfs_close(10002): redirected to collfs
+[44]    * __collfs_close(10002): redirected to collfs
+[40]    * __collfs_close(10002): redirected to collfs
+[42]    * __collfs_close(10002): redirected to collfs
+[46]    * __collfs_close(10002): redirected to collfs
+[62]    * __collfs_close(10002): redirected to collfs
+[43]    * __collfs_close(10002): redirected to collfs
+[47]    * __collfs_close(10002): redirected to collfs
+[63]    * __collfs_close(10002): redirected to collfs
+[59]    * __collfs_close(10002): redirected to collfs
+[38]    * __collfs_close(10002): redirected to collfs
+[34]    * __collfs_close(10002): redirected to collfs
+[50]    * __collfs_close(10002): redirected to collfs
+[53]    * __collfs_close(10002): redirected to collfs
+[49]    * __collfs_close(10002): redirected to collfs
+[33]    * __collfs_close(10002): redirected to collfs
+[37]    * __collfs_close(10002): redirected to collfs
+[52]    * __collfs_close(10002): redirected to collfs
+[48]    * __collfs_close(10002): redirected to collfs
+[36]    * __collfs_close(10002): redirected to collfs
+[32]    * __collfs_close(10002): redirected to collfs
+[22]    * __collfs_close(10002): redirected to collfs
+[26]    * __collfs_close(10002): redirected to collfs
+[25]    * __collfs_close(10002): redirected to collfs
+[29]    * __collfs_close(10002): redirected to collfs
+[13]    * __collfs_close(10002): redirected to collfs
+[9]    * __collfs_close(10002): redirected to collfs
+[24]    * __collfs_close(10002): redirected to collfs
+[28]    * __collfs_close(10002): redirected to collfs
+[12]    * __collfs_close(10002): redirected to collfs
+[8]    * __collfs_close(10002): redirected to collfs
+[10]    * __collfs_close(10002): redirected to collfs
+[14]    * __collfs_close(10002): redirected to collfs
+[30]    * __collfs_close(10002): redirected to collfs
+[11]    * __collfs_close(10002): redirected to collfs
+[15]    * __collfs_close(10002): redirected to collfs
+[31]    * __collfs_close(10002): redirected to collfs
+[27]    * __collfs_close(10002): redirected to collfs
+[6]    * __collfs_close(10002): redirected to collfs
+[2]    * __collfs_close(10002): redirected to collfs
+[18]    * __collfs_close(10002): redirected to collfs
+[21]    * __collfs_close(10002): redirected to collfs
+[7]   * collfs_close(10002) collective
+[17]    * __collfs_close(10002): redirected to collfs
+[1]    * __collfs_close(10002): redirected to collfs
+[5]    * __collfs_close(10002): redirected to collfs
+[3]   * collfs_close(10002) collective
+[19]   * collfs_close(10002) collective
+[23]   * collfs_close(10002) collective
+[20]    * __collfs_close(10002): redirected to collfs
+[16]    * __collfs_close(10002): redirected to collfs
+[55]   * collfs_close(10002) collective
+[51]   * collfs_close(10002) collective
+[35]   * collfs_close(10002) collective
+[4]    * __collfs_close(10002): redirected to collfs
+[39]   * collfs_close(10002) collective
+[54]   * collfs_close(10002) collective
+[58]   * collfs_close(10002) collective
+[0]    * __collfs_close(3): redirected to collfs
+[57]   * collfs_close(10002) collective
+[61]   * collfs_close(10002) collective
+[45]   * collfs_close(10002) collective
+[41]   * collfs_close(10002) collective
+[56]   * collfs_close(10002) collective
+[60]   * collfs_close(10002) collective
+[44]   * collfs_close(10002) collective
+[40]   * collfs_close(10002) collective
+[42]   * collfs_close(10002) collective
+[46]   * collfs_close(10002) collective
+[62]   * collfs_close(10002) collective
+[43]   * collfs_close(10002) collective
+[47]   * collfs_close(10002) collective
+[63]   * collfs_close(10002) collective
+[59]   * collfs_close(10002) collective
+[38]   * collfs_close(10002) collective
+[34]   * collfs_close(10002) collective
+[50]   * collfs_close(10002) collective
+[53]   * collfs_close(10002) collective
+[49]   * collfs_close(10002) collective
+[33]   * collfs_close(10002) collective
+[37]   * collfs_close(10002) collective
+[52]   * collfs_close(10002) collective
+[48]   * collfs_close(10002) collective
+[36]   * collfs_close(10002) collective
+[32]   * collfs_close(10002) collective
+[22]   * collfs_close(10002) collective
+[26]   * collfs_close(10002) collective
+[25]   * collfs_close(10002) collective
+[29]   * collfs_close(10002) collective
+[13]   * collfs_close(10002) collective
+[9]   * collfs_close(10002) collective
+[24]   * collfs_close(10002) collective
+[28]   * collfs_close(10002) collective
+[12]   * collfs_close(10002) collective
+[8]   * collfs_close(10002) collective
+[10]   * collfs_close(10002) collective
+[14]   * collfs_close(10002) collective
+[30]   * collfs_close(10002) collective
+[11]   * collfs_close(10002) collective
+[15]   * collfs_close(10002) collective
+[31]   * collfs_close(10002) collective
+[27]   * collfs_close(10002) collective
+[6]   * collfs_close(10002) collective
+[2]   * collfs_close(10002) collective
+[18]   * collfs_close(10002) collective
+[21]   * collfs_close(10002) collective
+[17]   * collfs_close(10002) collective
+[1]   * collfs_close(10002) collective
+[5]   * collfs_close(10002) collective
+[20]   * collfs_close(10002) collective
+[16]   * collfs_close(10002) collective
+[4]   * collfs_close(10002) collective
+[0]   * collfs_close(3) collective
+[7]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[3]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[19]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[23]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[55]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[51]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[35]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[39]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[54]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[58]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[57]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[61]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[45]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[41]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[56]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[60]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[44]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[40]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[42]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[46]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[62]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[43]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[47]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[63]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[59]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[38]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[34]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[50]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[53]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[49]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[33]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[37]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[52]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[48]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[36]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[32]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[22]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[26]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[25]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[29]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[13]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[9]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[24]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[28]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[12]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[8]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[10]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[14]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[30]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[11]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[15]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[31]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[27]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[6]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[2]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[18]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[21]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[17]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[1]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[5]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[20]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[16]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[4]    * __collfs_munmap(0x170b8e0, 20): redirected to collfs
+[0]    * __collfs_munmap(0x25df000, 20): redirected to collfs
+[7]   * collfs_munmap(0x170b8e0, 20) collective
+[3]   * collfs_munmap(0x170b8e0, 20) collective
+[19]   * collfs_munmap(0x170b8e0, 20) collective
+[23]   * collfs_munmap(0x170b8e0, 20) collective
+[55]   * collfs_munmap(0x170b8e0, 20) collective
+[51]   * collfs_munmap(0x170b8e0, 20) collective
+[35]   * collfs_munmap(0x170b8e0, 20) collective
+[39]   * collfs_munmap(0x170b8e0, 20) collective
+[54]   * collfs_munmap(0x170b8e0, 20) collective
+[58]   * collfs_munmap(0x170b8e0, 20) collective
+[57]   * collfs_munmap(0x170b8e0, 20) collective
+[61]   * collfs_munmap(0x170b8e0, 20) collective
+[45]   * collfs_munmap(0x170b8e0, 20) collective
+[41]   * collfs_munmap(0x170b8e0, 20) collective
+[56]   * collfs_munmap(0x170b8e0, 20) collective
+[60]   * collfs_munmap(0x170b8e0, 20) collective
+[44]   * collfs_munmap(0x170b8e0, 20) collective
+[40]   * collfs_munmap(0x170b8e0, 20) collective
+[42]   * collfs_munmap(0x170b8e0, 20) collective
+[46]   * collfs_munmap(0x170b8e0, 20) collective
+[62]   * collfs_munmap(0x170b8e0, 20) collective
+[43]   * collfs_munmap(0x170b8e0, 20) collective
+[47]   * collfs_munmap(0x170b8e0, 20) collective
+[63]   * collfs_munmap(0x170b8e0, 20) collective
+[59]   * collfs_munmap(0x170b8e0, 20) collective
+[38]   * collfs_munmap(0x170b8e0, 20) collective
+[34]   * collfs_munmap(0x170b8e0, 20) collective
+[50]   * collfs_munmap(0x170b8e0, 20) collective
+[53]   * collfs_munmap(0x170b8e0, 20) collective
+[49]   * collfs_munmap(0x170b8e0, 20) collective
+[33]   * collfs_munmap(0x170b8e0, 20) collective
+[37]   * collfs_munmap(0x170b8e0, 20) collective
+[52]   * collfs_munmap(0x170b8e0, 20) collective
+[48]   * collfs_munmap(0x170b8e0, 20) collective
+[36]   * collfs_munmap(0x170b8e0, 20) collective
+[32]   * collfs_munmap(0x170b8e0, 20) collective
+[22]   * collfs_munmap(0x170b8e0, 20) collective
+[26]   * collfs_munmap(0x170b8e0, 20) collective
+[25]   * collfs_munmap(0x170b8e0, 20) collective
+[29]   * collfs_munmap(0x170b8e0, 20) collective
+[13]   * collfs_munmap(0x170b8e0, 20) collective
+[9]   * collfs_munmap(0x170b8e0, 20) collective
+[24]   * collfs_munmap(0x170b8e0, 20) collective
+[28]   * collfs_munmap(0x170b8e0, 20) collective
+[12]   * collfs_munmap(0x170b8e0, 20) collective
+[8]   * collfs_munmap(0x170b8e0, 20) collective
+[10]   * collfs_munmap(0x170b8e0, 20) collective
+[14]   * collfs_munmap(0x170b8e0, 20) collective
+[30]   * collfs_munmap(0x170b8e0, 20) collective
+[11]   * collfs_munmap(0x170b8e0, 20) collective
+[15]   * collfs_munmap(0x170b8e0, 20) collective
+[31]   * collfs_munmap(0x170b8e0, 20) collective
+[27]   * collfs_munmap(0x170b8e0, 20) collective
+[6]   * collfs_munmap(0x170b8e0, 20) collective
+[2]   * collfs_munmap(0x170b8e0, 20) collective
+[18]   * collfs_munmap(0x170b8e0, 20) collective
+[21]   * collfs_munmap(0x170b8e0, 20) collective
+[17]   * collfs_munmap(0x170b8e0, 20) collective
+[1]   * collfs_munmap(0x170b8e0, 20) collective
+[5]   * collfs_munmap(0x170b8e0, 20) collective
+[7]   * collfs_close(10002) collective
+[20]   * collfs_munmap(0x170b8e0, 20) collective
+[16]   * collfs_munmap(0x170b8e0, 20) collective
+[4]   * collfs_munmap(0x170b8e0, 20) collective
+[0]   * collfs_munmap(0x25df000, 20) collective
+[3]   * collfs_close(10002) collective
+[19]   * collfs_close(10002) collective
+[23]   * collfs_close(10002) collective
+[55]   * collfs_close(10002) collective
+[51]   * collfs_close(10002) collective
+[35]   * collfs_close(10002) collective
+[39]   * collfs_close(10002) collective
+[54]   * collfs_close(10002) collective
+[58]   * collfs_close(10002) collective
+[57]   * collfs_close(10002) collective
+[61]   * collfs_close(10002) collective
+[45]   * collfs_close(10002) collective
+[41]   * collfs_close(10002) collective
+[56]   * collfs_close(10002) collective
+[60]   * collfs_close(10002) collective
+[44]   * collfs_close(10002) collective
+[40]   * collfs_close(10002) collective
+[42]   * collfs_close(10002) collective
+[46]   * collfs_close(10002) collective
+[62]   * collfs_close(10002) collective
+[43]   * collfs_close(10002) collective
+[47]   * collfs_close(10002) collective
+[63]   * collfs_close(10002) collective
+[59]   * collfs_close(10002) collective
+[38]   * collfs_close(10002) collective
+[34]   * collfs_close(10002) collective
+[50]   * collfs_close(10002) collective
+[53]   * collfs_close(10002) collective
+[49]   * collfs_close(10002) collective
+[33]   * collfs_close(10002) collective
+[37]   * collfs_close(10002) collective
+[52]   * collfs_close(10002) collective
+[48]   * collfs_close(10002) collective
+[36]   * collfs_close(10002) collective
+[32]   * collfs_close(10002) collective
+[22]   * collfs_close(10002) collective
+[26]   * collfs_close(10002) collective
+[25]   * collfs_close(10002) collective
+[29]   * collfs_close(10002) collective
+[13]   * collfs_close(10002) collective
+[9]   * collfs_close(10002) collective
+[24]   * collfs_close(10002) collective
+[28]   * collfs_close(10002) collective
+[12]   * collfs_close(10002) collective
+[8]   * collfs_close(10002) collective
+[10]   * collfs_close(10002) collective
+[14]   * collfs_close(10002) collective
+[30]   * collfs_close(10002) collective
+[11]   * collfs_close(10002) collective
+[15]   * collfs_close(10002) collective
+[31]   * collfs_close(10002) collective
+[27]   * collfs_close(10002) collective
+[6]   * collfs_close(10002) collective
+[2]   * collfs_close(10002) collective
+[18]   * collfs_close(10002) collective
+[21]   * collfs_close(10002) collective
+[17]   * collfs_close(10002) collective
+[1]   * collfs_close(10002) collective
+[7]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[5]   * collfs_close(10002) collective
+[20]   * collfs_close(10002) collective
+[16]   * collfs_close(10002) collective
+[3]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[19]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[4]   * collfs_close(10002) collective
+[0]   * collfs_close(3) collective
+[23]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[55]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[51]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[35]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[39]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[54]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[58]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[57]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[61]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[45]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[41]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[56]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[60]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[44]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[40]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[42]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[46]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[62]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[43]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[47]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[63]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[59]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[38]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[34]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[50]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[53]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[49]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[33]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[37]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[52]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[48]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[36]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[32]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[22]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[26]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[25]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[29]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[13]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[9]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[24]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[28]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[12]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[8]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[10]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[14]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[30]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[11]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[15]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[31]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[27]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[6]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[2]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[18]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[21]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[7]   * collfs_munmap(0x170b8e0, 12) collective
+[17]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[1]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[5]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[3]   * collfs_munmap(0x170b8e0, 12) collective
+[19]   * collfs_munmap(0x170b8e0, 12) collective
+[20]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[16]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[4]    * __collfs_munmap(0x170b8e0, 12): redirected to collfs
+[23]   * collfs_munmap(0x170b8e0, 12) collective
+[55]   * collfs_munmap(0x170b8e0, 12) collective
+[51]   * collfs_munmap(0x170b8e0, 12) collective
+[0]    * __collfs_munmap(0x25df000, 12): redirected to collfs
+[35]   * collfs_munmap(0x170b8e0, 12) collective
+[39]   * collfs_munmap(0x170b8e0, 12) collective
+[54]   * collfs_munmap(0x170b8e0, 12) collective
+[58]   * collfs_munmap(0x170b8e0, 12) collective
+[57]   * collfs_munmap(0x170b8e0, 12) collective
+[61]   * collfs_munmap(0x170b8e0, 12) collective
+[45]   * collfs_munmap(0x170b8e0, 12) collective
+[41]   * collfs_munmap(0x170b8e0, 12) collective
+[56]   * collfs_munmap(0x170b8e0, 12) collective
+[60]   * collfs_munmap(0x170b8e0, 12) collective
+[44]   * collfs_munmap(0x170b8e0, 12) collective
+[40]   * collfs_munmap(0x170b8e0, 12) collective
+[42]   * collfs_munmap(0x170b8e0, 12) collective
+[46]   * collfs_munmap(0x170b8e0, 12) collective
+[62]   * collfs_munmap(0x170b8e0, 12) collective
+[43]   * collfs_munmap(0x170b8e0, 12) collective
+[47]   * collfs_munmap(0x170b8e0, 12) collective
+[63]   * collfs_munmap(0x170b8e0, 12) collective
+[59]   * collfs_munmap(0x170b8e0, 12) collective
+[38]   * collfs_munmap(0x170b8e0, 12) collective
+[34]   * collfs_munmap(0x170b8e0, 12) collective
+[50]   * collfs_munmap(0x170b8e0, 12) collective
+[53]   * collfs_munmap(0x170b8e0, 12) collective
+[49]   * collfs_munmap(0x170b8e0, 12) collective
+[33]   * collfs_munmap(0x170b8e0, 12) collective
+[37]   * collfs_munmap(0x170b8e0, 12) collective
+[52]   * collfs_munmap(0x170b8e0, 12) collective
+[48]   * collfs_munmap(0x170b8e0, 12) collective
+[36]   * collfs_munmap(0x170b8e0, 12) collective
+[32]   * collfs_munmap(0x170b8e0, 12) collective
+[22]   * collfs_munmap(0x170b8e0, 12) collective
+[26]   * collfs_munmap(0x170b8e0, 12) collective
+[25]   * collfs_munmap(0x170b8e0, 12) collective
+[29]   * collfs_munmap(0x170b8e0, 12) collective
+[13]   * collfs_munmap(0x170b8e0, 12) collective
+[9]   * collfs_munmap(0x170b8e0, 12) collective
+[24]   * collfs_munmap(0x170b8e0, 12) collective
+[28]   * collfs_munmap(0x170b8e0, 12) collective
+[12]   * collfs_munmap(0x170b8e0, 12) collective
+[8]   * collfs_munmap(0x170b8e0, 12) collective
+[10]   * collfs_munmap(0x170b8e0, 12) collective
+[14]   * collfs_munmap(0x170b8e0, 12) collective
+[30]   * collfs_munmap(0x170b8e0, 12) collective
+[11]   * collfs_munmap(0x170b8e0, 12) collective
+[15]   * collfs_munmap(0x170b8e0, 12) collective
+[31]   * collfs_munmap(0x170b8e0, 12) collective
+[27]   * collfs_munmap(0x170b8e0, 12) collective
+[7]   * collfs_close(10002) collective
+[6]   * collfs_munmap(0x170b8e0, 12) collective
+[2]   * collfs_munmap(0x170b8e0, 12) collective
+[18]   * collfs_munmap(0x170b8e0, 12) collective
+[21]   * collfs_munmap(0x170b8e0, 12) collective
+[3]   * collfs_close(10002) collective
+[17]   * collfs_munmap(0x170b8e0, 12) collective
+[1]   * collfs_munmap(0x170b8e0, 12) collective
+[5]   * collfs_munmap(0x170b8e0, 12) collective
+[19]   * collfs_close(10002) collective
+[23]   * collfs_close(10002) collective
+[20]   * collfs_munmap(0x170b8e0, 12) collective
+[16]   * collfs_munmap(0x170b8e0, 12) collective
+[4]   * collfs_munmap(0x170b8e0, 12) collective
+[55]   * collfs_close(10002) collective
+[51]   * collfs_close(10002) collective
+[35]   * collfs_close(10002) collective
+[0]   * collfs_munmap(0x25df000, 12) collective
+[39]   * collfs_close(10002) collective
+[54]   * collfs_close(10002) collective
+[58]   * collfs_close(10002) collective
+[57]   * collfs_close(10002) collective
+[61]   * collfs_close(10002) collective
+[45]   * collfs_close(10002) collective
+[41]   * collfs_close(10002) collective
+[56]   * collfs_close(10002) collective
+[60]   * collfs_close(10002) collective
+[44]   * collfs_close(10002) collective
+[40]   * collfs_close(10002) collective
+[42]   * collfs_close(10002) collective
+[46]   * collfs_close(10002) collective
+[62]   * collfs_close(10002) collective
+[43]   * collfs_close(10002) collective
+[47]   * collfs_close(10002) collective
+[63]   * collfs_close(10002) collective
+[59]   * collfs_close(10002) collective
+[38]   * collfs_close(10002) collective
+[34]   * collfs_close(10002) collective
+[50]   * collfs_close(10002) collective
+[53]   * collfs_close(10002) collective
+[49]   * collfs_close(10002) collective
+[33]   * collfs_close(10002) collective
+[37]   * collfs_close(10002) collective
+[52]   * collfs_close(10002) collective
+[48]   * collfs_close(10002) collective
+[36]   * collfs_close(10002) collective
+[32]   * collfs_close(10002) collective
+[22]   * collfs_close(10002) collective
+[26]   * collfs_close(10002) collective
+[25]   * collfs_close(10002) collective
+[29]   * collfs_close(10002) collective
+[13]   * collfs_close(10002) collective
+[9]   * collfs_close(10002) collective
+[24]   * collfs_close(10002) collective
+[28]   * collfs_close(10002) collective
+[12]   * collfs_close(10002) collective
+[8]   * collfs_close(10002) collective
+[10]   * collfs_close(10002) collective
+[14]   * collfs_close(10002) collective
+[30]   * collfs_close(10002) collective
+[11]   * collfs_close(10002) collective
+[15]   * collfs_close(10002) collective
+[31]   * collfs_close(10002) collective
+[27]   * collfs_close(10002) collective
+[6]   * collfs_close(10002) collective
+[2]   * collfs_close(10002) collective
+[18]   * collfs_close(10002) collective
+[21]   * collfs_close(10002) collective
+[17]   * collfs_close(10002) collective
+[1]   * collfs_close(10002) collective
+[5]   * collfs_close(10002) collective
+[20]   * collfs_close(10002) collective
+[16]   * collfs_close(10002) collective
+[4]   * collfs_close(10002) collective
+[0]   * collfs_close(3) collective
+[7]  * libc_collfs_finalize: Deregistered external API
+[3]  * libc_collfs_finalize: Deregistered external API
+[19]  * libc_collfs_finalize: Deregistered external API
+[23]  * libc_collfs_finalize: Deregistered external API
+[55]  * libc_collfs_finalize: Deregistered external API
+[51]  * libc_collfs_finalize: Deregistered external API
+[35]  * libc_collfs_finalize: Deregistered external API
+[39]  * libc_collfs_finalize: Deregistered external API
+[54]  * libc_collfs_finalize: Deregistered external API
+[58]  * libc_collfs_finalize: Deregistered external API
+[57]  * libc_collfs_finalize: Deregistered external API
+[61]  * libc_collfs_finalize: Deregistered external API
+[45]  * libc_collfs_finalize: Deregistered external API
+[41]  * libc_collfs_finalize: Deregistered external API
+[56]  * libc_collfs_finalize: Deregistered external API
+[60]  * libc_collfs_finalize: Deregistered external API
+[44]  * libc_collfs_finalize: Deregistered external API
+[40]  * libc_collfs_finalize: Deregistered external API
+[42]  * libc_collfs_finalize: Deregistered external API
+[46]  * libc_collfs_finalize: Deregistered external API
+[62]  * libc_collfs_finalize: Deregistered external API
+[43]  * libc_collfs_finalize: Deregistered external API
+[47]  * libc_collfs_finalize: Deregistered external API
+[63]  * libc_collfs_finalize: Deregistered external API
+[59]  * libc_collfs_finalize: Deregistered external API
+[38]  * libc_collfs_finalize: Deregistered external API
+[34]  * libc_collfs_finalize: Deregistered external API
+[50]  * libc_collfs_finalize: Deregistered external API
+[53]  * libc_collfs_finalize: Deregistered external API
+[49]  * libc_collfs_finalize: Deregistered external API
+[33]  * libc_collfs_finalize: Deregistered external API
+[37]  * libc_collfs_finalize: Deregistered external API
+[52]  * libc_collfs_finalize: Deregistered external API
+[48]  * libc_collfs_finalize: Deregistered external API
+[36]  * libc_collfs_finalize: Deregistered external API
+[32]  * libc_collfs_finalize: Deregistered external API
+[22]  * libc_collfs_finalize: Deregistered external API
+[26]  * libc_collfs_finalize: Deregistered external API
+[25]  * libc_collfs_finalize: Deregistered external API
+[29]  * libc_collfs_finalize: Deregistered external API
+[13]  * libc_collfs_finalize: Deregistered external API
+[9]  * libc_collfs_finalize: Deregistered external API
+[24]  * libc_collfs_finalize: Deregistered external API
+[28]  * libc_collfs_finalize: Deregistered external API
+[12]  * libc_collfs_finalize: Deregistered external API
+[8]  * libc_collfs_finalize: Deregistered external API
+[10]  * libc_collfs_finalize: Deregistered external API
+[14]  * libc_collfs_finalize: Deregistered external API
+[30]  * libc_collfs_finalize: Deregistered external API
+[11]  * libc_collfs_finalize: Deregistered external API
+[15]  * libc_collfs_finalize: Deregistered external API
+[31]  * libc_collfs_finalize: Deregistered external API
+[27]  * libc_collfs_finalize: Deregistered external API
+[6]  * libc_collfs_finalize: Deregistered external API
+[2]  * libc_collfs_finalize: Deregistered external API
+[18]  * libc_collfs_finalize: Deregistered external API
+[21]  * libc_collfs_finalize: Deregistered external API
+[17]  * libc_collfs_finalize: Deregistered external API
+[1]  * libc_collfs_finalize: Deregistered external API
+[5]  * libc_collfs_finalize: Deregistered external API
+[20]  * libc_collfs_finalize: Deregistered external API
+[16]  * libc_collfs_finalize: Deregistered external API
+[4]  * libc_collfs_finalize: Deregistered external API
+[0]  * libc_collfs_finalize: Deregistered external API

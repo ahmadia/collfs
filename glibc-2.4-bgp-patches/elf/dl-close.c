@@ -33,7 +33,9 @@
 #ifndef IS_IN_rtld
 int __collfs_munmap(__ptr_t addr, size_t len);
 #undef DL_UNMAP
-#define DL_UNMAP(map) __collfs_unmap (map)
+# define DL_UNMAP(map) \
+ __collfs_munmap ((void *) (map)->l_map_start,					      \
+	   (map)->l_map_end - (map)->l_map_start)
 #endif
 
 /* Type of the constructor functions.  */
