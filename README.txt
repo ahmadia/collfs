@@ -1,6 +1,10 @@
 ***********************************************************************************************
 # Applying collfs patches to glibc-2.4
 
+# The magic rtld rules go in elf/rtld-Rules
+
+# This here is the whole point of all the shenanigans.
+# CPPFLAGS-rtld := -DNOT_IN_libc=1 -DIS_IN_rtld=1
 
 
 

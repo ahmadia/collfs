@@ -72,6 +72,28 @@ enum mode { normal, list, verify, trace };
    all the entries.  */
 static void process_envvars (enum mode *modep);
 
+struct libc_collfs_api {
+  void * fxstat64;
+  void *  xstat64;
+  void *     open;
+  void *    close;
+  void *     read;
+  void *    lseek;
+  void *     mmap;
+  void *   munmap;
+};
+
+struct libc_collfs_api _dl_collfs_api = {
+  .fxstat64 = NULL,
+  .xstat64  = NULL,
+  .open     = __open,
+  .close    = __close,
+  .read     = NULL,
+  .lseek    = NULL,
+  .mmap     = NULL,
+  .munmap   = NULL
+};
+
 #ifdef DL_ARGV_NOT_RELRO
 int _dl_argc attribute_hidden;
 char **_dl_argv = NULL;
