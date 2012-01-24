@@ -18,12 +18,14 @@ libc-collfs.so : libc-collfs.o
 	${CC} -shared -g3 -o $@ $^
 libcollfs.so : collfs.o
 	${CC} -shared -g3 -o $@ $^
+libminimal_thefunc.so: minimal_thefunc.o
+	${CC} -shared -g3 -o $@ $^
 libthefunc.so : thefunc.o
 	${CC} -shared -g3 -o $@ $^
 thefunc.o : thefunc.c
 	${CC} ${CFLAGS} -c -fPIC $^
 
-minimal_main : minimal_main.o 
+minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
 
 main : main.o libfoo.so libcollfs.so 
