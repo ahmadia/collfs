@@ -33,7 +33,7 @@ main : main.o libfoo.so libcollfs.so
 #main : main.o libfoo.so libcollfs.so libc-collfs.so
 	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
 .c.o :
-	${CC} ${CFLAGS} -fPIC -c $^
+	${CC} ${CFLAGS} -fPIC -c $<
 
 libfoo.so : foo.o collfs.o
 	${MPICC} -g3 -shared -o $@ $^ ${LDFLAGS}
