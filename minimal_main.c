@@ -59,15 +59,17 @@ int main(int argc, char *argv[])
   collfs_open_fp _open_fp;
   char path[MAXPATHLEN];
 
+  typedef void (*vfptr)(void); 
+
   MPI_Init(&argc,&argv);
   
-  _dl_collfs_api.open = (void *) minimal_open;
+  _dl_collfs_api.open = (vfptr) minimal_open;
   _open_fp = (collfs_open_fp) _dl_collfs_api.open;  
   int fid = _open_fp("test_open.txt",O_RDONLY,0);
   close(fid);
   
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
-  strcat(path,"/libthefunc.so");
+  strcat(path,"/libminimal_thefunc.so");
   err = run_tests(path, path);CHK(err);
   
   MPI_Finalize();

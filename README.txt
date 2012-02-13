@@ -1,12 +1,37 @@
 ***********************************************************************************************
-# Applying collfs patches to glibc-2.4
+# What is collfs?
 
-# The magic rtld rules go in elf/rtld-Rules
+collfs is a user library and set of patches to glibc that enables file system calls to be handled collectively over an
+MPI Communicator.  collfs was written with the specific goal of providing scalable dynamic loading on supercomputers
+with faster interconnect than i/o performance, but is a general-purpose tool that can be used either directly as a
+library or implicitly by wrapping file system calls with collective versions.
 
-# This here is the whole point of all the shenanigans.
-# CPPFLAGS-rtld := -DNOT_IN_libc=1 -DIS_IN_rtld=1
+The collfs patches are currently quite minimal.  They insert an externally visible struct object into the run-time
+dynamic linker containing void function hooks for collective MPI versions of the standard file system API.  These function pointers
+are then used (when non-NULL) to replace file system function calls within the standard dynamic loading routines in glibc.  Additionally,
+we provide a small static C library via LD_PRELOAD that initializes MPI (this is pre-main, so it passes NULL to the Init
+routines) and activates the function hooks to point to our collective versions of the standard file system API,
+shadowing the original file system functions (but utilizing them by default).  
 
+***********************************************************************************************
+# Installing collfs on a Fedora Core 5 system
 
+Fedora Core 5 is at this point, quite old, but it features a 2.4 version of glibc, which is very close to the 2.4 glibc
+installed on the IBM Blue Gene/P.
+
+This assumes you have an FC5 installation with the standard development RPMs installed.  If you are unable to build
+glibc-2.4 from the SRPM, you will probably need to install the missing RPMs from the DVD or a web repository.
+
+Tips for setting up a non-root installation environment for SRPMs can be found here:
+http://www.owlriver.com/tips/non-root//
+
+mkdir -p ~/sandbox/glibc
+cd ~/sandbox/glibc
+wget http://dl.dropbox.com/u/65439/glibc-2.4-11-collfs.src.rpm
+rpmbuild --nodeps --rebuild -bc glibc-2.4-11-collfs.src.rpm
+
+This should leave you with a built glibc (good for testing) in the RPM build directory, which
+was/var/tmp/glibc-2.4-root on my machine.
 
 ***********************************************************************************************
 # Building glibc-2.4 for the compute nodes:

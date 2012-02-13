@@ -86,8 +86,8 @@ struct libc_collfs_api {
 struct libc_collfs_api _dl_collfs_api = {
   .fxstat64 = NULL,
   .xstat64  = NULL,
-  .open     = __open,
-  .close    = __close,
+  .open     = NULL,
+  .close    = NULL,
   .read     = NULL,
   .lseek    = NULL,
   .mmap     = NULL,
