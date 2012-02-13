@@ -116,19 +116,6 @@ struct CommLink {
 };
 static struct CommLink *CommStack;
 
-#if 0                           /* I do not think these are necessary because we can now link directly to MPI */
-// MPI stubs - these function references will be equal to 0
-// if the linker has not brought in MPI yet
-extern int MPI_Initialized(int *flag) __attribute__ ((weak));
-extern int MPI_Comm_rank (MPI_Comm comm, int *rank) __attribute__ ((weak));
-extern int MPI_Bcast (void *buffer, int count, MPI_Datatype datatype, int root,
-                      MPI_Comm comm)  __attribute__ ((weak));
-extern int MPI_Allreduce (void *sendbuf, void *recvbuf, int count,
-                          MPI_Datatype datatype, MPI_Op op,
-                          MPI_Comm comm ) __attribute__ ((weak));
-extern int MPI_Barrier (MPI_Comm comm) __attribute__ ((weak));
-#endif
-
 /***********************************************************************
  * Implementation of the collective file API
  *
