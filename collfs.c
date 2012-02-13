@@ -414,9 +414,11 @@ static int collfs_munmap(__ptr_t addr, size_t len)
  * User-callable interface to collfs
  ***********************************************************************/
 
+/* Symbol is exposed by patched ld.so */
+extern struct libc_collfs_api _dl_collfs_api;
+
 int collfs_initialize(int level, void (*errhandler)(void))
 {
-  int ret;
   struct libc_collfs_api api;
   collfs_debug_level = level;
   collfs_error_handler = errhandler;
@@ -434,11 +436,8 @@ int collfs_initialize(int level, void (*errhandler)(void))
   api.mmap     = collfs_mmap;
   api.munmap   = collfs_munmap;
 
-  ret = libc_collfs_initialize(collfs_debug_vprintf, &api, &unwrap);
-  if (ret) {
-    set_error(EBADSLT, "libc_collfs_initialize failed with error code %d", ret);
-    return ret;
-  }
+  /* Make API visible to libc-rtld (ld.so) */
+  memcpy(&_dl_collfs_api, &api, sizeof(api));
 
   collfs_initialized = 1;
   return 0;
@@ -446,13 +445,12 @@ int collfs_initialize(int level, void (*errhandler)(void))
 
 int collfs_finalize()
 {
-  int ret;
   CHECK_INIT(-1);
   memset(&unwrap, 0, sizeof unwrap);
-  ret = libc_collfs_finalize();
+  memset(&_dl_collfs_api, 0, sizeof(_dl_collfs_api));
   collfs_initialized = 0;
   collfs_error_handler = 0;
-  return ret;
+  return 0;
 }
 
 int collfs_set_debug_level(int level)
