@@ -25,7 +25,10 @@ thefunc.o : thefunc.c
 	${CC} ${CFLAGS} -c -fPIC $^
 
 minimal_main : minimal_main.o libminimal_thefunc.so
-	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS} 
+	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
+
+main-mpi : main-mpi.o libcollfs.so
+	${MPICC} -g3 -o $@ $^ ${LDFLAGS}
 
 main : main.o libfoo.so libcollfs.so 
 #main : main.o libfoo.so libcollfs.so libc-collfs.so
