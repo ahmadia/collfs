@@ -15,8 +15,6 @@ COLLFS_SRC_O = $(COLLFS_SRC_C:.c=.o)
 
 all : libthefunc.so main
 
-libc-collfs.so : libc-collfs.o
-	${CC} -shared -g3 -o $@ $^
 libcollfs.so : collfs.o
 	${CC} -shared -g3 -o $@ $^
 libminimal_thefunc.so: minimal_thefunc.o

@@ -31,8 +31,4 @@ struct libc_collfs_api {
   collfs_munmap_fp   munmap;
 };
 
-/* Two public functions to be called by the collfs library */
-extern int libc_collfs_initialize(collfs_debug_vprintf_fp debug_printf, const struct libc_collfs_api *api, struct libc_collfs_api *unwrap);
-extern int libc_collfs_finalize(void);
-
 #endif
