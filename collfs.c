@@ -134,7 +134,7 @@ static int collfs_fxstat64(int vers, int fd, struct stat64 *buf)
     if (link->fd == fd) {
       int rank,xerr = 0;
       err = MPI_Comm_rank(link->comm, &rank); if (err) return -1;
-      if (!rank) xerr = unwrap.fxstat64(vers, fd, buf);
+      if (!rank) xerr = ((collfs_fxstat64_fp) unwrap.fxstat64)(vers, fd, buf);
 #if DEBUG
       err = MPI_Bcast(&xerr, 1, MPI_INT, 0, link->comm);
       if (err < 0) {
@@ -151,7 +151,7 @@ static int collfs_fxstat64(int vers, int fd, struct stat64 *buf)
       } else return 0;
     }
   }
-  return unwrap.fxstat64(vers, fd, buf);
+  return ((collfs_fxstat64_fp) unwrap.fxstat64)(vers, fd, buf);
 }
 
 /* Collective on the communicator at the top of the collfs stack */
@@ -161,7 +161,7 @@ static int collfs_xstat64(int vers, const char *file, struct stat64 *buf)
   if (CommStack) {
     int err,rank,xerr;
     err = MPI_Comm_rank(CommStack->comm, &rank); if (err) return -1;
-    if (!rank) xerr = unwrap.xstat64(vers, file, buf);
+    if (!rank) xerr = ((collfs_xstat64_fp) unwrap.xstat64)(vers, file, buf);
 #if DEBUG
     err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);
     if (err < 0) {
@@ -177,7 +177,7 @@ static int collfs_xstat64(int vers, const char *file, struct stat64 *buf)
       return -1;
     } else return 0;
   }
-  return unwrap.xstat64(vers, file, buf);
+    return ((collfs_xstat64_fp) unwrap.xstat64)(vers, file, buf);
 }
 
 static int collfs_open(const char *pathname, int flags, mode_t mode)
@@ -188,7 +188,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
   // pass through to libc __open if no communicator has been pushed
   if (!CommStack) {
     debug_printf(2, "%s(\"%s\", x%x, o%o) independent", __func__, pathname, flags, mode);
-    return unwrap.open(pathname, flags, mode);
+    return ((collfs_open_fp) unwrap.open)(pathname, flags, mode);
   }
 
   err = MPI_Comm_rank(CommStack->comm, &rank);
@@ -205,10 +205,10 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     debug_printf(2, "%s(\"%s\", x%x, o%o) collective", __func__, pathname, flags, mode);
     if (!rank) {
       len = -1;
-      fd = unwrap.open(pathname, flags, mode);
+      fd = ((collfs_open_fp) unwrap.open)(pathname, flags, mode);
       if (fd >= 0) {
         struct stat fdst;
-        if (fstat(fd, &fdst) < 0) unwrap.close(fd); /* fail cleanly */
+        if (fstat(fd, &fdst) < 0) ((collfs_close_fp) unwrap.close)(fd); /* fail cleanly */
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
     }
@@ -216,7 +216,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     if (len < 0) return -1;
     mem = NULL;
     if (!rank) {
-      mem = unwrap.mmap(0, len, PROT_READ, MAP_PRIVATE, fd, 0);
+      mem = ((collfs_mmap_fp) unwrap.mmap)(0, len, PROT_READ, MAP_PRIVATE, fd, 0);
     } else {
       /* Don't use shm_open() here because the shared memory segment is fixed at boot time. */
       fd = NextFD++;
@@ -229,7 +229,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
     if (!gotmem) {
       if (!rank) {
-        if (mem) unwrap.munmap(mem, len);
+        if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, len);
       } else free(mem);
       set_error(ECOLLFS, "Could not find memory: mmap() on rank 0, malloc otherwise");
       return -1;
@@ -256,7 +256,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
   }
   /* more than read access needed, fall back to independent access */
   debug_printf(2, "%s(\"%s\", x%x, o%o)", __func__, pathname, flags, mode);
-  return unwrap.open(pathname, flags, mode);
+  return ((collfs_open_fp) unwrap.open)(pathname, flags, mode);
 }
 
 /* Collective on the communicator used when the fd was created */
@@ -275,8 +275,8 @@ static int collfs_close(int fd)
       if (--link->refct > 0) return 0;
       err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); if (err) return -1;
       if (!rank) {
-        unwrap.munmap(link->mem, link->len);
-        xerr = unwrap.close(fd);
+        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->len);
+        xerr = ((collfs_close_fp) unwrap.close)(fd);
       } else {
         free(link->mem);
       }
@@ -286,7 +286,7 @@ static int collfs_close(int fd)
     }
   }
   debug_printf(2, "%s(%d) independent", __func__, fd);
-  return unwrap.close(fd);
+  return ((collfs_close_fp) unwrap.close)(fd);
 }
 
 /* Collective on the communicator used when the fd was created */
@@ -301,7 +301,7 @@ static ssize_t collfs_read(int fd, void *buf, size_t count)
     if (initialized) {err = MPI_Comm_rank(link->comm, &rank); if (err) return -1;}
     if (fd == link->fd) {
       debug_printf(2, "%s(%d, %p, %zu) collective", __func__, fd, buf, count);
-      if (!rank) return unwrap.read(fd, buf, count);
+      if (!rank) return ((collfs_read_fp) unwrap.read)(fd, buf, count);
       else {
         if ((link->len - link->offset) < count) count = link->len - link->offset;
         memcpy(buf, link->mem+link->offset, count);
@@ -311,7 +311,7 @@ static ssize_t collfs_read(int fd, void *buf, size_t count)
     }
   }
   debug_printf(2, "%s(%d, %p, %zu) independent", __func__, fd, buf, count);
-  return unwrap.read(fd, buf, count);
+  return ((collfs_read_fp) unwrap.read)(fd, buf, count);
 }
 
 static off_t collfs_lseek(int fildes, off_t offset, int whence)
@@ -323,7 +323,7 @@ static off_t collfs_lseek(int fildes, off_t offset, int whence)
       int rank = 0;
       MPI_Comm_rank(link->comm,&rank);
       debug_printf(2, "%s(%d, %lld, %d) collective", __func__, fildes, (long long)offset, whence);
-      if (!rank) return unwrap.lseek(fildes, offset, whence); /* Rank 0 has a normal fd */
+      if (!rank) return ((collfs_lseek_fp) unwrap.lseek)(fildes, offset, whence); /* Rank 0 has a normal fd */
       switch (whence) {
       case SEEK_SET:
         link->offset = offset;
@@ -339,7 +339,7 @@ static off_t collfs_lseek(int fildes, off_t offset, int whence)
     }
   }
   debug_printf(2, "%s(%d, %lld, %d) independent", __func__, fildes, (long long)offset, whence);
-  return unwrap.lseek(fildes, offset, whence);
+  return ((collfs_lseek_fp) unwrap.lseek)(fildes, offset, whence);
 }
 
 /* Collective on the communicator used when fildes was created */
@@ -383,7 +383,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
     }
   }
   debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) independent", __func__, addr, len, prot, flags, fildes, (long long)off);
-  return unwrap.mmap(addr, len, prot, flags, fildes, off);
+  return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, fildes, off);
 }
 
 /* This implementation is not actually collective, but it relies on the fd being opened collectively */
@@ -406,7 +406,7 @@ static int collfs_munmap(__ptr_t addr, size_t len)
     set_error(EINVAL, "Address not mapped: %p", addr);
   }
   debug_printf(2, "%s(%p, %zu) independent", __func__, addr, len);
-  return unwrap.munmap(addr, len);
+  return ((collfs_munmap_fp) unwrap.munmap)(addr, len);
 }
 
 
@@ -427,14 +427,16 @@ int collfs_initialize(int level, void (*errhandler)(void))
     return -1;
   }
 
-  api.fxstat64 = collfs_fxstat64;
-  api.xstat64  = collfs_xstat64;
-  api.open     = collfs_open;
-  api.close    = collfs_close;
-  api.read     = collfs_read;
-  api.lseek    = collfs_lseek;
-  api.mmap     = collfs_mmap;
-  api.munmap   = collfs_munmap;
+  typedef void (*void_fp)(void);
+
+  api.fxstat64 = (void_fp) collfs_fxstat64;
+  api.xstat64  = (void_fp) collfs_xstat64;
+  api.open     = (void_fp) collfs_open;
+  api.close    = (void_fp) collfs_close;
+  api.read     = (void_fp) collfs_read;
+  api.lseek    = (void_fp) collfs_lseek;
+  api.mmap     = (void_fp) collfs_mmap;
+  api.munmap   = (void_fp) collfs_munmap;
 
   /* Make API visible to libc-rtld (ld.so) */
   memcpy(&_dl_collfs_api, &api, sizeof(api));

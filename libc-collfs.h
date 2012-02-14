@@ -21,14 +21,15 @@ typedef void *(*collfs_mmap_fp)(void *addr, size_t len, int prot, int flags, int
 typedef int (*collfs_munmap_fp)(__ptr_t addr, size_t len);
 
 struct libc_collfs_api {
-  collfs_fxstat64_fp fxstat64;
-  collfs_xstat64_fp  xstat64;
-  collfs_open_fp     open;
-  collfs_close_fp    close;
-  collfs_read_fp     read;
-  collfs_lseek_fp    lseek;
-  collfs_mmap_fp     mmap;
-  collfs_munmap_fp   munmap;
+  void (*fxstat64)(void);
+  void (*xstat64)(void);
+  void (*open)(void);
+  void (*close)(void);
+  void (*read)(void);
+  void (*lseek)(void);
+  void (*mmap)(void);
+  void (*munmap)(void);
 };
+
 
 #endif
