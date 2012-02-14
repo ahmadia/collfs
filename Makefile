@@ -23,6 +23,11 @@ all : libthefunc.so main
 # Depends on MPI, must be called from an executable using patched ld.so because _dl_collfs_api is referenced.
 libcollfs.so : collfs.o
 	${MPICC} -shared -g3 -o $@ $^
+
+# Depends on libcollfs.so and MPI, can be preloaded to make an ignorant program use collective IO
+libcollfs-easy.so : collfs-easy.o libcollfs.so
+	${MPICC} -shared -g3 -o $@ $^
+
 # Depends only on libc, just prints "called thefunc"
 libminimal_thefunc.so: minimal_thefunc.o
 	${CC} -shared -g3 -o $@ $^
