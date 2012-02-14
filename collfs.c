@@ -182,7 +182,7 @@ static int collfs_xstat64(int vers, const char *file, struct stat64 *buf)
 
 static int collfs_open(const char *pathname, int flags, mode_t mode)
 {
-  int err, rank;
+  int pagesize, err, rank;
 
   CHECK_INIT(-1);
   // pass through to libc __open if no communicator has been pushed
@@ -214,6 +214,8 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     }
     err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
     if (len < 0) return -1;
+
+
     mem = NULL;
     if (!rank) {
       mem = ((collfs_mmap_fp) unwrap.mmap)(0, len, PROT_READ, MAP_PRIVATE, fd, 0);
@@ -342,34 +344,75 @@ static off_t collfs_lseek(int fildes, off_t offset, int whence)
   return ((collfs_lseek_fp) unwrap.lseek)(fildes, offset, whence);
 }
 
-/* Collective on the communicator used when fildes was created */
+/* Collective on the communicator used when fildes was created 
+
+Note that we allow len > mlink-> len.
+
+*/
 static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
   struct FileLink *link;
+  int err, gotmem, rank, pagesize;
+  void *mem;
+  pagesize = getpagesize();
 
   CHECK_INIT(MAP_FAILED);
   for (link=DLOpenFiles; link; link=link->next) {
     if (link->fd == fildes) {
       struct MMapLink *mlink;
       debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) collective", __func__, addr, len, prot, flags, fildes, (long long)off);
-      if (prot != PROT_READ && prot != (PROT_READ | PROT_EXEC)) {
-        set_error(EACCES, "prot != PROT_READ && prot != (PROT_READ | PROT_EXEC)");
+      if (prot & PROT_WRITE && !(flags & MAP_FIXED)) {
+        set_error(EACCES, "prot & PROT_WRITE && !(flags & MAP_FIXED)");
         return MAP_FAILED;
       }
       if (flags & MAP_FIXED) {
-        set_error(ENOTSUP, "flags & MAP_FIXED: not implemented due to laziness");
-        return MAP_FAILED;
+        if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->len)) {
+          err = MPI_Comm_rank(CommStack->comm, &rank);
+          if (!rank) {
+            return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
+          } else {
+            debug_printf(2, "moving %d bytes from %p to %p", len, (void*)(char*)link->mem+off, addr);
+            memmove(addr,(void*)(char*)link->mem+off,len);
+            return addr;
+          }
+        }
+        else {
+          debug_printf(2, "%p requested of length %d, but link->mem = %p and link->mem+link->len = %p", 
+                       addr, len, link->mem,  (void*)((char*)link->mem+link->len));
+          set_error(EACCES, "addr < (void*)( (char*) link->mem + off) || addr < (void*) (char*) link->mem+link->len");
+        }
       }
       if (flags & MAP_SHARED ) {
         set_error(ENOTSUP, "flags & MAP_SHARED: cannot do MAP_SHARED for a collective fd");
         return MAP_FAILED;
       }
+      if (len > link->len) {
+        if (link->refct==1) { // no clients have mmaped this file, safe to remap/realloc
+          debug_printf(2, "reallocating to size %d on offset %d", len, off);
+          err = MPI_Comm_rank(CommStack->comm, &rank);
+          if (!rank) {
+            ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->len);
+            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
+          } else {
+            len += len%pagesize;
+            mem = realloc(link->mem, len);
+          }
+          gotmem = !!mem;
+          err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
+          if (!gotmem) {
+            set_error(ECOLLFS, "Could not find memory to reallocate");
+            return MAP_FAILED;
+          }
+          link->mem = mem;
+          link->len = len;
+          link->offset = off;
+        }
+        else {
+          set_error(EOVERFLOW, "off + len > link->len");
+        }
+      }
       if (off < 0) {
         set_error(ENXIO, "off < 0");
-        return MAP_FAILED;
-      }
-      if (off + len > link->len) {
-        set_error(EOVERFLOW, "off + len > link->len");
         return MAP_FAILED;
       }
       mlink = malloc(sizeof *mlink);

@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   char path[MAXPATHLEN];
 
   MPI_Init(&argc,&argv);
-  collfs_initialize(1, NULL);
+  collfs_initialize(2, NULL);
 
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
   strcat(path,"/libminimal_thefunc.so");
