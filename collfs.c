@@ -360,8 +360,8 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         set_error(ENOTSUP, "flags & MAP_FIXED: not implemented due to laziness");
         return MAP_FAILED;
       }
-      if (flags != MAP_PRIVATE) {
-        set_error(ENOTSUP, "flags != MAP_PRIVATE: cannot do MAP_SHARED for a collective fd");
+      if (flags & MAP_SHARED ) {
+        set_error(ENOTSUP, "flags & MAP_SHARED: cannot do MAP_SHARED for a collective fd");
         return MAP_FAILED;
       }
       if (off < 0) {
@@ -429,17 +429,25 @@ int collfs_initialize(int level, void (*errhandler)(void))
 
   typedef void (*void_fp)(void);
 
-  api.fxstat64 = (void_fp) collfs_fxstat64;
-  api.xstat64  = (void_fp) collfs_xstat64;
-  api.open     = (void_fp) collfs_open;
-  api.close    = (void_fp) collfs_close;
-  api.read     = (void_fp) collfs_read;
-  api.lseek    = (void_fp) collfs_lseek;
-  api.mmap     = (void_fp) collfs_mmap;
-  api.munmap   = (void_fp) collfs_munmap;
+  unwrap.fxstat64 = (void_fp) __fxstat64;
+  unwrap.xstat64  = (void_fp) __xstat64;
+  unwrap.open     = (void_fp) open;
+  unwrap.close    = (void_fp) close;
+  unwrap.read     = (void_fp) read;
+  unwrap.lseek    = (void_fp) lseek;
+  unwrap.mmap     = (void_fp) mmap;
+  unwrap.munmap   = (void_fp) munmap;
 
   /* Make API visible to libc-rtld (ld.so) */
-  memcpy(&_dl_collfs_api, &api, sizeof(api));
+
+  _dl_collfs_api.fxstat64 = (void_fp) collfs_fxstat64;
+  _dl_collfs_api.xstat64  = (void_fp) collfs_xstat64;
+  _dl_collfs_api.open     = (void_fp) collfs_open;
+  _dl_collfs_api.close    = (void_fp) collfs_close;
+  _dl_collfs_api.read     = (void_fp) collfs_read;
+  _dl_collfs_api.lseek    = (void_fp) collfs_lseek;
+  _dl_collfs_api.mmap     = (void_fp) collfs_mmap;
+  _dl_collfs_api.munmap   = (void_fp) collfs_munmap;
 
   collfs_initialized = 1;
   return 0;
