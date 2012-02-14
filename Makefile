@@ -41,6 +41,10 @@ minimal_main : minimal_main.o libminimal_thefunc.so
 main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
 	${MPICC} -g3 -o $@ $< libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
 
+# Depends only on libc, loads libminimal_thefunc (only run-time dependency), libcollfs-easy.so should be preloaded.
+main-nompi : main-nompi.o libcollfs-easy.so libminimal_thefunc.so
+	${CC} -g3 -o $@ $< ${LDFLAGS}
+
 main : main.o libfoo.so libcollfs.so 
 #main : main.o libfoo.so libcollfs.so libc-collfs.so
 	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
