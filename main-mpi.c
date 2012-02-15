@@ -12,14 +12,20 @@
 int run_tests(const char *soname)
 {
   void *handle;
-  int err;
+  int err, rank;
   int (*func)(void);
 
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+  printf("[%d] & attempting to open %s\n", rank, soname);
   handle = dlopen(soname,RTLD_GLOBAL | RTLD_LAZY);
   if (!handle) ERR("failed to dlopen(\"%s\",RTLD_GLOBAL | RTLD_LAZY) due to: %s", soname, dlerror());
 
+  printf("[%d] & looking for thefunc in handle %p\n", rank, handle);
   func = dlsym(handle,"thefunc");
   if (!func) ERR("dlsym could not find symbol \"thefunc\" due to: %s", dlerror());
+
+  printf("[%d] & found thefunc at address %p\n", rank, func);
   err = (*func)();CHK(err);
 
   err = dlclose(handle);
