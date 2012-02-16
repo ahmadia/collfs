@@ -372,17 +372,17 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
       }
       if (flags & MAP_FIXED) {
         if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->len)) {
-          err = MPI_Comm_rank(CommStack->comm, &rank);
+          MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
-            debug_printf(2, "moving %d bytes from %p to %p", len, (void*)(char*)link->mem+off, addr);
+            debug_printf(2, "moving %zd bytes from %p to %p", len, (void*)(char*)link->mem+off, addr);
             memmove(addr,(void*)(char*)link->mem+off,len);
             return addr;
           }
         }
         else {
-          debug_printf(2, "%p requested of length %d, but link->mem = %p and link->mem+link->len = %p", 
+          debug_printf(2, "%p requested of length %zd, but link->mem = %p and link->mem+link->len = %p", 
                        addr, len, link->mem,  (void*)((char*)link->mem+link->len));
           set_error(EACCES, "addr < (void*)( (char*) link->mem + off) || addr < (void*) (char*) link->mem+link->len");
         }
@@ -393,8 +393,8 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
       }
       if (len > link->len) {
         if (link->refct==1) { // no clients have mmaped this file, safe to remap/realloc
-          debug_printf(2, "reallocating to size %d on offset %d", len, off);
-          err = MPI_Comm_rank(CommStack->comm, &rank);
+          debug_printf(2, "reallocating to size %zd on offset %zd", len, off);
+          MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->len);
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
@@ -403,7 +403,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             mem = realloc(link->mem, len);
           }
           gotmem = !!mem;
-          err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
+          MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
           if (!gotmem) {
             set_error(ECOLLFS, "Could not find memory to reallocate");
             return MAP_FAILED;
@@ -467,7 +467,6 @@ extern struct libc_collfs_api _dl_collfs_api;
 
 int collfs_initialize(int level, void (*errhandler)(void))
 {
-  struct libc_collfs_api api;
   collfs_debug_level = level;
   collfs_error_handler = errhandler;
   if (collfs_initialized) {
