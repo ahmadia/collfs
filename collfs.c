@@ -93,7 +93,8 @@ struct FileLink {
   int refct;
   char fname[MAXPATHLEN];
   void *mem;
-  size_t len;
+  size_t totallen;              /* bytes mapped/malloced */
+  size_t len;                   /* bytes in file */
   size_t offset;
   struct FileLink *next;
 };
@@ -182,7 +183,7 @@ static int collfs_xstat64(int vers, const char *file, struct stat64 *buf)
 
 static int collfs_open(const char *pathname, int flags, mode_t mode)
 {
-  int pagesize, err, rank;
+  int err, rank;
 
   CHECK_INIT(-1);
   // pass through to libc __open if no communicator has been pushed
@@ -199,6 +200,8 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
 
   if (flags == O_RDONLY) {      /* Read is collectively on comm */
     int len, fd, gotmem;
+    size_t totallen;
+    long pagesize;
     void *mem;
     struct FileLink *link;
 
@@ -214,15 +217,16 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     }
     err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
     if (len < 0) return -1;
-
+    pagesize = sysconf(_SC_PAGESIZE);
+    totallen = (len + (pagesize-1)) & ~(pagesize-1); /* Includes the whole page */
 
     mem = NULL;
     if (!rank) {
-      mem = ((collfs_mmap_fp) unwrap.mmap)(0, len, PROT_READ, MAP_PRIVATE, fd, 0);
+      mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ, MAP_PRIVATE, fd, 0);
     } else {
       /* Don't use shm_open() here because the shared memory segment is fixed at boot time. */
       fd = NextFD++;
-      mem = malloc(len);
+      mem = malloc(totallen);
     }
 
     if (fd >= 0)
@@ -248,6 +252,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     strcpy(link->fname, pathname);
     link->mem = mem;
     link->len = len;
+    link->totallen = totallen;
     link->offset = 0;
 
     /* Add new node to the list */
@@ -352,7 +357,7 @@ Note that we allow len > mlink-> len.
 static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
   struct FileLink *link;
-  int err, gotmem, rank, pagesize;
+  int gotmem, rank, pagesize;
   void *mem;
   pagesize = getpagesize();
 
