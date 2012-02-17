@@ -79,6 +79,11 @@ static int debug_printf(int level, const char *fmt, ...)
   return ret;
 }
 
+static size_t extend_to_page(size_t len) {
+  long pagesize = sysconf(_SC_PAGESIZE);
+  return (len + (pagesize-1)) & ~(pagesize-1); /* Includes the whole page */
+}
+
 /***********************************************************************
  * Data structures and static variables
  ***********************************************************************/
@@ -201,7 +206,6 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
   if (flags == O_RDONLY) {      /* Read is collectively on comm */
     int len, fd, gotmem;
     size_t totallen;
-    long pagesize;
     void *mem;
     struct FileLink *link;
 
@@ -217,8 +221,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     }
     err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
     if (len < 0) return -1;
-    pagesize = sysconf(_SC_PAGESIZE);
-    totallen = (len + (pagesize-1)) & ~(pagesize-1); /* Includes the whole page */
+    totallen = extend_to_page(len);
 
     mem = NULL;
     if (!rank) {
@@ -357,9 +360,8 @@ Note that we allow len > mlink-> len.
 static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
   struct FileLink *link;
-  int gotmem, rank, pagesize;
+  int gotmem, rank;
   void *mem;
-  pagesize = getpagesize();
 
   CHECK_INIT(MAP_FAILED);
   for (link=DLOpenFiles; link; link=link->next) {
@@ -371,7 +373,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         return MAP_FAILED;
       }
       if (flags & MAP_FIXED) {
-        if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->len)) {
+        if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->totallen)) {
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
@@ -382,9 +384,9 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
           }
         }
         else {
-          debug_printf(2, "%p requested of length %zd, but link->mem = %p and link->mem+link->len = %p", 
+          debug_printf(2, "%p requested of length %zd, but link->mem = %p and link->mem+link->totallen = %p", 
                        addr, len, link->mem,  (void*)((char*)link->mem+link->len));
-          set_error(EACCES, "addr < (void*)( (char*) link->mem + off) || addr < (void*) (char*) link->mem+link->len");
+          set_error(EACCES, "addr < (void*)( (char*) link->mem + off) || addr < (void*) (char*) link->mem+link->totallen");
         }
       }
       if (flags & MAP_SHARED ) {
@@ -399,8 +401,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->len);
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
-            len += len%pagesize;
-            mem = realloc(link->mem, len);
+            mem = realloc(link->mem, extend_to_page(len));
           }
           gotmem = !!mem;
           MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
@@ -410,6 +411,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
           }
           link->mem = mem;
           link->len = len;
+          link->totallen = extend_to_page(len);
           link->offset = off;
         }
         else {
