@@ -205,6 +205,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
 
   if (flags == O_RDONLY) {      /* Read is collectively on comm */
     int len, fd, gotmem;
+    struct {int len, errno_save;} buf;
     size_t totallen;
     void *mem;
     struct FileLink *link;
@@ -219,8 +220,14 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
     }
-    err = MPI_Bcast(&len, 1,MPI_INT, 0, CommStack->comm); if (err) return -1;
-    if (len < 0) return -1;
+    buf.len = len;
+    buf.errno_save = errno;
+    err = MPI_Bcast(&buf, 2, MPI_INT, 0, CommStack->comm); if (err) return -1;
+    len = buf.len;
+    if (len < 0) {
+      set_error(buf.errno_save, "Error opening file");
+      return -1;
+    }
     totallen = extend_to_page(len);
 
     mem = NULL;
