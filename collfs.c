@@ -28,7 +28,7 @@ static void set_errno(int e) { errno = e; }
 __attribute__((format(printf, 5, 6)))
 static void set_error_private(const char *file, int line, const char *func, int e, const char *fmt, ...)
 {
-  if (collfs_debug_level >= 0) {
+  if (collfs_debug_level >= 1) {
     char buf[2048];
     va_list ap;
     va_start(ap, fmt);
