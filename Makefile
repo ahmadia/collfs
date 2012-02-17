@@ -1,5 +1,5 @@
 #CC = gcc -m64 
-CC = gcc
+CC = mpicc
 #MPICC = /opt/mpich2/bin/mpicc
 #MPICC = gcc -m64 
 MPICC = mpicc
