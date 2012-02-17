@@ -397,7 +397,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
       if (len > link->totallen) {
         if (link->refct==1) { // no clients have mmaped this file, safe to remap/realloc
           size_t totallen;
-          debug_printf(2, "reallocating to size %zd on offset %zd", len, off);
+          debug_printf(2, "reallocating to size %zd on offset %lld", len, (long long) off);
           totallen = extend_to_page(len);
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
