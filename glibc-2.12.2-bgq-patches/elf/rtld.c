@@ -45,11 +45,10 @@
 
 /* Avoid PLT use for our local calls at startup.  */
 extern __typeof (__mempcpy) __mempcpy attribute_hidden;
-
+#define CNK_SYSCALL_GETRANK 1076
 /* GCC has mental blocks about _exit.  */
 extern __typeof (_exit) exit_internal asm ("_exit") attribute_hidden;
 #define _exit exit_internal
-
 /* Helper function to handle errors while resolving symbols.  */
 static void print_unresolved (int errcode, const char *objname,
 			      const char *errsting);
@@ -2775,7 +2774,7 @@ process_envvars (enum mode *modep)
       char *startp;
 
       buf[name_len + 11] = '\0';
-      startp = _itoa (__getpid (), &buf[name_len + 11], 10, 0);
+      startp = _itoa (syscall(CNK_SYSCALL_GETRANK), &buf[name_len + 11], 10, 0);
       *--startp = '.';
       startp = memcpy (startp - name_len, debug_output, name_len);
 

@@ -39,12 +39,12 @@ typedef int (*collfs_munmap_fp)(__ptr_t addr, size_t len);
 struct libc_collfs_api {
   void * fxstat64;
   void *  xstat64;
-  void *     open;
-  void *    close;
-  void *     read;
-  void *    lseek;
-  void *     mmap;
-  void *   munmap;
+  void *     open;   
+  void *    close;  
+  void *     read;   
+  void *    lseek;  
+  void *     mmap;   
+  void *   munmap; 
 };
 
 extern struct libc_collfs_api _dl_collfs_api;
@@ -639,7 +639,6 @@ _dl_close_worker (struct link_map *map)
 	  /* We can unmap all the maps at once.  We determined the
 	     start address and length when we loaded the object and
 	     the `munmap' call does the rest.  */
-	 /* The below call was DL_UNMAP changed for collfs support */
 	  COLLFS_DL_UNMAP (imap);
 
 	  /* Finally, unlink the data structure and free it.  */
@@ -748,7 +747,7 @@ _dl_close_worker (struct link_map *map)
   /* Notify the debugger those objects are finalized and gone.  */
   r->r_state = RT_CONSISTENT;
   if (_r_debug_info.raise_next_event) {
-    if (GLRO(dl_debug_mask) & DL_DEBUG_FAST_DISABLED) {
+    if (GLRO(dl_debug_mask) DL_DEBUG_FAST_DISABLED) {
       if (GLRO(dl_debug_mask) & DL_DEBUG_EVENTS) {
           _dl_debug_printf(" *\ndebug event: CONSISTENT (disabled) adds: %u deletes: %u\n", _r_debug_info.adds, _r_debug_info.deletes);
         }
