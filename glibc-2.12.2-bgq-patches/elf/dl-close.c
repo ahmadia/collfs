@@ -747,7 +747,7 @@ _dl_close_worker (struct link_map *map)
   /* Notify the debugger those objects are finalized and gone.  */
   r->r_state = RT_CONSISTENT;
   if (_r_debug_info.raise_next_event) {
-    if (GLRO(dl_debug_mask) DL_DEBUG_FAST_DISABLED) {
+    if (GLRO(dl_debug_mask) & DL_DEBUG_FAST_DISABLED) {
       if (GLRO(dl_debug_mask) & DL_DEBUG_EVENTS) {
           _dl_debug_printf(" *\ndebug event: CONSISTENT (disabled) adds: %u deletes: %u\n", _r_debug_info.adds, _r_debug_info.deletes);
         }
