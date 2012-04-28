@@ -4,8 +4,9 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int thefunc(void) {
-  return printf("called %s\n", __func__) <= 0;
+int thefunc(int verbosity) {
+  if (verbosity >= 0) return printf("called %s\n", __func__) <= 0;
+  return 0;
 }
 
 int thetest_fxstat64(const char *path) {

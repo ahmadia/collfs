@@ -404,14 +404,20 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
       if (len > link->totallen) {
         if (link->refct==1) { // no clients have mmaped this file, safe to remap/realloc
           size_t totallen;
-          debug_printf(2, "reallocating to size %zd on offset %lld", len, (long long) off);
+          debug_printf(2, "reallocating to size %zd (was %zd) on offset %lld", len, link->totallen, (long long) off);
           totallen = extend_to_page(len);
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
           } else {
-            mem = realloc(link->mem, totallen);
+	    mem = malloc(totallen);
+	    debug_printf(2, "Allocated %zd bytes", totallen);
+	    memcpy(mem,link->mem,link->totallen);
+	    debug_printf(2, "Copied %zd bytes", link->totallen);
+	    free(link->mem);
+	    link->mem = 0;
+	    // mem = realloc(link->mem, totallen);
           }
           gotmem = !!mem;
           MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
