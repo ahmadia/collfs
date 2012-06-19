@@ -1,25 +1,14 @@
-#CC = gcc -m64 
-CC = mpicc
-#MPICC = /opt/mpich2/bin/mpicc
-#MPICC = gcc -m64 
-MPICC = mpicc
-#CFLAGS = -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} 
-CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
-CFLAGS_DEBUG = -g3 -DDEBUG=1
-LIBCPATH ?= /lib
-LIBDL ?= -ldl
-LDSO ?= ld-2.12.2.so
-#LDFLAGS =  -Wl,-Bdynamic -Wl,-rpath,/home/aron/sys/lib -L/home/aron/sys/lib ${LIBDL} 
-#LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,/home/aron/bgpsys/lib -L/home/aron/bgpsys/lib ${LIBDL} 
-LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,${LIBCPATH} -L${LIBCPATH} ${LIBDL} ${LIBCPATH}/${LDSO} -Wl,-rpath,${PWD} -Wl,--dynamic-linker=${LIBCPATH}/ld-2.12.2.so -Wl,-rpath,/bgsys/drivers/V1R1M0/ppc64/comm/sys/lib
-LIBDL = -ldl 
+include ${MAKEINC}
+
 COLLFS_SRC_C = collfs.c
 COLLFS_SRC_O = $(COLLFS_SRC_C:.c=.o)
 
 # This option should be set to use the patched ld.so
 #LDCOLLFSFLAGS = -Wl,--dynamic-loader=/path/to/ld-collfs.so
 
-all : libthefunc.so main
+all : main-mpi 
+
+# main-nompi and minimal_main are currently broken :(
 
 # Depends on MPI, must be called from an executable using patched ld.so because _dl_collfs_api is referenced.
 libcollfs.so : collfs.o
@@ -46,9 +35,9 @@ main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
 main-nompi : main-nompi.o libcollfs-easy.so libminimal_thefunc.so
 	${CC} -g3 -o $@ $< ${LDFLAGS}
 
-main : main.o libfoo.so libcollfs.so 
+#main : main.o libfoo.so libcollfs.so 
 #main : main.o libfoo.so libcollfs.so libc-collfs.so
-	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
+#	${MPICC} -g3 -o $@ $^ ${LDFLAGS} 
 .c.o :
 	${CC} ${CFLAGS} -fPIC -c $<
 
