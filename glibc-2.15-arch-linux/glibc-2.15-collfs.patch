@@ -1,0 +1,373 @@
+diff -rupN glibc/elf/dl-close.c glibc-collfs/elf/dl-close.c
+--- glibc/elf/dl-close.c	2012-06-19 16:20:40.000000000 +0300
++++ glibc-collfs/elf/dl-close.c	2012-06-19 16:47:01.000000000 +0300
+@@ -33,6 +33,32 @@
+ #include <sysdep-cancel.h>
+ #include <tls.h>
+ 
++/* collfs wrapping macros, only applied within dynamic loader */
++#ifdef IS_IN_rtld
++typedef int (*collfs_munmap_fp)(__ptr_t addr, size_t len);
++
++struct libc_collfs_api {
++  void (*fxstat64)(void);
++  void (*xstat64)(void);
++  void (*open)(void);
++  void (*close)(void);
++  void (*read)(void);
++  void (*lseek)(void);
++  void (*mmap)(void);
++  void (*munmap)(void);
++};
++
++extern struct libc_collfs_api _dl_collfs_api;
++
++int __collfs_munmap(__ptr_t addr, size_t len);
++#define COLLFS_DL_UNMAP(map)                                           \
++  ((_dl_collfs_api.munmap != NULL) ?                                    \
++  ((collfs_munmap_fp) _dl_collfs_api.munmap)((void *) (map)->l_map_start, \
++                                             (map)->l_map_end - (map)->l_map_start) : DL_UNMAP(map))
++#else
++#define COLLFS_DL_UNMAP(map) (DL_UNMAP(map))
++#endif
++
+ 
+ /* Type of the constructor functions.  */
+ typedef void (*fini_t) (void);
+@@ -630,7 +656,7 @@ _dl_close_worker (struct link_map *map)
+ 	  /* We can unmap all the maps at once.  We determined the
+ 	     start address and length when we loaded the object and
+ 	     the `munmap' call does the rest.  */
+-	  DL_UNMAP (imap);
++	  COLLFS_DL_UNMAP (imap);
+ 
+ 	  /* Finally, unlink the data structure and free it.  */
+ 	  if (imap->l_prev != NULL)
+diff -rupN glibc/elf/dl-load.c glibc-collfs/elf/dl-load.c
+--- glibc/elf/dl-load.c	2012-06-19 16:20:40.000000000 +0300
++++ glibc-collfs/elf/dl-load.c	2012-06-19 16:46:46.000000000 +0300
+@@ -154,6 +154,76 @@ static const size_t system_dirs_len[] =
+   (sizeof (system_dirs_len) / sizeof (system_dirs_len[0]))
+ 
+ 
++/* collfs wrapping macros, only applied within dynamic loader */
++#ifdef IS_IN_rtld
++typedef int (*collfs_munmap_fp)(__ptr_t addr, size_t len);
++
++struct libc_collfs_api {
++  void (*fxstat64)(void);
++  void (*xstat64)(void);
++  void (*open)(void);
++  void (*close)(void);
++  void (*read)(void);
++  void (*lseek)(void);
++  void (*mmap)(void);
++  void (*munmap)(void);
++};
++
++extern struct libc_collfs_api _dl_collfs_api;
++
++typedef int (*collfs_fxstat64_fp)(int vers, int fd, struct stat64 *buf);
++typedef int (*collfs_xstat64_fp)(int vers, const char *file, struct stat64 *buf);
++typedef int (*collfs_open_fp)(const char *pathname, int flags, mode_t mode);
++typedef int (*collfs_close_fp)(int fd);
++typedef ssize_t (*collfs_read_fp)(int fd, void *buf, size_t count);
++typedef off_t (*collfs_lseek_fp)(int fildes, off_t offset, int whence);
++typedef void *(*collfs_mmap_fp)(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
++typedef int (*collfs_munmap_fp)(__ptr_t addr, size_t len);
++
++#define __collfs_open(pathname,flags)                                 \
++  ((_dl_collfs_api.open != NULL) ?                                      \
++   ((collfs_open_fp) _dl_collfs_api.open)(pathname,flags,O_RDONLY) : __open(pathname, flags))
++
++#define __collfs_close(fd)                                    \
++  ((_dl_collfs_api.close != NULL) ?                           \
++   ((collfs_close_fp) _dl_collfs_api.close)(fd) : __close(fd))                              
++
++#define __collfs_lseek(fildes, offset, whence)                          \
++  ((_dl_collfs_api.lseek != NULL) ?                                     \
++   ((collfs_lseek_fp) _dl_collfs_api.lseek)(fildes, offset, whence) : __lseek(fildes, offset, whence))
++
++#define __collfs_fxstat64(vers, fd, buf)                                \
++  ((_dl_collfs_api.fxstat64 != NULL) ?                                  \
++   ((collfs_fxstat64_fp) _dl_collfs_api.fxstat64)(vers, fd, buf) : __fxstat64(vers, fd, buf))
++
++#define __collfs_xstat64(vers, file, buf)                               \
++  ((_dl_collfs_api.xstat64 != NULL) ?                                   \
++   ((collfs_xstat64_fp) _dl_collfs_api.xstat64)(vers, file, buf) : __xstat64(vers, file, buf))
++
++#define __collfs_libc_read(fd, buf, count)                              \
++  ((_dl_collfs_api.read != NULL) ?                                      \
++   ((collfs_read_fp) _dl_collfs_api.read)(fd, buf, count) : __libc_read(fd, buf, count))
++
++#define __collfs_mmap(addr, len, prot, flags, fildes, off)              \
++  ((_dl_collfs_api.mmap != NULL) ?                                      \
++   ((collfs_mmap_fp) _dl_collfs_api.mmap)(addr, len, prot, flags, fildes, off) : __mmap(addr, len, prot, flags, fildes, off))   
++
++#define __collfs_munmap(addr, len)                                      \
++  ((_dl_collfs_api.munmap != NULL) ?                                    \
++   ((collfs_munmap_fp) _dl_collfs_api.munmap)(addr, len) : __munmap(addr, len))       
++
++#else 
++#define __collfs_open(pathname,flags) (__open(pathname, flags))
++#define __collfs_close(fd) (__close(fd))
++#define __collfs_lseek(fildes, offset, whence) (__lseek(fildes, offset, whence))
++#define __collfs_fxstat64(vers, fd, buf) (__fxstat64(vers, fd, buf))
++#define __collfs_xstat64(vers, file, buf) (__xstat64(vers, file, buf))
++#define __collfs_libc_read(fd, buf, count) (__libc_read(fd, buf, count))
++#define __collfs_mmap(addr, len, prot, flags, fildes, off) (__mmap(addr, len, prot, flags, fildes, off))
++#define __collfs_munmap(addr, len) (__munmap(addr, len))
++#endif
++
++
+ /* Local version of `strdup' function.  */
+ static char *
+ local_strdup (const char *s)
+@@ -887,7 +957,7 @@ lose (int code, int fd, const char *name
+ {
+   /* The file might already be closed.  */
+   if (fd != -1)
+-    (void) __close (fd);
++    (void) __collfs_close (fd);
+   if (l != NULL && l->l_origin != (char *) -1l)
+     free ((char *) l->l_origin);
+   free (l);
+@@ -928,7 +998,7 @@ _dl_map_object_from_fd (const char *name
+   bool make_consistent = false;
+ 
+   /* Get file information.  */
+-  if (__builtin_expect (__fxstat64 (_STAT_VER, fd, &st) < 0, 0))
++  if (__builtin_expect (__collfs_fxstat64 (_STAT_VER, fd, &st) < 0, 0))
+     {
+       errstring = N_("cannot stat shared object");
+     call_lose_errno:
+@@ -944,7 +1014,7 @@ _dl_map_object_from_fd (const char *name
+       {
+ 	/* The object is already loaded.
+ 	   Just bump its reference count and return it.  */
+-	__close (fd);
++	__collfs_close (fd);
+ 
+ 	/* If the name is not in the list of names for this object add
+ 	   it.  */
+@@ -973,7 +1043,7 @@ _dl_map_object_from_fd (const char *name
+ 
+       /* No need to bump the refcount of the real object, ld.so will
+ 	 never be unloaded.  */
+-      __close (fd);
++      __collfs_close (fd);
+ 
+       /* Add the map for the mirrored object to the object list.  */
+       _dl_add_to_namespace_list (l, nsid);
+@@ -987,7 +1057,7 @@ _dl_map_object_from_fd (const char *name
+       /* We are not supposed to load the object unless it is already
+ 	 loaded.  So return now.  */
+       free (realname);
+-      __close (fd);
++      __collfs_close (fd);
+       return NULL;
+     }
+ 
+@@ -1006,7 +1076,7 @@ _dl_map_object_from_fd (const char *name
+       if (_dl_zerofd == -1)
+ 	{
+ 	  free (realname);
+-	  __close (fd);
++	  __collfs_close (fd);
+ 	  _dl_signal_error (errno, NULL, NULL,
+ 			    N_("cannot open zero fill device"));
+ 	}
+@@ -1070,8 +1140,8 @@ _dl_map_object_from_fd (const char *name
+   else
+     {
+       phdr = alloca (maplength);
+-      __lseek (fd, header->e_phoff, SEEK_SET);
+-      if ((size_t) __libc_read (fd, (void *) phdr, maplength) != maplength)
++      __collfs_lseek (fd, header->e_phoff, SEEK_SET);
++      if ((size_t) __collfs_libc_read (fd, (void *) phdr, maplength) != maplength)
+ 	{
+ 	  errstring = N_("cannot read file data");
+ 	  goto call_lose_errno;
+@@ -1280,7 +1350,7 @@ cannot allocate TLS data structures for
+ 		   - MAP_BASE_ADDR (l));
+ 
+ 	/* Remember which part of the address space this object uses.  */
+-	l->l_map_start = (ElfW(Addr)) __mmap ((void *) mappref, maplength,
++	l->l_map_start = (ElfW(Addr)) __collfs_mmap ((void *) mappref, maplength,
+ 					      c->prot,
+ 					      MAP_COPY|MAP_FILE,
+ 					      fd, c->mapoff);
+@@ -1331,7 +1401,7 @@ cannot allocate TLS data structures for
+       {
+ 	if (c->mapend > c->mapstart
+ 	    /* Map the segment contents from the file.  */
+-	    && (__mmap ((void *) (l->l_addr + c->mapstart),
++	    && (__collfs_mmap ((void *) (l->l_addr + c->mapstart),
+ 			c->mapend - c->mapstart, c->prot,
+ 			MAP_FIXED|MAP_COPY|MAP_FILE,
+ 			fd, c->mapoff)
+@@ -1389,7 +1459,7 @@ cannot allocate TLS data structures for
+ 	      {
+ 		/* Map the remaining zero pages in from the zero fill FD.  */
+ 		caddr_t mapat;
+-		mapat = __mmap ((caddr_t) zeropage, zeroend - zeropage,
++		mapat = __collfs_mmap ((caddr_t) zeropage, zeroend - zeropage,
+ 				c->prot, MAP_ANON|MAP_PRIVATE|MAP_FIXED,
+ 				-1, 0);
+ 		if (__builtin_expect (mapat == MAP_FAILED, 0))
+@@ -1423,7 +1493,7 @@ cannot allocate TLS data structures for
+       && (mode & __RTLD_DLOPEN))
+     {
+       /* We are not supposed to load this object.  Free all resources.  */
+-      __munmap ((void *) l->l_map_start, l->l_map_end - l->l_map_start);
++      __collfs_munmap ((void *) l->l_map_start, l->l_map_end - l->l_map_start);
+ 
+       if (!l->l_libname->dont_free)
+ 	free (l->l_libname);
+@@ -1511,7 +1581,7 @@ cannot enable executable stack as shared
+     l->l_tls_initimage = (char *) l->l_tls_initimage + l->l_addr;
+ 
+   /* We are done mapping in the file.  We no longer need the descriptor.  */
+-  if (__builtin_expect (__close (fd) != 0, 0))
++  if (__builtin_expect (__collfs_close (fd) != 0, 0))
+     {
+       errstring = N_("cannot close file descriptor");
+       goto call_lose_errno;
+@@ -1706,7 +1776,7 @@ open_verify (const char *name, struct fi
+ #endif
+ 
+   /* Open the file.  We always open files read-only.  */
+-  int fd = __open (name, O_RDONLY | O_CLOEXEC);
++  int fd = __collfs_open (name, O_RDONLY | O_CLOEXEC);
+   if (fd != -1)
+     {
+       ElfW(Ehdr) *ehdr;
+@@ -1718,7 +1788,7 @@ open_verify (const char *name, struct fi
+       /* We successfully openened the file.  Now verify it is a file
+ 	 we can use.  */
+       __set_errno (0);
+-      fbp->len = __libc_read (fd, fbp->buf, sizeof (fbp->buf));
++      fbp->len = __collfs_libc_read (fd, fbp->buf, sizeof (fbp->buf));
+ 
+       /* This is where the ELF header is loaded.  */
+       assert (sizeof (fbp->buf) > sizeof (ElfW(Ehdr)));
+@@ -1827,8 +1897,8 @@ open_verify (const char *name, struct fi
+       else
+ 	{
+ 	  phdr = alloca (maplength);
+-	  __lseek (fd, ehdr->e_phoff, SEEK_SET);
+-	  if ((size_t) __libc_read (fd, (void *) phdr, maplength) != maplength)
++	  __collfs_lseek (fd, ehdr->e_phoff, SEEK_SET);
++	  if ((size_t) __collfs_libc_read (fd, (void *) phdr, maplength) != maplength)
+ 	    {
+ 	    read_error:
+ 	      errval = errno;
+@@ -1848,8 +1918,8 @@ open_verify (const char *name, struct fi
+ 	    else
+ 	      {
+ 		abi_note = alloca (size);
+-		__lseek (fd, ph->p_offset, SEEK_SET);
+-		if (__libc_read (fd, (void *) abi_note, size) != size)
++		__collfs_lseek (fd, ph->p_offset, SEEK_SET);
++		if (__collfs_libc_read (fd, (void *) abi_note, size) != size)
+ 		  goto read_error;
+ 	      }
+ 
+@@ -1879,7 +1949,7 @@ open_verify (const char *name, struct fi
+ 		|| (GLRO(dl_osversion) && GLRO(dl_osversion) < osversion))
+ 	      {
+ 	      close_and_out:
+-		__close (fd);
++		__collfs_close (fd);
+ 		__set_errno (ENOENT);
+ 		fd = -1;
+ 	      }
+@@ -1969,7 +2039,7 @@ open_path (const char *name, size_t name
+ 
+ 		  buf[buflen - namelen - 1] = '\0';
+ 
+-		  if (__xstat64 (_STAT_VER, buf, &st) != 0
++		  if (__collfs_xstat64 (_STAT_VER, buf, &st) != 0
+ 		      || ! S_ISDIR (st.st_mode))
+ 		    /* The directory does not exist or it is no directory.  */
+ 		    this_dir->status[cnt] = nonexisting;
+@@ -1989,13 +2059,13 @@ open_path (const char *name, size_t name
+ 		 directories and so exploit the bugs.  */
+ 	      struct stat64 st;
+ 
+-	      if (__fxstat64 (_STAT_VER, fd, &st) != 0
++	      if (__collfs_fxstat64 (_STAT_VER, fd, &st) != 0
+ 		  || (st.st_mode & S_ISUID) == 0)
+ 		{
+ 		  /* The shared object cannot be tested for being SUID
+ 		     or this bit is not set.  In this case we must not
+ 		     use this object.  */
+-		  __close (fd);
++		  __collfs_close (fd);
+ 		  fd = -1;
+ 		  /* We simply ignore the file, signal this by setting
+ 		     the error value which would have been set by `open'.  */
+@@ -2016,7 +2086,7 @@ open_path (const char *name, size_t name
+ 	    {
+ 	      /* No memory for the name, we certainly won't be able
+ 		 to load and link it.  */
+-	      __close (fd);
++	      __collfs_close (fd);
+ 	      return -1;
+ 	    }
+ 	}
+@@ -2249,7 +2319,7 @@ _dl_map_object (struct link_map *loader,
+ 		      realname = local_strdup (cached);
+ 		      if (realname == NULL)
+ 			{
+-			  __close (fd);
++			  __collfs_close (fd);
+ 			  fd = -1;
+ 			}
+ 		    }
+diff -rupN glibc/elf/rtld.c glibc-collfs/elf/rtld.c
+--- glibc/elf/rtld.c	2012-06-19 16:20:40.000000000 +0300
++++ glibc-collfs/elf/rtld.c	2012-06-19 16:45:13.000000000 +0300
+@@ -73,6 +73,31 @@ enum mode { normal, list, verify, trace
+    all the entries.  */
+ static void process_envvars (enum mode *modep);
+ 
++/* collective file system function hooks, these are used in dl-open and dl-sym
++   and have external linkage. */
++
++struct libc_collfs_api {
++  void (*fxstat64)(void);
++  void (*xstat64)(void);
++  void (*open)(void);
++  void (*close)(void);
++  void (*read)(void);
++  void (*lseek)(void);
++  void (*mmap)(void);
++  void (*munmap)(void);
++};
++
++struct libc_collfs_api _dl_collfs_api = {
++  .fxstat64 = NULL,
++  .xstat64  = NULL,
++  .open     = NULL,
++  .close    = NULL,
++  .read     = NULL,
++  .lseek    = NULL,
++  .mmap     = NULL,
++  .munmap   = NULL
++};
++
+ #ifdef DL_ARGV_NOT_RELRO
+ int _dl_argc attribute_hidden;
+ char **_dl_argv = NULL;
+diff -rupN glibc/elf/Versions glibc-collfs/elf/Versions
+--- glibc/elf/Versions	2012-06-19 16:20:40.000000000 +0300
++++ glibc-collfs/elf/Versions	2012-06-19 16:30:42.000000000 +0300
+@@ -51,6 +51,7 @@ ld {
+     # Those are in the dynamic linker, but used by libc.so.
+     __libc_enable_secure;
+     _dl_argv;
++    _dl_collfs_api;
+     _dl_out_of_memory;
+     _dl_starting_up;
+     _rtld_global; _rtld_global_ro;
