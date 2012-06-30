@@ -9,7 +9,7 @@ void collfs_easy_initialize()
   int rank,size;
 
   MPI_Init(NULL,NULL);
-  collfs_initialize(1, NULL);
+  collfs_initialize(3, NULL);
   MPI_Comm_size(MPI_COMM_WORLD,&size);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
   fprintf(stderr,"[%d/%d] Pushing MPI_COMM_WORLD\n",rank,size);

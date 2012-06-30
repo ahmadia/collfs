@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <stdint.h>
 
 static int collfs_initialized;
 
@@ -203,7 +204,11 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     return -1;
   }
 
-  if (flags == O_RDONLY) {      /* Read is collectively on comm */
+#ifndef O_CLOEXEC
+  #define O_CLOEXEC O_RDONLY
+#endif
+
+  if (flags == O_RDONLY || flags == (O_RDONLY | O_CLOEXEC)) {      /* Read is collectively on comm */
     int len, fd, gotmem;
     struct {int len, errno_save;} buf;
     size_t totallen;
@@ -481,7 +486,7 @@ static int collfs_munmap(__ptr_t addr, size_t len)
  ***********************************************************************/
 
 /* Symbol is exposed by patched ld.so */
-extern struct libc_collfs_api _dl_collfs_api;
+extern struct libc_collfs_api _dl_collfs_api __attribute((weak));
 
 int collfs_initialize(int level, void (*errhandler)(void))
 {
@@ -515,6 +520,7 @@ int collfs_initialize(int level, void (*errhandler)(void))
   _dl_collfs_api.munmap   = (void_fp) collfs_munmap;
 
   collfs_initialized = 1;
+  debug_printf(2, "collfs initialized");
   return 0;
 }
 
@@ -549,13 +555,17 @@ int collfs_comm_push(MPI_Comm comm)
 
   CHECK_INIT(-1);
   link = malloc(sizeof *link);
-  if (!link) return -1;
+  if (!link) {
+    debug_printf(2, "%s failed -- unable to malloc link", __func__);
+    return -1;
+  }
   link->comm = comm;
   link->next = CommStack;
   CommStack = link;
 #if DEBUG
   MPI_Barrier(link->comm);
 #endif
+  debug_printf(2, "%s comm %p", __func__, (void *) comm);
   return 0;
 }
 

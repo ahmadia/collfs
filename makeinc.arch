@@ -1,16 +1,15 @@
-#CC = gcc -m64 
-##CC = mpicc
-CC = /opt/mpich2/bin/mpicc
+#CC = gcc
+#MPICC = mpicc
+
+CC = gcc
 MPICC = /opt/mpich2/bin/mpicc
-#MPICC = gcc -m64 
-##MPICC = mpicc
-#CFLAGS = -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include -I/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} 
+
 CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
 CFLAGS_DEBUG = -g3 -DDEBUG=1
 LIBCPATH = /home/aron/opt/lib
 LIBDL = -ldl
 LDSO = ld-2.15.so
-#LDFLAGS =  -Wl,-Bdynamic -Wl,-rpath,/home/aron/sys/lib -L/home/aron/sys/lib ${LIBDL} 
-#LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,/home/aron/bgpsys/lib -L/home/aron/bgpsys/lib ${LIBDL} 
-LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,${LIBCPATH} -L${LIBCPATH} ${LIBDL} ${LIBCPATH}/${LDSO} -Wl,-rpath,${PWD} -Wl,--dynamic-linker=${LIBCPATH}/${LDSO}
-
+# on Arch Linux, mpich is statically linked, so you need to explicitly bring in libdl
+# on the other hand, openmpi is dynamically linked, so bringing in libdl before libc will break things
+# so don't implicitly bring in libc, explicitly link it before libdl.
+LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,${LIBCPATH} -L${LIBCPATH} -lc ${LIBDL} ${LIBCPATH}/${LDSO} -Wl,-rpath,${PWD} -Wl,--dynamic-linker=${LIBCPATH}/${LDSO}

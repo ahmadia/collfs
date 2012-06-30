@@ -16,7 +16,7 @@ libcollfs.so : collfs.o
 
 # Depends on libcollfs.so and MPI, can be preloaded to make an ignorant program use collective IO
 libcollfs-easy.so : collfs-easy.o libcollfs.so
-	${MPICC} -shared -g3 -o $@ $^
+	${MPICC} -shared -g3 -o $@ $^ ${LDFLAGS}
 
 # Depends only on libc, just prints "called thefunc"
 libminimal_thefunc.so: minimal_thefunc.o
@@ -28,8 +28,14 @@ minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
 
 # Explicitly uses libcollfs to push communicators. Loads libminimal_thefunc.so (so only a run-time dependency)
-main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
+main-mpi : main-mpi.o
 	${MPICC} -g3 -o $@ $< libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
+
+main-mpi.o : main-mpi.c
+	${MPICC} -c -g3 -FPIC -o $@ $^
+
+collfs.o : collfs.c collfs.h libc-collfs.h
+	${MPICC} -c -fPIC -g3  $<
 
 # Depends only on libc, loads libminimal_thefunc (only run-time dependency), libcollfs-easy.so should be preloaded.
 main-nompi : main-nompi.o libcollfs-easy.so libminimal_thefunc.so
