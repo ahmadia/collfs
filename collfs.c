@@ -245,7 +245,8 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
       /* Don't use shm_open() here because the shared memory segment is fixed at boot time. */
       fd = NextFD++;
       pagesize = sysconf(_SC_PAGESIZE);
-      posix_memalign(&mem, pagesize, totallen);
+      mem = ((collfs_mmap_fp) unwrap.mmap)(0, len, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, fd, 0);
+      ((collfs_lseek_fp) unwrap.lseek)(fd, 0, SEEK_SET);
     }
 
     if (fd >= 0)
@@ -255,7 +256,9 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     if (!gotmem) {
       if (!rank) {
         if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, len);
-      } else free(mem);
+      } else {
+        if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, len);
+      }
       set_error(ECOLLFS, "Could not find memory: mmap() on rank 0, malloc otherwise");
       return -1;
     }
@@ -304,7 +307,7 @@ static int collfs_close(int fd)
         ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->len);
         xerr = ((collfs_close_fp) unwrap.close)(fd);
       } else {
-        free(link->mem);
+        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->len);
       }
       *linkp = link->next;
       free(link);
@@ -396,11 +399,8 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
             debug_printf(2, "moving %zd bytes from %p to %p", len, (void*)(char*)link->mem+off, addr);
+            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
             memmove(addr,(void*)(char*)link->mem+off,len);
-            err = mprotect(addr,len,prot);
-            if (err== -1)
-              return MAP_FAILED;
-            debug_printf(2, "Set memory protection in range [%p %p] to bitset %d", addr, addr+len, prot);
             return addr;
           }
         }
@@ -425,16 +425,11 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
           } else {
             pagesize = sysconf(_SC_PAGESIZE);
-            posix_memalign(&mem, pagesize, totallen);
+            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
+            memmove(mem, link->mem+off, link->len);
+            ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->len);
 	    debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, mem+totallen);
-	    memcpy(mem,link->mem,link->totallen);
 	    debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, mem+link->totallen);
-            err = mprotect(mem,totallen,prot);
-            if (err== -1)
-              return MAP_FAILED;
-            debug_printf(2, "Set memory protection in range [%p %p] to bitset %d", mem, mem+totallen, prot);
-	    free(link->mem);
-	    link->mem = 0;
 	    // mem = realloc(link->mem, totallen);
           }
           gotmem = !!mem;

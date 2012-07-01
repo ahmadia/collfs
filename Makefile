@@ -20,9 +20,9 @@ libcollfs-easy.so : collfs-easy.o libcollfs.so
 
 # Depends only on libc, just prints "called thefunc"
 libminimal_thefunc.so: minimal_thefunc.o
-	${CC} -shared -g3 -o $@ $^
+	${CC} -shared -g3 -fPIC -o $@ $^
 libthefunc.so : thefunc.o
-	${CC} -shared -g3 -o $@ $^
+	${CC} -shared -g3 -fPIC -o $@ $^
 
 minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
