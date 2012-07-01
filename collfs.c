@@ -112,6 +112,7 @@ static int NextFD = 10001;
 struct MMapLink {
   void *addr;
   size_t len;
+  size_t offset;
   int fd;
   struct MMapLink *next;
 };
@@ -210,6 +211,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
 
   if (flags == O_RDONLY || flags == (O_RDONLY | O_CLOEXEC)) {      /* Read is collectively on comm */
     int len, fd, gotmem;
+    long pagesize;
     struct {int len, errno_save;} buf;
     size_t totallen;
     void *mem;
@@ -242,7 +244,8 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     } else {
       /* Don't use shm_open() here because the shared memory segment is fixed at boot time. */
       fd = NextFD++;
-      mem = malloc(totallen);
+      pagesize = sysconf(_SC_PAGESIZE);
+      posix_memalign(&mem, pagesize, totallen);
     }
 
     if (fd >= 0)
@@ -373,7 +376,8 @@ Note that we allow len > mlink-> len.
 static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
   struct FileLink *link;
-  int gotmem, rank;
+  long pagesize;
+  int gotmem, rank, err;
   void *mem;
 
   CHECK_INIT(MAP_FAILED);
@@ -386,20 +390,24 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         return MAP_FAILED;
       }
       if (flags & MAP_FIXED) {
-        if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->totallen)) {
+        if (addr+len <= (void*)((char*)link->mem+link->totallen)) {
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
             debug_printf(2, "moving %zd bytes from %p to %p", len, (void*)(char*)link->mem+off, addr);
             memmove(addr,(void*)(char*)link->mem+off,len);
+            err = mprotect(addr,len,prot);
+            if (err== -1)
+              return MAP_FAILED;
+            debug_printf(2, "Set memory protection in range [%p %p] to bitset %d", addr, addr+len, prot);
             return addr;
           }
         }
         else {
           debug_printf(2, "%p requested of length %zd, but link->mem = %p and link->mem+link->totallen = %p", 
                        addr, len, link->mem,  (void*)((char*)link->mem+link->totallen));
-          set_error(EACCES, "addr < (void*)( (char*) link->mem + off) || addr < (void*) (char*) link->mem+link->totallen");
+          set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");
         }
       }
       if (flags & MAP_SHARED ) {
@@ -416,10 +424,15 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
           } else {
-	    mem = malloc(totallen);
-	    debug_printf(2, "Allocated %zd bytes", totallen);
+            pagesize = sysconf(_SC_PAGESIZE);
+            posix_memalign(&mem, pagesize, totallen);
+	    debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, mem+totallen);
 	    memcpy(mem,link->mem,link->totallen);
-	    debug_printf(2, "Copied %zd bytes", link->totallen);
+	    debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, mem+link->totallen);
+            err = mprotect(mem,totallen,prot);
+            if (err== -1)
+              return MAP_FAILED;
+            debug_printf(2, "Set memory protection in range [%p %p] to bitset %d", mem, mem+totallen, prot);
 	    free(link->mem);
 	    link->mem = 0;
 	    // mem = realloc(link->mem, totallen);
@@ -433,7 +446,6 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
           link->mem = mem;
           link->len = len;
           link->totallen = totallen;
-          link->offset = off;
         }
         else {
           set_error(EOVERFLOW, "off + len > link->totallen");
@@ -446,6 +458,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
       mlink = malloc(sizeof *mlink);
       mlink->addr = (char*)link->mem + off;
       mlink->len = len;
+      mlink->offset = off;
       mlink->fd = fildes;
       mlink->next = MMapRegions;
       MMapRegions = mlink;
