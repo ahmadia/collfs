@@ -2,4 +2,6 @@
 *.so
 *.[oa]
 # ignore our binary executable
+main-mpi
+main-nompi
 main
