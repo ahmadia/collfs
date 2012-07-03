@@ -34,14 +34,14 @@
 typedef int (*collfs_munmap_fp)(__ptr_t addr, size_t len);
 
 struct libc_collfs_api {
-  void * fxstat64;
-  void *  xstat64;
-  void *     open;
-  void *    close;
-  void *     read;
-  void *    lseek;
-  void *     mmap;
-  void *   munmap;
+  void (*fxstat64)(void);
+  void (*xstat64)(void);
+  void (*open)(void);
+  void (*close)(void);
+  void (*read)(void);
+  void (*lseek)(void);
+  void (*mmap)(void);
+  void (*munmap)(void);
 };
 
 extern struct libc_collfs_api _dl_collfs_api;
