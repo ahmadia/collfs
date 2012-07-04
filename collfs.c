@@ -395,7 +395,6 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
     if (link->fd == fildes) {
       struct MMapLink *mlink;
       debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) collective", __func__, addr, len, prot, flags, fildes, (long long)off);
-      debug_printf(2, "%p,%lld)", link->mem, link->len);
       if (prot & PROT_WRITE && !(flags & MAP_FIXED)) {
         set_error(EACCES, "prot & PROT_WRITE && !(flags & MAP_FIXED)");
         return MAP_FAILED;
@@ -407,45 +406,43 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
           set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");          
           return MAP_FAILED;
         }
-        if (1) {
-        /* if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->totallen)) { */
-          MPI_Comm_rank(CommStack->comm, &rank);
-          if (!rank) {
-            /* link->refct++; */
-            return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
-          } else {
-	    /* debug_printf(2, "Allocated %zd bytes range [%p %p]", len, mem, (void*)(char*)addr+len); */
-            /* mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags | MAP_ANONYMOUS, link->fd, off); */
-            /* debug_printf(2, "moving %zd bytes from %p to %p", len, (void*)(char*)link->mem+off, addr); */
-            /* return addr; */
 
-            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, PROT_READ | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
-            if (mem == MAP_FAILED) {
-              return MAP_FAILED;
-            }
-
-            memmove(addr,(void*)(char*)link->mem+off,len); 
-            mprotect(mem, len, prot);
-
-            mlink = malloc(sizeof *mlink);
-            mlink->addr = mem;
-            mlink->len = len;
-            mlink->offset = off;
-            mlink->fd = fildes;
-            mlink->next = MMapRegions;
-            MMapRegions = mlink;
-            /* link->refct++; */
-            return mlink->addr;
-          }
+        MPI_Comm_rank(CommStack->comm, &rank);
+        if (!rank) {
+          mem =  ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
+        } else {
+          mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, PROT_READ | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
         }
-        else {
-          debug_printf(2, "%p requested of length %zd, but link->mem = %p and link->mem+link->totallen = %p", 
-                       addr, len, link->mem,  (void*)((char*)link->mem+link->totallen));
-          set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");
+
+        gotmem = !!mem;
+        debug_printf(2, "%s() Entering Allreduce", __func__);
+        MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
+        debug_printf(2, "%s() Exiting Allreduce", __func__);
+        if (!gotmem) {
+          debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
+          set_error(ECOLLFS, "Could not find memory to reallocate");
           return MAP_FAILED;
         }
+
+        if (rank) {
+          debug_printf(2, "%s() Entering memmove", __func__);
+          memmove(addr,(void*)(char*)link->mem+off,len); 
+          debug_printf(2, "%s() Entering mprotect", __func__);
+          mprotect(mem, len, prot);          
+          debug_printf(2, "%s() Exiting mprotect", __func__);
+        }
+        mlink = malloc(sizeof *mlink);
+        mlink->addr = mem;
+        mlink->len = len;
+        mlink->offset = off;
+        mlink->fd = fildes;
+        mlink->next = MMapRegions;
+        MMapRegions = mlink;
+        debug_printf(2, "%s() Returning mlink->addr (fixed)", __func__);
+        return mlink->addr;
       }
       if (flags & MAP_SHARED ) {
+        debug_printf(2, "%s() ERROR: Cannot do MAP_SHARED for a collective fd", __func__);
         set_error(ENOTSUP, "flags & MAP_SHARED: cannot do MAP_SHARED for a collective fd");
         return MAP_FAILED;
       }
@@ -461,31 +458,32 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
           } else {
             mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
-            if (mem == MAP_FAILED) {
-              return MAP_FAILED;
-            }
+          }
+
+          gotmem = !!mem;
+          MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
+          if (!gotmem) {
+            debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
+            set_error(ECOLLFS, "Could not find memory to reallocate");
+            return MAP_FAILED;
+          }
+
+          if (rank) {
             memmove(mem, (void*)(char*)link->mem+off, link->totallen);
             mprotect(mem, totallen, prot);
             /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
 	    debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
 	    debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, (void*)(char*)mem+link->totallen);
-	    // mem = realloc(link->mem, totallen);
           }
-          gotmem = !!mem;
-          MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
-          if (!gotmem) {
-            set_error(ECOLLFS, "Could not find memory to reallocate");
-            return MAP_FAILED;
-          }
-          /* link->mem = mem; */
-          /* link->len = len; */
-          /* link->totallen = totallen; */
         }
         else {
+          debug_printf(2, "%s() ERROR: off + len > link->totallen", __func__);
           set_error(EOVERFLOW, "off + len > link->totallen");
+          return MAP_FAILED;
         }
       }
       if (off < 0) {
+        debug_printf(2, "%s() ERROR: off < 0", __func__);
         set_error(ENXIO, "off < 0");
         return MAP_FAILED;
       }
