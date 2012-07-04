@@ -1,8 +1,8 @@
-#CC = gcc
-#MPICC = mpicc
-
 CC = gcc
-MPICC = /opt/mpich2/bin/mpicc
+MPICC = mpicc
+
+#CC = gcc
+#MPICC = /opt/mpich2/bin/mpicc
 
 CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
 CFLAGS_DEBUG = -g3 -DDEBUG=1
