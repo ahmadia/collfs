@@ -138,25 +138,25 @@ static int collfs_fxstat64(int vers, int fd, struct stat64 *buf)
   struct FileLink *link;
 
   CHECK_INIT(-1);
-  for (link=DLOpenFiles; link; link=link->next) {
-    if (link->fd == fd) {
-      int rank,xerr = 0;
-      err = MPI_Comm_rank(link->comm, &rank); if (err) return -1;
-      if (!rank) xerr = ((collfs_fxstat64_fp) unwrap.fxstat64)(vers, fd, buf);
-#if DEBUG
-      err = MPI_Bcast(&xerr, 1, MPI_INT, 0, link->comm);
-      if (err < 0) {
-        set_error(ECOLLFS, "MPI_Bcast failed to broadcast success of root fxstat64");
-        return -1;
+  if (CommStack) {
+    debug_printf(2, "%s(%d) collective", __func__, fd);
+    for (link=DLOpenFiles; link; link=link->next) {
+      if (link->fd == fd) {
+        int rank,xerr = 0;
+        err = MPI_Comm_rank(link->comm, &rank); if (err) return -1;
+        if (!rank) xerr = ((collfs_fxstat64_fp) unwrap.fxstat64)(vers, fd, buf);
+        err = MPI_Bcast(&xerr, 1, MPI_INT, 0, link->comm);
+        if (err < 0) {
+          set_error(ECOLLFS, "MPI_Bcast failed to broadcast success of root fxstat64");
+          return -1;
+        }
+        
+        err = MPI_Bcast(buf, sizeof *buf, MPI_BYTE, 0, link->comm);
+        if (err < 0) {
+          set_error(ECOLLFS, "MPI_Bcast failed to broadcast struct");
+          return -1;
+        } else return 0;
       }
-#endif
-      if (xerr < 0) return -1; /* Only rank 0 will have errno set correctly */
-
-      err = MPI_Bcast(buf, sizeof *buf, MPI_BYTE, 0, link->comm);
-      if (err < 0) {
-        set_error(ECOLLFS, "MPI_Bcast failed to broadcast struct");
-        return -1;
-      } else return 0;
     }
   }
   return ((collfs_fxstat64_fp) unwrap.fxstat64)(vers, fd, buf);
@@ -167,17 +167,15 @@ static int collfs_xstat64(int vers, const char *file, struct stat64 *buf)
 {
   CHECK_INIT(-1);
   if (CommStack) {
+    debug_printf(2, "%s(\"%s\") collective", __func__, file);
     int err,rank,xerr;
     err = MPI_Comm_rank(CommStack->comm, &rank); if (err) return -1;
     if (!rank) xerr = ((collfs_xstat64_fp) unwrap.xstat64)(vers, file, buf);
-#if DEBUG
     err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);
     if (err < 0) {
       set_error(ECOLLFS, "MPI_Bcast failed to broadcast success of root xstat64");
       return -1;
     }
-#endif
-    if (xerr < 0) return -1; /* Only rank 0 will have errno set correctly */
 
     err = MPI_Bcast(buf, sizeof *buf, MPI_BYTE, 0, CommStack->comm);
     if (err < 0) {
@@ -222,7 +220,7 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
       len = -1;
       fd = ((collfs_open_fp) unwrap.open)(pathname, flags, mode);
       if (fd >= 0) {
-        struct stat fdst;
+        struct stat fdst;   
         if (fstat(fd, &fdst) < 0) ((collfs_close_fp) unwrap.close)(fd); /* fail cleanly */
         else len = (int)fdst.st_size;              /* Cast prevents using large files, but MPI would need workarounds too */
       }
@@ -245,7 +243,8 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
       /* Don't use shm_open() here because the shared memory segment is fixed at boot time. */
       fd = NextFD++;
       pagesize = sysconf(_SC_PAGESIZE);
-      mem = ((collfs_mmap_fp) unwrap.mmap)(0, len, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, fd, 0);
+      mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, fd, 0);
+
       ((collfs_lseek_fp) unwrap.lseek)(fd, 0, SEEK_SET);
     }
 
@@ -255,9 +254,9 @@ static int collfs_open(const char *pathname, int flags, mode_t mode)
     err = MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
     if (!gotmem) {
       if (!rank) {
-        if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, len);
+        if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, totallen);
       } else {
-        if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, len);
+        if (mem) ((collfs_munmap_fp) unwrap.munmap)(mem, totallen);
       }
       set_error(ECOLLFS, "Could not find memory: mmap() on rank 0, malloc otherwise");
       return -1;
@@ -304,14 +303,15 @@ static int collfs_close(int fd)
       if (--link->refct > 0) return 0;
       err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); if (err) return -1;
       if (!rank) {
-        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->len);
+        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
         xerr = ((collfs_close_fp) unwrap.close)(fd);
       } else {
-        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->len);
+        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
       }
       *linkp = link->next;
       free(link);
-      return xerr;
+      err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);      
+      return err;
     }
   }
   debug_printf(2, "%s(%d) independent", __func__, fd);
@@ -388,26 +388,53 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
     if (link->fd == fildes) {
       struct MMapLink *mlink;
       debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) collective", __func__, addr, len, prot, flags, fildes, (long long)off);
+      debug_printf(2, "%p,%lld)", link->mem, link->len);
       if (prot & PROT_WRITE && !(flags & MAP_FIXED)) {
         set_error(EACCES, "prot & PROT_WRITE && !(flags & MAP_FIXED)");
         return MAP_FAILED;
       }
       if (flags & MAP_FIXED) {
-        if (addr+len <= (void*)((char*)link->mem+link->totallen)) {
+        if (off + len > link->totallen || off < 0) {
+          debug_printf(2, "%p requested of length %zd, but off + len = %zd and link->totallen = %zd", 
+                       addr, len, off+len, link->totallen);
+          set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");          
+          return MAP_FAILED;
+        }
+        if (1) {
+        /* if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->totallen)) { */
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
-            debug_printf(2, "moving %zd bytes from %p to %p", len, (void*)(char*)link->mem+off, addr);
-            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
-            memmove(addr,(void*)(char*)link->mem+off,len);
-            return addr;
+	    /* debug_printf(2, "Allocated %zd bytes range [%p %p]", len, mem, (void*)(char*)addr+len); */
+            /* mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags | MAP_ANONYMOUS, link->fd, off); */
+            /* debug_printf(2, "moving %zd bytes from %p to %p", len, (void*)(char*)link->mem+off, addr); */
+            /* return addr; */
+
+            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, PROT_READ | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
+            if (mem == MAP_FAILED) {
+              return MAP_FAILED;
+            }
+
+            memmove(addr,(void*)(char*)link->mem+off,len); 
+            mprotect(mem, len, prot);
+
+            mlink = malloc(sizeof *mlink);
+            mlink->addr = mem;
+            mlink->len = len;
+            mlink->offset = off;
+            mlink->fd = fildes;
+            mlink->next = MMapRegions;
+            MMapRegions = mlink;
+            link->refct++;
+            return mlink->addr;
           }
         }
         else {
           debug_printf(2, "%p requested of length %zd, but link->mem = %p and link->mem+link->totallen = %p", 
                        addr, len, link->mem,  (void*)((char*)link->mem+link->totallen));
           set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");
+          return MAP_FAILED;
         }
       }
       if (flags & MAP_SHARED ) {
@@ -415,21 +442,25 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         return MAP_FAILED;
       }
       if (len > link->totallen) {
-        if (link->refct==1) { // no clients have mmaped this file, safe to remap/realloc
+        if (link->refct==1) { // no clients have mmaped this file, safe to create mmap
           size_t totallen;
-          debug_printf(2, "reallocating to size %zd (was %zd) on offset %lld", len, link->totallen, (long long) off);
+
           totallen = extend_to_page(len);
+          debug_printf(2, "mmaping new size %zd (file size %zd) on offset %lld", totallen, link->totallen, (long long) off);
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
             ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
             mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
           } else {
-            pagesize = sysconf(_SC_PAGESIZE);
-            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
-            memmove(mem, link->mem+off, link->len);
-            ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->len);
-	    debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, mem+totallen);
-	    debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, mem+link->totallen);
+            mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
+            if (mem == MAP_FAILED) {
+              return MAP_FAILED;
+            }
+            memmove(mem, (void*)(char*)link->mem+off, link->totallen);
+            mprotect(mem, totallen, prot);
+            /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
+	    debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
+	    debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, (void*)(char*)mem+link->totallen);
 	    // mem = realloc(link->mem, totallen);
           }
           gotmem = !!mem;
@@ -438,9 +469,9 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             set_error(ECOLLFS, "Could not find memory to reallocate");
             return MAP_FAILED;
           }
-          link->mem = mem;
-          link->len = len;
-          link->totallen = totallen;
+          /* link->mem = mem; */
+          /* link->len = len; */
+          /* link->totallen = totallen; */
         }
         else {
           set_error(EOVERFLOW, "off + len > link->totallen");
@@ -451,7 +482,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         return MAP_FAILED;
       }
       mlink = malloc(sizeof *mlink);
-      mlink->addr = (char*)link->mem + off;
+      mlink->addr = mem;
       mlink->len = len;
       mlink->offset = off;
       mlink->fd = fildes;
