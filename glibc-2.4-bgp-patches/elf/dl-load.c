@@ -856,7 +856,7 @@ lose (int code, int fd, const char *name, char *realname, struct link_map *l,
 {
   /* The file might already be closed.  */
   if (fd != -1)
-    (void) __close (fd);
+    (void) __collfs_close (fd);
   if (l != NULL)
     {
       /* Remove the stillborn object from the list and free it.  */
@@ -927,7 +927,7 @@ _dl_map_object_from_fd (const char *name, int fd, struct filebuf *fbp,
       {
 	/* The object is already loaded.
 	   Just bump its reference count and return it.  */
-	__close (fd);
+	__collfs_close (fd);
 
 	/* If the name is not in the list of names for this object add
 	   it.  */
@@ -956,7 +956,7 @@ _dl_map_object_from_fd (const char *name, int fd, struct filebuf *fbp,
 
       /* No need to bump the refcount of the real object, ld.so will
 	 never be unloaded.  */
-      __close (fd);
+      __collfs_close (fd);
 
       return l;
     }
@@ -981,7 +981,7 @@ _dl_map_object_from_fd (const char *name, int fd, struct filebuf *fbp,
       _dl_zerofd = _dl_sysdep_open_zero_fill ();
       if (_dl_zerofd == -1)
 	{
-	  __close (fd);
+	  __collfs_close (fd);
 	  _dl_signal_error (errno, NULL, NULL,
 			    N_("cannot open zero fill device"));
 	}
@@ -1495,7 +1495,7 @@ cannot enable executable stack as shared object requires");
 #endif
 
   /* We are done mapping in the file.  We no longer need the descriptor.  */
-  if (__builtin_expect (__close (fd) != 0, 0))
+  if (__builtin_expect (__collfs_close (fd) != 0, 0))
     {
       errstring = N_("cannot close file descriptor");
       goto call_lose_errno;

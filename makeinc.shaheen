@@ -1,0 +1,9 @@
+CC = /bgsys/drivers/ppcfloor/gnu-linux/powerpc-bgp-linux/bin/gcc
+MPICC = /bgsys/drivers/ppcfloor/comm/bin/mpicc
+
+CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
+CFLAGS_DEBUG = -g3 -DDEBUG=1
+LIBCPATH = /home/aron/bgpsys/lib
+LIBDL = -ldl
+LDSO = ld-2.4.so
+LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,${LIBCPATH} -L${LIBCPATH} -lc ${LIBDL} ${LIBCPATH}/${LDSO} -Wl,-rpath,${PWD} -Wl,--dynamic-linker=${LIBCPATH}/${LDSO}

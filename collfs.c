@@ -300,7 +300,10 @@ static int collfs_close(int fd)
       int rank = 0, xerr = 0;
 
       debug_printf(2, "%s(%d) collective", __func__, fd);
-      if (--link->refct > 0) return 0;
+      if (--link->refct > 0) {
+        debug_printf(2, "%s(%d) nonzero refcount %d", __func__, link->refct);
+        return 0;
+      }
       err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); if (err) return -1;
       if (!rank) {
         ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
@@ -310,7 +313,9 @@ static int collfs_close(int fd)
       }
       *linkp = link->next;
       free(link);
+      debug_printf(2, "%s(%d) entering Bcast", __func__, fd);
       err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);      
+      debug_printf(2, "%s(%d) exiting Bcast", __func__, fd);
       return err;
     }
   }
@@ -404,6 +409,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         /* if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->totallen)) { */
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
+            link->refct++;
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
 	    /* debug_printf(2, "Allocated %zd bytes range [%p %p]", len, mem, (void*)(char*)addr+len); */
