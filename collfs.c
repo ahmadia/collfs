@@ -114,6 +114,7 @@ struct MMapLink {
   size_t len;
   size_t offset;
   int fd;
+  struct FileLink *link;
   struct MMapLink *next;
 };
 static struct MMapLink *MMapRegions;
@@ -296,12 +297,13 @@ static int collfs_close(int fd)
   CHECK_INIT(-1);
   for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
     struct FileLink *link = *linkp;
+    debug_printf(2, "%s(%d) on file link %p with fd %d", __func__, fd, linkp, link->fd);
     if (link->fd == fd) {       /* remove it from the list */
       int rank = 0, xerr = 0;
 
       debug_printf(2, "%s(%d) collective", __func__, fd);
       if (--link->refct > 0) {
-        debug_printf(2, "%s(%d) nonzero refcount %d", __func__, link->refct);
+        debug_printf(2, "%s(%d) nonzero refcount %d", __func__, fd, link->refct);
         return 0;
       }
       err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); if (err) return -1;
@@ -409,7 +411,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         /* if (addr >= (void*)((char*) link->mem) && addr+len <= (void*)((char*)link->mem+link->totallen)) { */
           MPI_Comm_rank(CommStack->comm, &rank);
           if (!rank) {
-            link->refct++;
+            /* link->refct++; */
             return ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
           } else {
 	    /* debug_printf(2, "Allocated %zd bytes range [%p %p]", len, mem, (void*)(char*)addr+len); */
@@ -432,7 +434,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             mlink->fd = fildes;
             mlink->next = MMapRegions;
             MMapRegions = mlink;
-            link->refct++;
+            /* link->refct++; */
             return mlink->addr;
           }
         }
@@ -493,6 +495,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
       mlink->offset = off;
       mlink->fd = fildes;
       mlink->next = MMapRegions;
+      mlink->link = link;
       MMapRegions = mlink;
       link->refct++;
       return mlink->addr;
@@ -515,8 +518,9 @@ static int collfs_munmap(__ptr_t addr, size_t len)
           set_error(EINVAL, "Attempt to unmap region of length %zu when %zu was mapped", len, mlink->len);
           return -1;
         }
+        mlink->link->refct--;
         free(mlink);
-        return collfs_close(fd);
+        return ((collfs_munmap_fp) unwrap.munmap)(addr, len);
       }
     }
     set_error(EINVAL, "Address not mapped: %p", addr);
