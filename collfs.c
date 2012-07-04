@@ -81,8 +81,11 @@ static int debug_printf(int level, const char *fmt, ...)
 }
 
 static size_t extend_to_page(size_t len) {
+  size_t totallen;
   long pagesize = sysconf(_SC_PAGESIZE);
-  return (len + (pagesize-1)) & ~(pagesize-1); /* Includes the whole page */
+  totallen = (len + (pagesize-1)) & ~(pagesize-1); /* Includes the whole page */
+  debug_printf(2, "%s() len: %zu, pagesize: %ld, totallen: %zu", __func__, len, pagesize, totallen);
+  return totallen;
 }
 
 /***********************************************************************
@@ -414,8 +417,8 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
           mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, PROT_READ | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
         }
 
-        gotmem = !!mem;
-        debug_printf(2, "%s() Entering Allreduce", __func__);
+        gotmem = (mem != MAP_FAILED);
+        debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
         MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
         debug_printf(2, "%s() Exiting Allreduce", __func__);
         if (!gotmem) {
@@ -425,7 +428,7 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         }
 
         if (rank) {
-          debug_printf(2, "%s() Entering memmove", __func__);
+          debug_printf(2, "Moving %zd bytes from %p to %p [%p]",len,(void*)(char*)link->mem+off,addr,mem);
           memmove(addr,(void*)(char*)link->mem+off,len); 
           debug_printf(2, "%s() Entering mprotect", __func__);
           mprotect(mem, len, prot);          
@@ -460,7 +463,8 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
             mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
           }
 
-          gotmem = !!mem;
+          gotmem = (mem != MAP_FAILED);
+          debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
           MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
           if (!gotmem) {
             debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
@@ -481,22 +485,23 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
           set_error(EOVERFLOW, "off + len > link->totallen");
           return MAP_FAILED;
         }
+        if (off < 0) {
+          debug_printf(2, "%s() ERROR: off < 0", __func__);
+          set_error(ENXIO, "off < 0");
+          return MAP_FAILED;
+        }
+        mlink = malloc(sizeof *mlink);
+        mlink->addr = mem;
+        mlink->len = len;
+        mlink->offset = off;
+        mlink->fd = fildes;
+        mlink->next = MMapRegions;
+        mlink->link = link;
+        MMapRegions = mlink;
+        link->refct++;
+        debug_printf(2, "%s() Returning mlink->addr at %p (extended)", __func__, mlink->addr);
+        return mlink->addr;
       }
-      if (off < 0) {
-        debug_printf(2, "%s() ERROR: off < 0", __func__);
-        set_error(ENXIO, "off < 0");
-        return MAP_FAILED;
-      }
-      mlink = malloc(sizeof *mlink);
-      mlink->addr = mem;
-      mlink->len = len;
-      mlink->offset = off;
-      mlink->fd = fildes;
-      mlink->next = MMapRegions;
-      mlink->link = link;
-      MMapRegions = mlink;
-      link->refct++;
-      return mlink->addr;
     }
   }
   debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) independent", __func__, addr, len, prot, flags, fildes, (long long)off);
