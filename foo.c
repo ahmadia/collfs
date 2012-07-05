@@ -14,6 +14,7 @@
 #include "collfs.h"
 #include "libc-collfs-private.h" /* So that we can call the wrapped versions directly */
 
+
 extern int MPI_Comm_rank ( MPI_Comm comm, int *rank ) __attribute__ ((weak));
 
 int foo(const char *path)
@@ -39,7 +40,7 @@ int foo(const char *path)
   pa = __collfs_mmap((void *)0,pagesize,PROT_READ,MAP_PRIVATE,fd,(off_t)0);
   if (pa == MAP_FAILED) ERR("[%d] mmap(%d,pagesize) failed",rank,fd);
 
-  while (__collfs_read(fd,&value,sizeof value) == sizeof value) {
+  while (__collfs_libc_read(fd,&value,sizeof value) == sizeof value) {
     sum ^= value;
   }
 
@@ -63,21 +64,21 @@ int foo2_inner(const char *path)
   off = __collfs_lseek(fd, 0, SEEK_SET);
   if (off != 0) ERR("lseek SET");
 
-  nc = __collfs_read(fd, buf, 2);
+  nc = __collfs_libc_read(fd, buf, 2);
   if (nc != 2) ERR("read [%d] but expected 2\nbuf: %4.4s", nc, buf);
   if (strncmp(buf, "ab", 2)) ERR("wrong content");
 
-  if (__collfs_read(fd, buf, 3) != 3) ERR("read");
+  if (__collfs_libc_read(fd, buf, 3) != 3) ERR("read");
   if (strncmp(buf, "cde", 3)) ERR("wrong repeat read");
 
   off = __collfs_lseek(fd, 8, SEEK_CUR);
   if (off != 13) ERR("lseek CUR");
-  if (__collfs_read(fd, buf, 3) != 3) ERR("read");
+  if (__collfs_libc_read(fd, buf, 3) != 3) ERR("read");
   if (strncmp(buf, "nop", 3)) ERR("wrong content");
 
   off = __collfs_lseek(fd, 5, SEEK_SET);
   if (off != 5) ERR("lseek SET");
-  if (__collfs_read(fd, buf, 3) != 3) ERR("read");
+  if (__collfs_libc_read(fd, buf, 3) != 3) ERR("read");
   if (strncmp(buf, "fgh", 3)) ERR("wrong content");
 
   err = collfs_comm_pop();CHK(err);

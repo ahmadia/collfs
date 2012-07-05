@@ -15,6 +15,19 @@
 extern int MPI_Init(int *argc, char ***argv) __attribute__ ((weak));
 extern int MPI_Finalize() __attribute__ ((weak));
 
+struct libc_collfs_api {
+  void (*fxstat64)(void);
+  void (*xstat64)(void);
+  void (*open)(void);
+  void (*close)(void);
+  void (*read)(void);
+  void (*lseek)(void);
+  void (*mmap)(void);
+  void (*munmap)(void);
+};
+
+struct libc_collfs_api _dl_collfs_api;
+
 int run_tests(const char *soname, const char *path)
 {
   void *handle;
@@ -28,10 +41,6 @@ int run_tests(const char *soname, const char *path)
   func = dlsym(handle,"thefunc");
   if (!func) ERR("dlsym could not find symbol \"thefunc\" due to: %s", dlerror());
   err = (*func)();CHK(err);
-
-  test_fxstat64 = dlsym(handle,"thetest_fxstat64");
-  if (!func) ERR("dlsym could not find symbol \"thetest_fxstat64\" due to: %s", dlerror());
-  err = (*test_fxstat64)(path);CHK(err);
 
   err = dlclose(handle);
   if (err) ERR("dlclose failed due to: %s", dlerror());
@@ -48,7 +57,7 @@ int main(int argc, char *argv[])
     MPI_Init(&argc,&argv);
   }
   if (!getcwd(path,sizeof path)) ERR("getcwd failed");
-  strcat(path,"/libthefunc.so");
+  strcat(path,"/libminimal_thefunc.so");
   err = run_tests(path, path);CHK(err);
   err = foo(path);CHK(err);
   err = foo2("alphabet.txt");CHK(err);
