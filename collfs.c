@@ -453,40 +453,36 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         set_error(ENOTSUP, "flags & MAP_SHARED: cannot do MAP_SHARED for a collective fd");
         return MAP_FAILED;
       }
-      if (link->refct==1) { // no clients have mmaped this file, safe to create mmap
-        size_t totallen;
-        
-        totallen = extend_to_page(len);
-        debug_printf(2, "mmaping new size %zd (file size %zd) on offset %lld", totallen, link->totallen, (long long) off);
-        MPI_Comm_rank(CommStack->comm, &rank);
-        if (!rank) {
-          ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
-          mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
-        } else {
-          mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
-        }
-        
-        gotmem = (mem != MAP_FAILED);
-        debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
-        MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
-        if (!gotmem) {
-          debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
-          set_error(ECOLLFS, "Could not find memory to reallocate");
-          return MAP_FAILED;
-        }
 
-        if (rank) {
-          memmove(mem, (void*)(char*)link->mem+off, link->totallen);
-          mprotect(mem, totallen, prot);
-          /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
-          debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
-          debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, (void*)(char*)mem+link->totallen);
-        }
+      size_t totallen;
+      
+      totallen = extend_to_page(len);
+      debug_printf(2, "mmaping new size %zd (file size %zd) on offset %lld", totallen, link->totallen, (long long) off);
+      MPI_Comm_rank(CommStack->comm, &rank);
+      if (!rank) {
+        ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
+        mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
+      } else {
+        mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
       }
-      else {
-        debug_printf(2, "%s() ERROR: off + len > link->totallen", __func__);
-        set_error(EOVERFLOW, "off + len > link->totallen");
+      
+      gotmem = (mem != MAP_FAILED);
+      debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
+      MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
+      if (!gotmem) {
+        debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
+        set_error(ECOLLFS, "Could not find memory to reallocate");
         return MAP_FAILED;
+      }
+      
+      if (rank) {
+        debug_printf(2, "Copying %zd bytes - from %p to %p", totallen, (void*)(char*)link->mem+off, mem);
+        memmove(mem, (void*)(char*)link->mem+off, totallen);
+        debug_printf(2, "Protecting %p", mem);
+        mprotect(mem, len, prot);
+        /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
+        debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
+        debug_printf(2, "Copied %zd bytes - range [%p %p]", totallen, mem, (void*)(char*)mem+link->len);
       }
       mlink = malloc(sizeof *mlink);
       mlink->addr = mem;
