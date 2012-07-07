@@ -3,12 +3,9 @@ include ${MAKEINC}
 COLLFS_SRC_C = collfs.c
 COLLFS_SRC_O = $(COLLFS_SRC_C:.c=.o)
 
-# This option should be set to use the patched ld.so
-#LDCOLLFSFLAGS = -Wl,--dynamic-loader=/path/to/ld-collfs.so
-
 all : main-mpi 
 
-# main-nompi and minimal_main are currently broken :(
+# main-nompi and minimal_main are currently unverified
 
 # Depends on MPI, must be called from an executable using patched ld.so because _dl_collfs_api is referenced.
 libcollfs.so : collfs.o
