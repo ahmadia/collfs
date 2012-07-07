@@ -81,8 +81,6 @@ int foo2_inner(const char *path)
   if (__collfs_libc_read(fd, buf, 3) != 3) ERR("read");
   if (strncmp(buf, "fgh", 3)) ERR("wrong content");
 
-  err = collfs_comm_pop();CHK(err);
-
   ptr = __collfs_mmap(0, 12, PROT_READ, MAP_PRIVATE, fd, 0);
   if (ptr == MAP_FAILED) ERR("mmap failed: %s", strerror(errno));
   if (strncmp(ptr+6, "ghijkl", 6)) ERR("wrong content");
@@ -93,10 +91,9 @@ int foo2_inner(const char *path)
 
   err = __collfs_close(fd); if (err) ERR("close");
 
-  err = collfs_comm_push(MPI_COMM_WORLD);CHK(err);
   err = __collfs_munmap(ptr2, 20); if (err) ERR("munmap");
 
-  if (strncmp(ptr+6, "ghijkl", 6)) ERR("wrong content");
+  //  if (strncmp(ptr+6, "ghijkl", 6)) ERR("wrong content");
 
   err = __collfs_munmap(ptr, 12); if (err) ERR("munmap");
   return 0;

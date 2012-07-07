@@ -31,15 +31,15 @@ struct FunctionProfile {
 };
 
 struct CollfsProfile {
-  FunctionProfile collfs_fxstat64;
-  FunctionProfile collfs_xstat64;
-  FunctionProfile collfs_open;
-  FunctionProfile collfs_close;
-  FunctionProfile collfs_read;
-  FunctionProfile collfs_lseek;
-  FunctionProfile collfs_mmap;
-  FunctionProfile collfs_munmap;
-}
+  struct FunctionProfile collfs_fxstat64;
+  struct FunctionProfile collfs_xstat64;
+  struct FunctionProfile collfs_open;
+  struct FunctionProfile collfs_close;
+  struct FunctionProfile collfs_read;
+  struct FunctionProfile collfs_lseek;
+  struct FunctionProfile collfs_mmap;
+  struct FunctionProfile collfs_munmap;
+};
 
 static struct CollfsProfile collfs_profile;
 
@@ -416,33 +416,35 @@ static int collfs_close(int fd)
   CHECK_INIT(-1);
   CollfsFunctionStart;
 
-  for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
-    struct FileLink *link = *linkp;
-    debug_printf(2, "%s(%d) on file link %p with fd %d", __func__, fd, linkp, link->fd);
-    if (link->fd == fd) {       /* remove it from the list */
-      int rank = 0, xerr = 0;
-
-      debug_printf(2, "%s(%d) collective", __func__, fd);
-      if (--link->refct > 0) {
-        debug_printf(2, "%s(%d) nonzero refcount %d", __func__, fd, link->refct);
-        CollfsCloseReturn(0);
+  if (CommStack) {
+    for (linkp=&DLOpenFiles; linkp && *linkp; linkp=&(*linkp)->next) {
+      struct FileLink *link = *linkp;
+      debug_printf(2, "%s(%d) on file link %p with fd %d", __func__, fd, linkp, link->fd);
+      if (link->fd == fd) {       /* remove it from the list */
+        int rank = 0, xerr = 0;
+        
+        debug_printf(2, "%s(%d) collective", __func__, fd);
+        if (--link->refct > 0) {
+          debug_printf(2, "%s(%d) nonzero refcount %d", __func__, fd, link->refct);
+          CollfsCloseReturn(0);
+        }
+        err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); 
+        if (err) {
+          CollfsCloseReturn(-1);
+        }
+        if (!rank) {
+          ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
+          xerr = ((collfs_close_fp) unwrap.close)(fd);
+        } else {
+          ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
+        }
+        *linkp = link->next;
+        free(link);
+        debug_printf(2, "%s(%d) entering Bcast", __func__, fd);
+        err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);      
+        debug_printf(2, "%s(%d) exiting Bcast", __func__, fd);
+        CollfsCloseReturn(err);
       }
-      err = MPI_Comm_rank(CommStack ? CommStack->comm : MPI_COMM_WORLD, &rank); 
-      if (err) {
-        CollfsCloseReturn(-1);
-      }
-      if (!rank) {
-        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
-        xerr = ((collfs_close_fp) unwrap.close)(fd);
-      } else {
-        ((collfs_munmap_fp) unwrap.munmap)(link->mem, link->totallen);
-      }
-      *linkp = link->next;
-      free(link);
-      debug_printf(2, "%s(%d) entering Bcast", __func__, fd);
-      err = MPI_Bcast(&xerr, 1, MPI_INT, 0, CommStack->comm);      
-      debug_printf(2, "%s(%d) exiting Bcast", __func__, fd);
-      CollfsCloseReturn(err);
     }
   }
   debug_printf(2, "%s(%d) independent", __func__, fd);
@@ -465,7 +467,9 @@ static ssize_t collfs_read(int fd, void *buf, size_t count)
     }
     if (fd == link->fd) {
       debug_printf(2, "%s(%d, %p, %zu) collective", __func__, fd, buf, count);
-      if (!rank) CollfsReadReturn(((collfs_read_fp) unwrap.read)(fd, buf, count));
+      if (!rank) {
+        CollfsReadReturn(((collfs_read_fp) unwrap.read)(fd, buf, count));
+      }
       else {
         if ((link->len - link->offset) < count) count = link->len - link->offset;
         memcpy(buf, link->mem+link->offset, count);
@@ -528,49 +532,97 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
 
   CollfsFunctionStart;
 
-  if (off < 0) {
-    debug_printf(2, "%s() ERROR: off < 0", __func__);
-    set_error(ENXIO, "off < 0");
-    CollfsMmapReturn(MAP_FAILED);
-  }
+  if (CommStack) {
 
-  for (link=DLOpenFiles; link; link=link->next) {
-    if (link->fd == fildes) {
-      struct MMapLink *mlink;
-      debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) collective", __func__, addr, len, prot, flags, fildes, (long long)off);
-      if (prot & PROT_WRITE && !(flags & MAP_FIXED)) {
-        set_error(EACCES, "prot & PROT_WRITE && !(flags & MAP_FIXED)");
-        CollfsMmapReturn(MAP_FAILED);
-      }
-      if (flags & MAP_FIXED) {
-        if (off + len > link->totallen || off < 0) {
-          debug_printf(2, "%p requested of length %zd, but off + len = %zd and link->totallen = %zd", 
-                       addr, len, off+len, link->totallen);
-          set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");          
+    if (off < 0) {
+      debug_printf(2, "%s() ERROR: off < 0", __func__);
+      set_error(ENXIO, "off < 0");
+      CollfsMmapReturn(MAP_FAILED);
+    }
+    
+    for (link=DLOpenFiles; link; link=link->next) {
+      if (link->fd == fildes) {
+        struct MMapLink *mlink;
+        debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) collective", __func__, addr, len, prot, flags, fildes, (long long)off);
+        if (prot & PROT_WRITE && !(flags & MAP_FIXED)) {
+          set_error(EACCES, "prot & PROT_WRITE && !(flags & MAP_FIXED)");
           CollfsMmapReturn(MAP_FAILED);
         }
-
+        if (flags & MAP_FIXED) {
+          if (off + len > link->totallen || off < 0) {
+            debug_printf(2, "%p requested of length %zd, but off + len = %zd and link->totallen = %zd", 
+                         addr, len, off+len, link->totallen);
+            set_error(EACCES, "addr < (void*) (char*) link->mem+link->totallen");          
+            CollfsMmapReturn(MAP_FAILED);
+          }
+          
+          MPI_Comm_rank(CommStack->comm, &rank);
+          if (!rank) {
+            mem =  ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
+          } else {
+            mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, PROT_READ | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
+          }
+          
+          gotmem = (mem != MAP_FAILED);
+          debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
+          MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
+          debug_printf(2, "%s() Exiting Allreduce", __func__);
+          if (!gotmem) {
+            debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
+            set_error(ECOLLFS, "Could not find memory to reallocate");
+            CollfsMmapReturn(MAP_FAILED);
+          }
+          
+          if (rank) {
+            debug_printf(2, "Moving %zd bytes from %p to %p [%p]",len,(void*)(char*)link->mem+off,addr,mem);
+            memmove(addr,(void*)(char*)link->mem+off,len); 
+            mprotect(mem, len, prot);          
+          }
+          mlink = malloc(sizeof *mlink);
+          mlink->addr = mem;
+          mlink->len = len;
+          mlink->offset = off;
+          mlink->fd = fildes;
+          mlink->next = MMapRegions;
+          MMapRegions = mlink;
+          debug_printf(2, "%s() Returning mlink->addr at %p (fixed)", __func__, mlink->addr);
+          CollfsMmapReturn(mlink->addr);
+        }
+        if (flags & MAP_SHARED ) {
+          debug_printf(2, "%s() ERROR: Cannot do MAP_SHARED for a collective fd", __func__);
+          set_error(ENOTSUP, "flags & MAP_SHARED: cannot do MAP_SHARED for a collective fd");
+          CollfsMmapReturn(MAP_FAILED);
+        }
+        
+        size_t totallen;
+        
+        totallen = extend_to_page(len);
+        debug_printf(2, "mmaping new size %zd (file size %zd) on offset %lld", totallen, link->totallen, (long long) off);
         MPI_Comm_rank(CommStack->comm, &rank);
         if (!rank) {
-          mem =  ((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, link->fd, off);
+          ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
+          mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
         } else {
-          mem = ((collfs_mmap_fp) unwrap.mmap)(addr, len, PROT_READ | PROT_WRITE, flags | MAP_ANONYMOUS, link->fd, off);
+          mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
         }
-
+        
         gotmem = (mem != MAP_FAILED);
         debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
         MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
-        debug_printf(2, "%s() Exiting Allreduce", __func__);
         if (!gotmem) {
           debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
           set_error(ECOLLFS, "Could not find memory to reallocate");
           CollfsMmapReturn(MAP_FAILED);
         }
-
+        
         if (rank) {
-          debug_printf(2, "Moving %zd bytes from %p to %p [%p]",len,(void*)(char*)link->mem+off,addr,mem);
-          memmove(addr,(void*)(char*)link->mem+off,len); 
-          mprotect(mem, len, prot);          
+          debug_printf(2, "Copying %zd bytes - from %p to %p", totallen, (void*)(char*)link->mem+off, mem);
+          memmove(mem, (void*)(char*)link->mem+off, totallen);
+          debug_printf(2, "Protecting %p", mem);
+          mprotect(mem, len, prot);
+          /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
+          debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
+          debug_printf(2, "Copied %zd bytes - range [%p %p]", totallen, mem, (void*)(char*)mem+link->len);
         }
         mlink = malloc(sizeof *mlink);
         mlink->addr = mem;
@@ -578,64 +630,19 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         mlink->offset = off;
         mlink->fd = fildes;
         mlink->next = MMapRegions;
+        mlink->link = link;
         MMapRegions = mlink;
-        debug_printf(2, "%s() Returning mlink->addr at %p (fixed)", __func__, mlink->addr);
+        link->refct++;
+        debug_printf(2, "%s() Returning mlink->addr at %p (extended)", __func__, mlink->addr);
         CollfsMmapReturn(mlink->addr);
       }
-      if (flags & MAP_SHARED ) {
-        debug_printf(2, "%s() ERROR: Cannot do MAP_SHARED for a collective fd", __func__);
-        set_error(ENOTSUP, "flags & MAP_SHARED: cannot do MAP_SHARED for a collective fd");
-        CollfsMmapReturn(MAP_FAILED);
-      }
-
-      size_t totallen;
-      
-      totallen = extend_to_page(len);
-      debug_printf(2, "mmaping new size %zd (file size %zd) on offset %lld", totallen, link->totallen, (long long) off);
-      MPI_Comm_rank(CommStack->comm, &rank);
-      if (!rank) {
-        ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen);
-        mem = ((collfs_mmap_fp) unwrap.mmap)(addr, totallen, prot, flags, link->fd, off);
-      } else {
-        mem = ((collfs_mmap_fp) unwrap.mmap)(0, totallen, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, link->fd, 0);
-      }
-      
-      gotmem = (mem != MAP_FAILED);
-      debug_printf(2, "%s() memory: %p, requested addr: %p", __func__, mem, addr);
-      MPI_Allreduce(MPI_IN_PLACE, &gotmem, 1, MPI_INT, MPI_LAND, CommStack->comm);
-      if (!gotmem) {
-        debug_printf(2, "%s() ERROR: Could not find memory to reallocate", __func__);
-        set_error(ECOLLFS, "Could not find memory to reallocate");
-        CollfsMmapReturn(MAP_FAILED);
-      }
-      
-      if (rank) {
-        debug_printf(2, "Copying %zd bytes - from %p to %p", totallen, (void*)(char*)link->mem+off, mem);
-        memmove(mem, (void*)(char*)link->mem+off, totallen);
-        debug_printf(2, "Protecting %p", mem);
-        mprotect(mem, len, prot);
-        /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
-        debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
-        debug_printf(2, "Copied %zd bytes - range [%p %p]", totallen, mem, (void*)(char*)mem+link->len);
-      }
-      mlink = malloc(sizeof *mlink);
-      mlink->addr = mem;
-      mlink->len = len;
-      mlink->offset = off;
-      mlink->fd = fildes;
-      mlink->next = MMapRegions;
-      mlink->link = link;
-      MMapRegions = mlink;
-      link->refct++;
-      debug_printf(2, "%s() Returning mlink->addr at %p (extended)", __func__, mlink->addr);
-      CollfsMmapReturn(mlink->addr);
     }
   }
   debug_printf(2, "%s(%p, %zu, %d, %d, %d, %lld) independent", __func__, addr, len, prot, flags, fildes, (long long)off);
   CollfsMmapReturn(((collfs_mmap_fp) unwrap.mmap)(addr, len, prot, flags, fildes, off));
 }
 
-/* This implementation is not actually collective, but it relies on the fd being opened collectively */
+  /* This implementation is not actually collective, but it relies on the fd being opened collectively */
 static int collfs_munmap(__ptr_t addr, size_t len)
 {
 
@@ -736,38 +743,46 @@ int collfs_finalize()
   collfs_error_handler = 0;
 
 #ifdef COLLFS_PROFILE
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "fxstat64", 
                collfs_profile.collfs_fxstat64.calls, 
-               collfs_profile.collfs_fxstat64.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_fxstat64.time,
+               collfs_profile.collfs_fxstat64.time/collfs_profile.collfs_fxstat64.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "xstat64", 
                collfs_profile.collfs_xstat64.calls, 
-               collfs_profile.collfs_xstat64.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_xstat64.time, 
+               collfs_profile.collfs_xstat64.time/collfs_profile.collfs_xstat64.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "open", 
                collfs_profile.collfs_open.calls, 
-               collfs_profile.collfs_open.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_open.time, 
+               collfs_profile.collfs_open.time/collfs_profile.collfs_open.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "close", 
                collfs_profile.collfs_close.calls, 
-               collfs_profile.collfs_close.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_close.time, 
+               collfs_profile.collfs_close.time/collfs_profile.collfs_close.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "read", 
                collfs_profile.collfs_read.calls, 
-               collfs_profile.collfs_read.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_read.time, 
+               collfs_profile.collfs_read.time/collfs_profile.collfs_read.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "lseek", 
                collfs_profile.collfs_lseek.calls, 
-               collfs_profile.collfs_lseek.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_lseek.time, 
+               collfs_profile.collfs_lseek.time/collfs_profile.collfs_lseek.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "mmap", 
                collfs_profile.collfs_mmap.calls, 
-               collfs_profile.collfs_mmap.time); 
-  debug_printf(0, "%s8.8 calls: %d5.5 total: %e5.5 avg: %e5.5", 
+               collfs_profile.collfs_mmap.time,
+               collfs_profile.collfs_mmap.time/collfs_profile.collfs_mmap.calls); 
+  debug_printf(0, "%8.8s calls: %5.5d total: %5.5e avg: %5.5e", 
                "munmap", 
                collfs_profile.collfs_munmap.calls, 
-               collfs_profile.collfs_munmap.time); 
+               collfs_profile.collfs_munmap.time, 
+               collfs_profile.collfs_munmap.time/collfs_profile.collfs_fxstat64.calls); 
 #endif
 
   return 0;

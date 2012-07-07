@@ -29,10 +29,10 @@ main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
 	${MPICC} -g3 -o $@ $< libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
 
 main-mpi.o : main-mpi.c
-	${MPICC} -c -g3 -FPIC -o $@ $^
+	${MPICC} ${CFLAGS} -c -g3 -FPIC -o $@ $^
 
 collfs.o : collfs.c collfs.h libc-collfs.h
-	${MPICC} -c -fPIC -g3  $<
+	${MPICC} ${CFLAGS} -c -fPIC -g3  $<
 
 # Depends only on libc, loads libminimal_thefunc (only run-time dependency), libcollfs-easy.so should be preloaded.
 main-nompi : main-nompi.o libcollfs-easy.so libminimal_thefunc.so
@@ -46,14 +46,13 @@ test_collfs : test_collfs.o libfoo.so libcollfs.so libminimal_thefunc.so
 libfoo.so : foo.o collfs.o
 	${MPICC} -g3 -shared -o $@ $^ ${LDFLAGS}
 
-collfs.o : collfs.c collfs.h libc-collfs.h
 libc-collfs.o : libc-collfs.c libc-collfs.h libc-collfs-private.h
 
 foo.o : foo.c foo.h errmacros.h collfs.h libc-collfs-private.h
-	${MPICC} -c -fPIC -g3  $<
+	${MPICC} ${CFLAGS} -c -fPIC -g3  $<
 
 test_collfs.o : test_collfs.c errmacros.h
-	${MPICC} -c -fPIC -g3  $<
+	${MPICC} ${CFLAGS} -c -fPIC -g3  $<
 
 thefunc.o : thefunc.h collfs.h
 
