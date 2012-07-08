@@ -21,6 +21,15 @@ libminimal_thefunc.so: minimal_thefunc.o
 libthefunc.so : thefunc.o
 	${CC} -shared -g3 -fPIC -o $@ $^
 
+importer.o: importer.c
+	$(MPICC) ${CFLAGS} -I. ${PYTHON_CFLAGS} -c importer.c -o importer.o
+
+mpiopen.o: mpiopen.c
+	$(MPICC) ${CFLAGS} -c mpiopen.c -o mpiopen.o
+
+mpiimporter.so: mpiopen.o importer.o
+	$(MPICC) ${CFLAGS} -shared ${PYTHON_LDFLAGS} mpiopen.o importer.o -o mpiimporter.so
+
 minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
 

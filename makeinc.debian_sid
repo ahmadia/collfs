@@ -1,0 +1,16 @@
+CC = gcc
+MPICC = mpicc
+
+CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
+CFLAGS_DEBUG = -g3 -DDEBUG=1
+LIBCPATH = /usr/lib
+LIBDL = -ldl
+LDSO = ld-2.11.1.so
+PYTHONPATH=/home/aron/opt
+PYTHON_LDFLAGS = -L${PYTHONPATH}/lib -lpython2.7
+PYTHON_CFLAGS = -I${PYTHONPATH}/include/python2.7
+
+# on Arch Linux, mpich is statically linked, so you need to explicitly bring in libdl
+# on the other hand, openmpi is dynamically linked, so bringing in libdl before libc will break things
+# so don't implicitly bring in libc, explicitly link it before libdl.
+LDFLAGS = -dynamic -Wl,-Bdynamic -Wl,-rpath,${LIBCPATH} -L${LIBCPATH} -lc ${LIBDL} ${LIBCPATH}/${LDSO} -Wl,-rpath,${PWD} -Wl,--dynamic-linker=${LIBCPATH}/${LDSO}
