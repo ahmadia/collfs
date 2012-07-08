@@ -39,11 +39,11 @@ mkdir -p ${logdir}
 for np in 1 2 4 8 16 32 64 128 256 512 1024 2048 4096
 do
     mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
-        -mode VN -exp_env HOME -n 2 ${bgp_python} test_python_importer.py &> ${logdir}/python_${np}.txt
+        -mode VN -exp_env HOME -n $np ${bgp_python} test_python_importer.py &> ${logdir}/python_${np}.txt
     mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
-        -mode VN -exp_env HOME -n 2 ${mpi_python} test_collfs_importer.py &> ${logdir}/collfs_${np}.txt
+        -mode VN -exp_env HOME -n $np ${mpi_python} test_collfs_importer.py &> ${logdir}/collfs_${np}.txt
     mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
-        -mode VN -exp_env HOME -n 2 ${bgp_python} test_mpi4py_cached_importer.py &> ${logdir}/asher_${np}.txt
+        -mode VN -exp_env HOME -n $np ${bgp_python} test_mpi4py_cached_importer.py &> ${logdir}/asher_${np}.txt
     mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
-        -mode VN -exp_env HOME -n 2 ${mpi_python} test_mpi4py_cached_importer.py &> ${logdir}/asher_collfs_${np}.txt
+        -mode VN -exp_env HOME -n $np ${mpi_python} test_mpi4py_cached_importer.py &> ${logdir}/asher_collfs_${np}.txt
 done
