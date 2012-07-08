@@ -1,5 +1,9 @@
 CC = /bgsys/drivers/ppcfloor/gnu-linux/powerpc-bgp-linux/bin/gcc
 MPICC = /bgsys/drivers/ppcfloor/comm/bin/mpicc
+PYTHONPATH=/project/k01/pyclaw/opt/share/python/2.7.2/bgp
+PYTHON_LDFLAGS = -L${PYTHONPATH}/lib -lpython2.7
+PYTHON_CFLAGS = -I${PYTHONPATH}/include/python2.7
+
 
 CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
 CFLAGS_DEBUG = -g3 -DDEBUG=1
