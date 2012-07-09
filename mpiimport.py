@@ -9,7 +9,7 @@ class Importer:
         self.path = path
 
     def find_module(self, fullname, path=None):
-        #        print "find_module", fullname, path
+        print "find_module", fullname, path
 
         subname = fullname.split(".")[-1]
         if subname != fullname and self.path is None:
@@ -24,7 +24,7 @@ class Importer:
             #            print ImportError
             return None
 
-        #        print "find_module found: ", file, filename
+        print "find_module found: ", file, filename
 
         ignore, ext = os.path.splitext(filename)
 
@@ -42,13 +42,13 @@ class Loader:
         self.stuff = stuff
 
     def load_module(self, fullname):
-        #        print "load_module: ", fullname, self.file, self.filename, self.stuff
+        print "load_module: ", fullname, self.file, self.filename, self.stuff
         mod = mpiimporter.load_module(fullname, self.file, self.filename, self.stuff)
         if self.file:
             self.file.close()
         mod.__loader__ = self  # for introspection
 
-                               #        print "load_module loaded: ", mod
+        print "load_module loaded: ", mod
         return mod
 
 class ImpLoader:
