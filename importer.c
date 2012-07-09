@@ -747,7 +747,15 @@ static char* sys_files[] = {
         long magic;
         PyCodeObject *co;
         PyObject *m;
+        int rank;
+
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
         
+#ifdef MPIDEBUG
+        MPI_Barrier(MPI_COMM_WORLD);
+        printf("[%d] load_compiled_module(%s,%s,%p) |%d|\n",rank,name,cpathname,fp,__LINE__);
+#endif
+
         magic = PyMarshal_ReadLongFromFile(fp);
         if (magic != pyc_magic) {
             PyErr_Format(PyExc_ImportError,
@@ -758,9 +766,14 @@ static char* sys_files[] = {
         co = read_compiled_module(cpathname, fp);
         if (co == NULL)
             return NULL;
-        if (Py_VerboseFlag)
-            PySys_WriteStderr("mpiimport %s # precompiled from %s\n",
-                              name, cpathname);
+        if (Py_VerboseFlag) {
+#ifdef MPIDEBUG
+          MPI_Barrier(MPI_COMM_WORLD);
+          printf("[%d] load_compiled_module(%s,%s,%p) |%d|\n",rank,name,cpathname,fp,__LINE__);
+#endif           
+          PySys_WriteStderr("mpiimport %s # precompiled from %s\n",
+                            name, cpathname);
+        }
         m = PyImport_ExecCodeModuleEx(name, (PyObject *)co, cpathname);
         Py_DECREF(co);
         
@@ -943,6 +956,12 @@ static char* sys_files[] = {
         */
 
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
+#ifdef MPIDEBUG
+        MPI_Barrier(MPI_COMM_WORLD);
+        printf("[%d] load_source_module(%s,%s,%p) |%d|\n",rank,name,pathname,fp,__LINE__);
+#endif
+
 	if (rank==0)
 	{
 	rc=stat(pathname,&st);
@@ -973,14 +992,8 @@ static char* sys_files[] = {
         }
 #endif
 
-	
-
- 
-
         cpathname = make_compiled_pathname(pathname, buf,
                                            (size_t)MAXPATHLEN + 1);
-
-
 
         if (cpathname != NULL &&
             (fpc = check_compiled_module(pathname, mtime, cpathname))) {
@@ -990,11 +1003,19 @@ static char* sys_files[] = {
                 return NULL;
             if (update_compiled_module(co, pathname) < 0)
                 return NULL;
-            if (Py_VerboseFlag)
-                PySys_WriteStderr("mpiimport %s # precompiled from %s\n",
+            if (Py_VerboseFlag) {
+#ifdef MPIDEBUG
+              MPI_Barrier(MPI_COMM_WORLD);
+              printf("[%d] load_source_module(%s,%s,%p) |%d|\n",rank,name,pathname,fp,__LINE__);
+#endif
+              
+              PySys_WriteStderr("mpiimport %s # precompiled from %s\n",
                                   name, cpathname);
+            }
             pathname = cpathname;
         }
+
+
         else {
             co = parse_source_module(pathname, fp);
             if (co == NULL)
