@@ -22,6 +22,10 @@
 
 #undef HAVE_DYNAMIC_LOADING
 
+FILE * mpifopen(const char *libfilename, const char * flags);
+int mpifclose(FILE *stream);
+int mpistat(const char *path, struct stat *stat_buf);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -303,7 +307,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
 #endif
     
     static PyObject *
-    mpiimporter_lock_held(PyObject *self, PyObject *noargs)
+    mpiimporter_lock_held(PyObject *self __attribute__((unused)), PyObject *noargs __attribute__((unused)))
     {
 #ifdef WITH_THREAD
         return PyBool_FromLong(import_lock_thread != -1);
@@ -313,7 +317,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
     }
     
     static PyObject *
-    mpiimporter_acquire_lock(PyObject *self, PyObject *noargs)
+    mpiimporter_acquire_lock(PyObject *self __attribute__((unused)), PyObject *noargs __attribute__((unused)))
     {
 #ifdef WITH_THREAD
         _PyImport_AcquireLock();
@@ -323,7 +327,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
     }
     
     static PyObject *
-    mpiimporter_release_lock(PyObject *self, PyObject *noargs)
+    mpiimporter_release_lock(PyObject *self __attribute__((unused)), PyObject *noargs __attribute__((unused)))
     {
 #ifdef WITH_THREAD
         if (_PyImport_ReleaseLock() < 0) {
@@ -826,6 +830,8 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         return fopen(filename, "wb");
 #endif
       }
+      // non-rank 0 processes don't open a file
+      return NULL;
     }
     
     
@@ -961,7 +967,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
          */
         if (mtime >> 32) {
 	    char * mtimemsg;
-            asprintf(mtimemsg,"modification time '%ld' overflows a 4 byte field",mtime);
+            asprintf(&mtimemsg,"modification time '%ld' overflows a 4 byte field",mtime);
             PyErr_SetString(PyExc_OverflowError,
                             mtimemsg);
             return NULL;
@@ -1497,7 +1503,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
 #endif
         
         static int
-        case_ok(char *buf, Py_ssize_t len, Py_ssize_t namelen, char *name)
+        case_ok(char *buf  __attribute__((unused)), Py_ssize_t len __attribute__((unused)), Py_ssize_t namelen __attribute__((unused)), char *name __attribute__((unused)))
         {
             /* Pick a platform-specific implementation; the sequence of #if's here should
              * match the sequence just above.
@@ -2002,7 +2008,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         /* The Magnum Opus of dotted-name import :-) */
         
         static PyObject *
-        import_module_level(char *name, PyObject *globals, PyObject *locals,
+        import_module_level(char *name, PyObject *globals, PyObject *locals __attribute__((unused)),
                             PyObject *fromlist, int level)
         {
             char buf[MAXPATHLEN+1];
@@ -2674,7 +2680,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
          */
         
         static PyObject *
-        mpiimporter_get_magic(PyObject *self, PyObject *noargs)
+        mpiimporter_get_magic(PyObject *self __attribute__((unused)), PyObject *noargs __attribute__((unused)))
         {
             char buf[4];
             
@@ -2687,7 +2693,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_get_suffixes(PyObject *self, PyObject *noargs)
+        mpiimporter_get_suffixes(PyObject *self __attribute__((unused)), PyObject *noargs __attribute__((unused)))
         {
             PyObject *list;
             struct filedescr *fdp;
@@ -2747,7 +2753,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_find_module(PyObject *self, PyObject *args)
+        mpiimporter_find_module(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             PyObject *path = NULL;
@@ -2757,7 +2763,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_init_builtin(PyObject *self, PyObject *args)
+        mpiimporter_init_builtin(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             int ret;
@@ -2777,7 +2783,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_init_frozen(PyObject *self, PyObject *args)
+        mpiimporter_init_frozen(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             int ret;
@@ -2797,7 +2803,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_get_frozen_object(PyObject *self, PyObject *args)
+        mpiimporter_get_frozen_object(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             
@@ -2807,7 +2813,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_is_builtin(PyObject *self, PyObject *args)
+        mpiimporter_is_builtin(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             if (!PyArg_ParseTuple(args, "s:is_builtin", &name))
@@ -2816,7 +2822,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_is_frozen(PyObject *self, PyObject *args)
+        mpiimporter_is_frozen(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             struct _frozen *p;
@@ -2847,7 +2853,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_load_compiled(PyObject *self, PyObject *args)
+        mpiimporter_load_compiled(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             char *pathname;
@@ -2869,7 +2875,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
 #ifdef HAVE_DYNAMIC_LOADING
         
         static PyObject *
-        mpiimporter_load_dynamic(PyObject *self, PyObject *args)
+        mpiimporter_load_dynamic(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             char *pathname;
@@ -2891,7 +2897,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
 #endif /* HAVE_DYNAMIC_LOADING */
         
         static PyObject *
-        mpiimporter_load_source(PyObject *self, PyObject *args)
+        mpiimporter_load_source(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             char *pathname;
@@ -2911,7 +2917,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_load_module(PyObject *self, PyObject *args)
+        mpiimporter_load_module(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             PyObject *fob;
@@ -2952,7 +2958,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_load_package(PyObject *self, PyObject *args)
+        mpiimporter_load_package(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             char *pathname;
@@ -2962,7 +2968,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_new_module(PyObject *self, PyObject *args)
+        mpiimporter_new_module(PyObject *self  __attribute__((unused)), PyObject *args)
         {
             char *name;
             if (!PyArg_ParseTuple(args, "s:new_module", &name))
@@ -2971,7 +2977,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        mpiimporter_reload(PyObject *self, PyObject *v)
+        mpiimporter_reload(PyObject *self  __attribute__((unused)), PyObject *v)
         {
             return PyImport_ReloadModule(v);
         }
@@ -3073,7 +3079,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         } NullImporter;
         
         static int
-        NullImporter_init(NullImporter *self, PyObject *args, PyObject *kwds)
+        NullImporter_init(NullImporter *self  __attribute__((unused)), PyObject *args, PyObject *kwds)
         {
             char *path;
             Py_ssize_t pathlen;
@@ -3109,7 +3115,7 @@ static const struct filedescr _PyImport_StandardFiletab[] = {
         }
         
         static PyObject *
-        NullImporter_find_module(NullImporter *self, PyObject *args)
+        NullImporter_find_module(NullImporter *self  __attribute__((unused)), PyObject *args  __attribute__((unused)))
         {
             Py_RETURN_NONE;
         }

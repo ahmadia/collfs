@@ -35,6 +35,12 @@
    
 */
    
+#if __STDC_VERSION__ >= 199901L
+#define _XOPEN_SOURCE 600
+#else
+#define _XOPEN_SOURCE 500
+#endif /* __STDC_VERSION__ */
+
 #include <mpi.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,6 +49,10 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+
+FILE * myfmemopen (void *buf, size_t len, const char *mode);
+int mpistat(const char *path, struct stat *stat_buf);
+
 
 /*
  function: mpifopen(const char *pathname, int flags)
@@ -68,6 +78,7 @@
  that has no physical representation
  
  */
+
 FILE * mpifopen(const char *libfilename, const char * flags)
 {
     
@@ -89,10 +100,7 @@ FILE * mpifopen(const char *libfilename, const char * flags)
 
     /* buffer to hold the library */
     char * libfilebuffer;
-    
-    /* the file descriptor for the buffer */
-    int fd;
-    
+        
     /* allow an escape if opening a file is NULL */
     
     int nofile;
@@ -236,7 +244,7 @@ if ((rc==0) && libtype){
      we're trusting that bcast worked, if it did - awesome if not,
      we'll be segfaulting fairly shortly
      */
-    libmemfile=fmemopen(libfilebuffer,libsize,"rb+");
+    libmemfile=myfmemopen(libfilebuffer,libsize,"rb+");
     if (libmemfile)
     {
     fflush(libmemfile);
@@ -274,7 +282,7 @@ desc: a replacement for the libc open file call that uses mpi to bcast a file
       that has no physical representation
       
 */
-int mpiopen(const char *libfilename, int flags)
+FILE* mpiopen(const char *libfilename, int flags)
 {
     
     /* the file pointer for our memory file*/
@@ -289,20 +297,9 @@ int mpiopen(const char *libfilename, int flags)
     /* buffer to hold the library */
     char * libfilebuffer;
     
-    /* the file descriptor for the buffer */
-    int fd;
-
-    /* obtain rank*/
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     
-    /* debug statement to ensure the MPI is progessing*/
-    #ifdef MPIDEBUG
-    printf("Got rank!\n");
-    #endif
-    
-    /* initialize library size to something ridiculous */
     libsize=-1;
-
 
     /* 
     do a stat from our reading rank only; we need the file size 
@@ -311,21 +308,7 @@ int mpiopen(const char *libfilename, int flags)
     struct stat libstat;
     mpistat(libfilename,&libstat);
     libsize=libstat.st_size;
-    
-    #ifdef MPIDEBUG
-    printf("Bcasting!\n");
-    #endif
-    
-    /*
-    bcast buffer size to all ranks
-    */
-    /* using mpistat should relegate this function to history
-    MPI_Bcast(&libsize,1,MPI_INT,0,MPI_COMM_WORLD);
-    */ 
-    #ifdef MPIDEBUG
-    printf("Bcasted!\n");
-    #endif
-    
+        
     /*
     allocate a buffer on all ranks the size of the library
     we use calloc to insure initialization - not a big deal
@@ -339,11 +322,7 @@ int mpiopen(const char *libfilename, int flags)
     against a whacked glibc 
     */
     libfilebuffer[libsize]='\0'; //added insurance against whacked glibc
-    
-    #ifdef MPIDEBUG
-    printf("Segfault?!\n");
-    #endif
-        
+            
     if (rank==0)
     {
     
@@ -351,14 +330,9 @@ int mpiopen(const char *libfilename, int flags)
         we create a file handle here as only rank 0 ever needs to know
         about this file pointer
         */
-        FILE * f;
+        int f;
         
-        /*
-        we open read only; this is a bottleneck and may be replaced by
-        a call to a "library file server" that uses sockets and does
-        preresolution of all dependant symbols
-        */
-        f=fopen(libfilename,"rb");
+        f=open(libfilename,flags);
 
         /*
         if opening worked, read in the full file in a single shot
@@ -367,19 +341,10 @@ int mpiopen(const char *libfilename, int flags)
         
         todo: error handling
         */
-        if (f!=NULL){
-            read(fileno(f),libfilebuffer,libsize);
-            
-            #ifdef MPIDEBUG
-            printf("Segfault?!\n");
-            #endif
-            fclose(f);
-        }
-        else
-        {
-            return(NULL);
-        }
-    
+        if (f!=-1){
+            read(f,libfilebuffer,libsize);            
+            close(f);
+        }    
      }
     
     
@@ -394,12 +359,11 @@ int mpiopen(const char *libfilename, int flags)
     we're trusting that bcast worked, if it did - awesome if not,
     we'll be segfaulting fairly shortly
     */
-    libmemfile=fmemopen(libfilebuffer,libsize,"rb+");
+    libmemfile=myfmemopen(libfilebuffer,libsize,"r");
     fflush(libmemfile);
     fseek(libmemfile, 0, SEEK_SET);
-    fd=fileno(libmemfile);
 
-return fd;
+    return libmemfile;
 }
 
 
@@ -415,7 +379,7 @@ desc: a replacement for the libc fxstat file call that uses mpi to bcast the
       stat struct out to interested clients. 
       
 */
-int mpifxstat64(int ver, int filedes, struct stat * stat_buf)
+int mpifxstat64(int ver, int filedes, struct stat64 * stat_buf)
 {
     /* used to ensure the safe transmission of struct data */
     int statstructsize;
@@ -457,7 +421,7 @@ int mpifxstat64(int ver, int filedes, struct stat * stat_buf)
  stat struct out to interested clients. 
  
  */
-int mpistat(char *path, struct stat *stat_buf)
+int mpistat(const char *path, struct stat *stat_buf)
 {
     int rank;
     
@@ -527,7 +491,7 @@ desc: a replacement for the libc __xstat file call that uses mpi to bcast the
       stat struct out to interested clients. 
       
 */
-int mpixstat64(int ver, const char * path, struct stat  * stat_buf)
+int mpixstat64(int ver, const char * path, struct stat64 * stat_buf)
 {
     /* our mpi rank */
     int rank;
@@ -575,10 +539,9 @@ int mpixstat64(int ver, const char * path, struct stat  * stat_buf)
  */
 int mpifclose(FILE *stream)
 {
-    
     //simple right now
     
-    fclose(stream);
+    return fclose(stream);
 }
 
 /* walling off our earlier test function

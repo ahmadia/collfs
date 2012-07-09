@@ -2,6 +2,8 @@ import os
 import imp
 import mpiimporter
 
+from mpi4py import MPI
+
 class Importer:
     def __init__(self, path=None):
         if path is not None and not os.path.isdir(path):
@@ -9,7 +11,8 @@ class Importer:
         self.path = path
 
     def find_module(self, fullname, path=None):
-        print "find_module", fullname, path
+        rank = MPI.COMM_WORLD.Get_rank()
+        #        print "[%d] find_module %s %s" % (rank, fullname, path)
 
         subname = fullname.split(".")[-1]
         if subname != fullname and self.path is None:
@@ -24,7 +27,7 @@ class Importer:
             #            print ImportError
             return None
 
-        print "find_module found: ", file, filename
+        #        print "[%d] find_module found: %s %s" % (rank, file, filename)
 
         ignore, ext = os.path.splitext(filename)
 
@@ -42,13 +45,14 @@ class Loader:
         self.stuff = stuff
 
     def load_module(self, fullname):
-        print "load_module: ", fullname, self.file, self.filename, self.stuff
+        rank = MPI.COMM_WORLD.Get_rank()
+        #        print "[%d] load_module: %s %s %s %s" % (rank, fullname, self.file, self.filename, self.stuff)
         mod = mpiimporter.load_module(fullname, self.file, self.filename, self.stuff)
         if self.file:
             self.file.close()
         mod.__loader__ = self  # for introspection
 
-        print "load_module loaded: ", mod
+                               #        print "[%d] load_module loaded: %s" % (rank, mod)
         return mod
 
 class ImpLoader:
