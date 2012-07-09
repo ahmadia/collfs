@@ -2,7 +2,7 @@ CC = gcc
 MPICC = mpicc
 
 CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
-CFLAGS_DEBUG = -g3 -DDEBUG=1 -Werror -Wno-missing-field-initializers
+CFLAGS_DEBUG = -g3 -DDEBUG=1 -DMPIDEBUG=1 -Werror -Wno-missing-field-initializers
 LIBCPATH = /usr/lib
 LIBDL = -ldl
 LDSO = ld-2.11.1.so
