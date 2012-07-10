@@ -5,9 +5,9 @@
 # @ output              = ./$(job_name)_$(jobid).out
 # @ error               = ./$(job_name)_$(jobid).err
 # @ environment         = COPY_ALL; 
-# @ wall_clock_limit    = 4:00:00,4:00:00
+# @ wall_clock_limit    = 12:00:00,12:00:00
 # @ notification        = always
-# @ bg_size             = 128 
+# @ bg_size             = 4096 
 # @ account_no          = k01
 
 # @ queue
@@ -30,14 +30,24 @@ bgp_python_path=${numpy_path}:${nose_path}:${clawpack_path}:${petsc4py_path}:${m
 bgp_python=${pythondir}/bin/python
 mpi_python=${builddir}/mpi4py/1.3/bgp/lib/python/mpi4py/bin/python-mpi
 
-testdir=/gpfs/scratch/aron/sandbox/import/collfs
+testdir=/home/aron/sandbox/import/collfs
 
 cd $testdir
-logdir=${testdir}/test_runs
+logdir=${testdir}/scalability_test_logs
 mkdir -p ${logdir}
 
-for np in 2 4 
+#for np in 1 8 64 512 4096
+for run in 1 2 3 4 5 
 do
-    mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
-        -mode VN -exp_env HOME -n $np ${bgp_python}  test_import_numpy.py &> ${logdir}/bgp_python_${np}.txt
+    for np in 1 8 64 512 4096 16384 
+    do
+        mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
+            -mode VN -exp_env HOME -n $np ${bgp_python}  test_mpiimporter.py &> ${logdir}/mpiimporter_bgp_python_${np}_${run}.txt
+        
+        mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
+            -mode VN -exp_env HOME -n $np ${mpi_python}  test_mpiimporter.py &> ${logdir}/mpiimporter_mpi_python_${np}_${run}.txt
+        
+        mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
+            -mode VN -exp_env HOME -n $np ${bgp_python}  test_python_importer.py &> ${logdir}/bgp_python_${np}_${run}.txt
+    done
 done
