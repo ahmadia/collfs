@@ -113,14 +113,15 @@ class finder(object):
             #print "__LOADING ",fullname,pathname
 
 
+            ignore, ext = os.path.splitext(pathname)
+            target_path = [os.path.dirname(pathname)]
+            
+            subname = fullname.split(".")[-1]
+
             if os.path.isfile(pathname):
                 # (If we're loading a PY_SOURCE file, the interpreter will
                 # automatically check for a compiled (.py[c|o]) file.)
 
-                ignore, ext = os.path.splitext(pathname)
-                target_path = [os.path.dirname(pathname)]
-
-                subname = fullname.split(".")[-1]
 
                 if ext == '.so':
                     file, filename, stuff = imp.find_module(subname, target_path)
@@ -133,20 +134,12 @@ class finder(object):
                     file.close()
             # Not a file, so it's a package directory
             else:
-                mod = mpiimporter.load_module(fullname,None,pathname,desc)
-            mod.__loader__ = self
+                file, filename, stuff = mpiimporter.find_module(subname, target_path)
+                mod = mpiimporter.load_module(fullname,file,pathname,desc)
+
+            mod.__loader__ = self  # for introspection
             return mod
-
-
-        mod = mpiimporter.load_module(fullname, self.file, self.filename, self.stuff)
-        if self.file:
-            self.file.close()
-        mod.__loader__ = self  # for introspection
-        return mod
-
-        
         raise ImportError("This shouldn't happen!")
-
 
 
     # Build up a dict of modules (including package directories) found in a
