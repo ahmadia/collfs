@@ -36,8 +36,8 @@ cd $testdir
 logdir=${testdir}/test_runs
 mkdir -p ${logdir}
 
-for np in 2  
+for np in 2 4 
 do
     mpirun -env LD_LIBRARY_PATH=${ldpath} -env PYTHONPATH=${bgp_python_path} \
-        -mode VN -exp_env HOME -n $np ${bgp_python} -v test_import_numpy.py &> ${logdir}/bgp_python_${np}.txt
+        -mode VN -exp_env HOME -n $np ${bgp_python}  test_import_numpy.py &> ${logdir}/bgp_python_${np}.txt
 done

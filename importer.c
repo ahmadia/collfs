@@ -970,7 +970,7 @@ static char* sys_files[] = {
 
 	MPI_Bcast(&rc,1,MPI_INT,0,MPI_COMM_WORLD);
 
-	MPI_Bcast(&mtime,1,MPI_LONG_INT,0,MPI_COMM_WORLD);
+	MPI_Bcast(&mtime,sizeof(time_t),MPI_BYTE,0,MPI_COMM_WORLD);
 
         if (rc != 0) {
             PyErr_Format(PyExc_RuntimeError,

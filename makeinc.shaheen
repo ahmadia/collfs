@@ -6,7 +6,7 @@ PYTHON_CFLAGS = -I${PYTHONPATH}/include/python2.7
 
 
 CFLAGS = -std=c99 -fPIC -Wall -Wextra ${CFLAGS_DEBUG} -D_LARGEFILE64_SOURCE
-CFLAGS_DEBUG = -g3 -DDEBUG=1 -DMPIDEBUG=1
+CFLAGS_DEBUG = -g3 -DDEBUG=1 
 LIBCPATH = /home/aron/bgpsys/lib
 LIBDL = -ldl
 LDSO = ld-2.4.so

@@ -228,8 +228,10 @@ int mpistat(const char *path, struct stat *stat_buf)
 #endif
     
   if(rc==0) {
+#ifdef MPIDEBUG
     MPI_Barrier(MPI_COMM_WORLD);
     printf("rank %d |%d| about to broadcast %zu bytes of stat buf %s\n",rank,__LINE__,sizeof(struct stat),path);
+#endif
     MPI_Bcast(stat_buf,sizeof(struct stat),MPI_BYTE,0,MPI_COMM_WORLD);
 #ifdef MPIDEBUG
     MPI_Barrier(MPI_COMM_WORLD);
