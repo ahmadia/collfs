@@ -15,12 +15,8 @@ class Importer:
         #        print "[%d] find_module %s %s" % (rank, fullname, path)
 
         subname = fullname.split(".")[-1]
-        if subname != fullname and self.path is None:
+        if subname != fullname and path is None:
             return None
-        if self.path is None:
-            path = None
-        else:
-            path = [self.path]
         try:
             file, filename, stuff = mpiimporter.find_module(subname, path)
         except ImportError:
