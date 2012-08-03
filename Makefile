@@ -21,6 +21,9 @@ libminimal_thefunc.so: minimal_thefunc.o
 libthefunc.so : thefunc.o
 	${CC} -shared -g3 -fPIC -o $@ $^
 
+collfs_fopen.o: collfs_fopen.c
+	${CC} ${CFLAGS} -c collfs_fopen.c -o collfs_fopen.o
+
 fmemopen.o: fmemopen.c
 	${CC} ${CFLAGS} -c fmemopen.c -o fmemopen.o
 
@@ -37,6 +40,9 @@ minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
 
 # Explicitly uses libcollfs to push communicators. Loads libminimal_thefunc.so (so only a run-time dependency)
+#main-mpi : main-mpi.o collfs_fopen.o libcollfs.so libminimal_thefunc.so
+#	${MPICC} -g3 -o $@ $< collfs_fopen.o libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
+
 main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
 	${MPICC} -g3 -o $@ $< libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
 

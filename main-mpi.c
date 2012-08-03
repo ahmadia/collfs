@@ -7,13 +7,16 @@
 #include <dlfcn.h>
 
 #include "collfs.h"
+#include "collfs_fopen.h"
 #include "errmacros.h"
 
 int run_tests(int verbosity,const char *soname)
 {
   void *handle;
-  int err, rank;
+  int err, rank, count;
   int (*func)(int);
+  FILE* alphabet;
+  char abcde[6];
 
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
@@ -30,6 +33,39 @@ int run_tests(int verbosity,const char *soname)
 
   err = dlclose(handle);
   if (err) ERR("dlclose failed due to: %s", dlerror());
+
+  // // fcollfs_open
+  // if (verbosity > 0) printf("[%d] attempting to collfs_fopen alphabet.txt\n", rank);
+  // alphabet = fcollfs_open("./alphabet.txt","r");
+  
+  // // fread
+  // if (verbosity > 0) printf("[%d] checking fread\n", rank);
+  // count = fread(abcde, sizeof(char), 5, alphabet);
+  // if (count < 5) {
+  //   ERR("expected to read 5 bytes, read: %d", count);    
+  // }
+  // abcde[5] = '\0';
+  // if (strcmp(abcde, "abcde") != 0) {
+  //   ERR("expected to read 'abcde', read: %s", abcde);
+  // }
+
+  // // fseek
+  // if (verbosity > 0) printf("[%d] checking fseek\n", rank);
+  // err = fseek(alphabet, -4, SEEK_CUR);
+  // if (err==-1) perror("error in calling fseek:");
+  // count = fread(abcde, sizeof(char), 5, alphabet);
+  // if (count < 5) {
+  //   ERR("expected to read 5 bytes, read: %d", count);    
+  // }
+  // abcde[5] = '\0';
+  // if (strcmp(abcde, "bcdef") != 0) {
+  //   ERR("expected to read 'bcdef', read: %s", abcde);
+  // }
+
+  // // fclose
+  // if (verbosity > 0) printf("[%d] checking fclose\n", rank);
+  // err = fclose(alphabet);
+  // if (err==-1) perror("error in calling fclose:");
   return 0;
 }
 
