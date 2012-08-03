@@ -460,7 +460,7 @@ static ssize_t collfs_read(int fd, void *buf, size_t count)
   CHECK_INIT(-1);
 
   for (link=DLOpenFiles; link; link=link->next) { /* Could optimize to not always walk the list */
-    int rank = 0, err, initialized;
+    int rank = 0, err;
     err = MPI_Comm_rank(link->comm, &rank); 
     if (err) {
       CollfsReadReturn(-1);
@@ -524,8 +524,7 @@ Note that we allow len > mlink-> len.
 static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
   struct FileLink *link;
-  long pagesize;
-  int gotmem, rank, err;
+  int gotmem, rank;
   void *mem;
 
   CHECK_INIT(MAP_FAILED);
@@ -654,7 +653,6 @@ static int collfs_munmap(__ptr_t addr, size_t len)
     struct MMapLink *mlink;
     for (mlink=MMapRegions; mlink; mlink=mlink->next) {
       if (mlink->addr == addr) {
-        int fd = mlink->fd;
         if (mlink->len != len) {
           set_error(EINVAL, "Attempt to unmap region of length %zu when %zu was mapped", len, mlink->len);
           CollfsMunmapReturn(-1);
