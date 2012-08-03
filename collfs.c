@@ -460,7 +460,7 @@ static ssize_t collfs_read(int fd, void *buf, size_t count)
   CHECK_INIT(-1);
 
   for (link=DLOpenFiles; link; link=link->next) { /* Could optimize to not always walk the list */
-    int rank = 0, err, initialized;
+    int rank = 0, err;
     err = MPI_Comm_rank(link->comm, &rank); 
     if (err) {
       CollfsReadReturn(-1);
@@ -524,8 +524,7 @@ Note that we allow len > mlink-> len.
 static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
   struct FileLink *link;
-  long pagesize;
-  int gotmem, rank, err;
+  int gotmem, rank;
   void *mem;
 
   CHECK_INIT(MAP_FAILED);
@@ -616,13 +615,13 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         }
         
         if (rank) {
-          debug_printf(2, "Copying %zd bytes - from %p to %p", totallen, (void*)(char*)link->mem+off, mem);
-          memmove(mem, (void*)(char*)link->mem+off, totallen);
+          debug_printf(2, "Copying %zd bytes - from %p to %p", link->totallen, (void*)(char*)link->mem+off, mem);
+          memmove(mem, (void*)(char*)link->mem+off, link->totallen);
           debug_printf(2, "Protecting %p", mem);
           mprotect(mem, len, prot);
           /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
-          debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
-          debug_printf(2, "Copied %zd bytes - range [%p %p]", totallen, mem, (void*)(char*)mem+link->len);
+          debug_printf(2, "Allocated %zd bytes range [%p %p]", link->totallen, mem, (void*)(char*)mem+totallen);
+          debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, (void*)(char*)mem+link->len);
         }
         mlink = malloc(sizeof *mlink);
         mlink->addr = mem;
@@ -654,7 +653,6 @@ static int collfs_munmap(__ptr_t addr, size_t len)
     struct MMapLink *mlink;
     for (mlink=MMapRegions; mlink; mlink=mlink->next) {
       if (mlink->addr == addr) {
-        int fd = mlink->fd;
         if (mlink->len != len) {
           set_error(EINVAL, "Attempt to unmap region of length %zu when %zu was mapped", len, mlink->len);
           CollfsMunmapReturn(-1);
