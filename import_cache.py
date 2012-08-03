@@ -21,7 +21,7 @@ import imp
 
 logging.basicConfig(level = logging.DEBUG,
                     format = 'import_cache.py - %(message)s')
-logging.debug('logging enabled for import_cache module, call disable_debug() to silence')
+#logging.debug('logging enabled for import_cache module, call disable_debug() to silence')
 
 def disable_debug():
     logging.disable(logging.INFO)
@@ -221,9 +221,11 @@ def test_numpy_import(bytecode_zipfile_name, so_cache_dict):
 
     import numpy
     import zipimport
-    
-    logging.debug('asserting numpy loader is zipimport')
-    assert(numpy.__loader__.__class__ == zipimport.zipimporter)
+    import collective_zipimport
+
+    logging.debug('asserting numpy loader is zipimport or collective_zipimport')
+    assert(numpy.__loader__.__class__ == zipimport.zipimporter or 
+           numpy.__loader__.__class__ == collective_zipimport.collective_zipimporter)
     logging.debug('ok')
     logging.debug('asserting numpy.core.multiarray loader is import_cache.CachedLoader')
     assert(numpy.core.multiarray.__loader__.__class__ == CachedLoader)

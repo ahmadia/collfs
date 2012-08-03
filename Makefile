@@ -8,7 +8,7 @@ all : main-mpi
 # main-nompi and minimal_main are currently unverified
 
 # Depends on MPI, must be called from an executable using patched ld.so because _dl_collfs_api is referenced.
-libcollfs.so : collfs.o
+libcollfs.so : collfs.o collfs_fopen.o
 	${MPICC} -shared -g3 -o $@ $^
 
 # Depends on libcollfs.so and MPI, can be preloaded to make an ignorant program use collective IO
@@ -16,32 +16,32 @@ libcollfs-easy.so : collfs-easy.o libcollfs.so
 	${MPICC} -shared -g3 -o $@ $^ ${LDFLAGS}
 
 # Depends only on libc, just prints "called thefunc"
-libminimal_thefunc.so: minimal_thefunc.o
+libminimal_thefunc.so : minimal_thefunc.o
 	${CC} -shared -g3 -fPIC -o $@ $^
 libthefunc.so : thefunc.o
 	${CC} -shared -g3 -fPIC -o $@ $^
 
-collfs_fopen.o: collfs_fopen.c
+collfs_fopen.o : collfs_fopen.c
 	${CC} ${CFLAGS} -c collfs_fopen.c -o collfs_fopen.o
 
-fmemopen.o: fmemopen.c
+fmemopen.o : fmemopen.c
 	${CC} ${CFLAGS} -c fmemopen.c -o fmemopen.o
 
-importer.o: importer.c
+importer.o : importer.c
 	$(MPICC) ${CFLAGS} -I. ${PYTHON_CFLAGS} -c importer.c -o importer.o
 
-mpiopen.o: mpiopen.c
+mpiopen.o : mpiopen.c
 	$(MPICC) ${CFLAGS} -c mpiopen.c -o mpiopen.o
 
-mpiimporter.so: mpiopen.o importer.o fmemopen.o
+mpiimporter.so : mpiopen.o importer.o fmemopen.o
 	$(MPICC) ${CFLAGS} -shared ${PYTHON_LDFLAGS} fmemopen.o mpiopen.o importer.o -o mpiimporter.so
 
 minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
 
 # Explicitly uses libcollfs to push communicators. Loads libminimal_thefunc.so (so only a run-time dependency)
-main-mpi : main-mpi.o collfs_fopen.o libcollfs.so libminimal_thefunc.so
-	${MPICC} -g3 -o $@ $< collfs_fopen.o libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
+main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
+	${MPICC} -g3 -o $@ $< libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
 
 main-mpi.o : main-mpi.c
 	${MPICC} ${CFLAGS} -c -g3 -FPIC -o $@ $^
@@ -74,4 +74,4 @@ thefunc.o : thefunc.h collfs.h
 clean :
 	rm -f *.o *.so main
 
-.PHONY: clean all
+.PHONY : clean all

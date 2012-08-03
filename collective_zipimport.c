@@ -602,9 +602,9 @@ static PyMemberDef zipimporter_members[] = {
 };
 
 PyDoc_STRVAR(zipimporter_doc,
-"buffered_zipimporter(archivepath) -> buffered_zipimporter object\n\
+"collective_zipimporter(archivepath) -> collective_zipimporter object\n\
 \n\
-Create a new buffered_zipimporter instance. 'archivepath' must be a path to\n\
+Create a new collective_zipimporter instance. 'archivepath' must be a path to\n\
 a zipfile, or to a specific path inside a zipfile. For example, it can be\n\
 '/tmp/myimport.zip', or '/tmp/myimport.zip/mydirectory', if mydirectory is a\n\
 valid directory inside the archive.\n\
@@ -612,14 +612,14 @@ valid directory inside the archive.\n\
 'ZipImportError is raised if 'archivepath' doesn't point to a valid Zip\n\
 archive.\n\
 \n\
-The 'archive' attribute of buffered_zipimporter objects contains the name of the\n\
+The 'archive' attribute of collective_zipimporter objects contains the name of the\n\
 zipfile loaded.");
 
 #define DEFERRED_ADDRESS(ADDR) 0
 
 static PyTypeObject ZipImporter_Type = {
     PyVarObject_HEAD_INIT(DEFERRED_ADDRESS(&PyType_Type), 0)
-    "buffered_zipimport.buffered_zipimporter",
+    "collective_zipimport.collective_zipimporter",
     sizeof(ZipImporter),
     0,                                          /* tp_itemsize */
     (destructor)zipimporter_dealloc,            /* tp_dealloc */
@@ -1177,10 +1177,10 @@ get_module_code(ZipImporter *self, char *fullname,
 /* Module init */
 
 PyDoc_STRVAR(zipimport_doc,
-"buffered_zipimport provides support for importing Python modules from Zip archives.\n\
+"collective_zipimport provides support for importing Python modules from Zip archives.\n\
 \n\
 This module exports three objects:\n\
-- buffered_zipimporter: a class; its constructor takes a path to a Zip archive.\n\
+- collective_zipimporter: a class; its constructor takes a path to a Zip archive.\n\
 - ZipImportError: exception raised by zipimporter objects. It's a\n\
   subclass of ImportError, so it can be caught as ImportError, too.\n\
 - _zip_directory_cache: a dict, mapping archive paths to zip directory\n\
@@ -1191,7 +1191,7 @@ used by the builtin import mechanism for sys.path items that are paths\n\
 to Zip archives.");
 
 PyMODINIT_FUNC
-initbuffered_zipimport(void)
+initcollective_zipimport(void)
 {
     PyObject *mod;
 
@@ -1213,7 +1213,7 @@ initbuffered_zipimport(void)
         zip_searchorder[4] = tmp;
     }
 
-    mod = Py_InitModule4("buffered_zipimport", NULL, zipimport_doc,
+    mod = Py_InitModule4("collective_zipimport", NULL, zipimport_doc,
                          NULL, PYTHON_API_VERSION);
     if (mod == NULL)
         return;
@@ -1229,7 +1229,7 @@ initbuffered_zipimport(void)
         return;
 
     Py_INCREF(&ZipImporter_Type);
-    if (PyModule_AddObject(mod, "buffered_zipimporter",
+    if (PyModule_AddObject(mod, "collective_zipimporter",
                            (PyObject *)&ZipImporter_Type) < 0)
         return;
 
