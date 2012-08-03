@@ -40,11 +40,8 @@ minimal_main : minimal_main.o libminimal_thefunc.so
 	${MPICC} -g3 -o $@ minimal_main.o ${LDFLAGS}
 
 # Explicitly uses libcollfs to push communicators. Loads libminimal_thefunc.so (so only a run-time dependency)
-#main-mpi : main-mpi.o collfs_fopen.o libcollfs.so libminimal_thefunc.so
-#	${MPICC} -g3 -o $@ $< collfs_fopen.o libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
-
-main-mpi : main-mpi.o libcollfs.so libminimal_thefunc.so
-	${MPICC} -g3 -o $@ $< libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
+main-mpi : main-mpi.o collfs_fopen.o libcollfs.so libminimal_thefunc.so
+	${MPICC} -g3 -o $@ $< collfs_fopen.o libcollfs.so ${LDFLAGS} ${LDCOLLFSFLAGS}
 
 main-mpi.o : main-mpi.c
 	${MPICC} ${CFLAGS} -c -g3 -FPIC -o $@ $^
