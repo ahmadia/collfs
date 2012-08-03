@@ -615,13 +615,13 @@ static void *collfs_mmap(void *addr, size_t len, int prot, int flags, int fildes
         }
         
         if (rank) {
-          debug_printf(2, "Copying %zd bytes - from %p to %p", totallen, (void*)(char*)link->mem+off, mem);
-          memmove(mem, (void*)(char*)link->mem+off, totallen);
+          debug_printf(2, "Copying %zd bytes - from %p to %p", link->totallen, (void*)(char*)link->mem+off, mem);
+          memmove(mem, (void*)(char*)link->mem+off, link->totallen);
           debug_printf(2, "Protecting %p", mem);
           mprotect(mem, len, prot);
           /* ((collfs_munmap_fp) unwrap.munmap)(link->mem,link->totallen); */
-          debug_printf(2, "Allocated %zd bytes range [%p %p]", totallen, mem, (void*)(char*)mem+totallen);
-          debug_printf(2, "Copied %zd bytes - range [%p %p]", totallen, mem, (void*)(char*)mem+link->len);
+          debug_printf(2, "Allocated %zd bytes range [%p %p]", link->totallen, mem, (void*)(char*)mem+totallen);
+          debug_printf(2, "Copied %zd bytes - range [%p %p]", link->totallen, mem, (void*)(char*)mem+link->len);
         }
         mlink = malloc(sizeof *mlink);
         mlink->addr = mem;
